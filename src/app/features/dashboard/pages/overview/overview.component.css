@@ -1,0 +1,182 @@
+/* Contenedor del header de tabs */
+::ng-deep .mat-mdc-tab-header {
+  background: #111 !important;
+  border: none !important;
+  padding: 6px 12px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  gap: 8px;
+}
+
+/* Cada tab como botón (pill style) */
+::ng-deep .mat-mdc-tab-label {
+  background: #1f1f1f;
+  border-radius: 8px;
+  padding: 8px 20px !important;
+  margin-right: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Forzar color del texto de tabs inactivos */
+::ng-deep .mat-mdc-tab .mdc-tab__content,
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #e5e7eb !important;   /* gris claro legible */
+  opacity: 1 !important;       /* anula opacidad baja */
+  font-weight: 500;
+}
+
+/* Hover */
+::ng-deep .mat-mdc-tab:hover .mdc-tab__text-label {
+  color: #fff !important;
+}
+
+/* Activo */
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+::ng-deep .mat-mdc-tab-label-active {
+  background: #2563eb !important;
+  box-shadow: 0 2px 6px rgba(37,99,235,0.4);
+}
+
+/* Eliminar la línea azul default */
+::ng-deep .mat-mdc-tab-header .mat-mdc-tab-indicator {
+  display: none !important;
+}
+
+/* Demo content */
+.tab-content {
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  color: #e5e7eb;
+}
+
+/* === Projects tabs compact & dark theme === */
+:host ::ng-deep .tabs-compact .mdc-tab {
+  flex: 0 0 auto !important;
+}
+:host ::ng-deep .tabs-compact .mdc-tab-scroller__scroll-content {
+  justify-content: flex-start !important;
+}
+:host ::ng-deep .tabs-compact .mdc-tab__text-label {
+  color: var(--wt-muted, #b7b7b7) !important;
+  font-weight: 500;
+}
+:host ::ng-deep .tabs-compact .mdc-tab--active .mdc-tab__text-label {
+  color: var(--wt-accent, #3f51b5) !important;
+  font-weight: 600;
+}
+:host ::ng-deep .tabs-compact .mdc-tab-indicator__content--underline {
+  border-color: var(--wt-accent, #3f51b5) !important;
+}
+
+
+/* Linear projects card */
+.wt-card{
+  margin-top: 14px;
+  background:#0f1113;
+  border:1px solid #23262b;
+  border-radius: 14px;
+  padding: 18px;
+}
+.wt-card__header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom: 10px;
+}
+.wt-title{ margin:0; font-size:22px; color:#f2f5f7; }
+.wt-subtitle{ margin:6px 0 0; color:#a7b0ba; font-size:13px; }
+.wt-card__body{ margin-top: 12px; }
+.wt-link{ color:#6aa7ff; }
+.wt-error{ color:#ff6b6b; font-size:13px; }
+.wt-dim{ color:#8b949e; font-size:13px; }
+.wt-project-name{ color:#eef2f6; font-weight:600; display:flex; align-items:center; gap:10px; }
+.wt-pill{
+  font-size:11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border:1px solid #2a3a52;
+  background:#121a26;
+  color:#a8c7ff;
+  text-transform: capitalize;
+}
+.wt-meta{ margin-top: 2px; color:#a9b3bd; font-size:12px; display:flex; gap:8px; flex-wrap:wrap;}
+.wt-row{ width:100%; }
+
+/* ===== Overview > Linear > Projects list (readable cards) ===== */
+.projects-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:12px;
+}
+
+.project-card{
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow: hidden;
+}
+
+.project-card:hover{
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(90,140,255,0.40);
+}
+
+.project-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap: wrap;
+}
+
+.project-number{
+  color:#6fa8ff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight:700;
+}
+
+.project-name{
+  color:#ffffff;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing: .2px;
+}
+
+.project-status{
+  margin-left:auto;
+  font-size:12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(111,168,255,0.12);
+  border: 1px solid rgba(111,168,255,0.30);
+  color:#cfe2ff;
+  text-transform: capitalize;
+}
+
+.project-address{
+  margin-top:8px;
+  color:#b8b8b8;
+  font-size:13px;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.project-meta{
+  margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap: 12px 18px;
+  color:#9aa4b2;
+  font-size:12px;
+}
+
+.project-meta span{
+  white-space: nowrap;
+}

@@ -1,0 +1,80 @@
+/* Unified Material Tabs styles for dark theme */
+
+:host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  opacity: 1 !important;
+  color: #b8c1cc !important; /* inactive */
+}
+
+:host ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #7aa2ff !important; /* active */
+}
+
+:host ::ng-deep .mdc-tab-indicator__content--underline {
+  border-color: #7aa2ff !important;
+}
+
+:host ::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid #23272b !important;
+}
+
+:host ::ng-deep .mat-mdc-tab-body-content {
+  padding: 12px 0 !important;
+}
+
+/* Light & Aurora theme overrides */
+:host-context([data-theme='light']),
+:host-context([data-theme='aurora']) {
+  :host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+    color: #64748b !important; /* inactive */
+  }
+
+  :host ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: #2563eb !important; /* active */
+  }
+
+  :host ::ng-deep .mdc-tab-indicator__content--underline {
+    border-color: #2563eb !important;
+  }
+
+  :host ::ng-deep .mat-mdc-tab-header {
+    border-bottom: 1px solid rgba(15, 23, 42, 0.12) !important;
+  }
+}
+
+/* Midnight theme overrides */
+:host-context([data-theme='midnight']) {
+  :host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+    color: #93a4bc !important; /* inactive */
+  }
+
+  :host ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: #60a5fa !important; /* active */
+  }
+
+  :host ::ng-deep .mdc-tab-indicator__content--underline {
+    border-color: #60a5fa !important;
+  }
+
+  :host ::ng-deep .mat-mdc-tab-header {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18) !important;
+  }
+}
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+
+:host-context([data-theme='light']),
+:host-context([data-theme='aurora']),
+:host-context([data-theme='midnight']) {
+  .mat-datepicker-toggle-default-icon {
+    color: rgba(0,0,0,0.75) !important;
+  }
+  .mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+    color: rgba(0,0,0,1) !important;
+  }
+}

@@ -1,0 +1,407 @@
+<article class="hr-card">
+    <div class="hr-card__head">
+        <div>
+            <div class="eyebrow">Candidate profile</div>
+            <h3>{{ isEditingSelectedCandidate() ? (selectedCandidateRecord?.displayName || 'Edit candidate') : 'Create candidate' }}</h3>
+            <p>{{ isEditingSelectedCandidate() ? 'Update the selected candidate record, screening details, compensation expectations, and attached HR files.' : 'Store the candidate profile, screening details, compensation expectations, and supporting documents in one flow.' }}</p>
+        </div>
+        <span class="pill pill--info">{{ isEditingSelectedCandidate() ? 'Edit mode' : 'Candidate intake' }}</span>
+    </div>
+
+    <div class="section-jumpbar" aria-label="Form sections">
+        <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='identity'" (click)="scrollToSection('identity')">Identity</button>
+        <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='employment'" (click)="scrollToSection('employment')">Employment</button>
+        <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='compensation'" (click)="scrollToSection('compensation')">Compensation</button>
+        <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='documents'" (click)="scrollToSection('documents')">Documents</button>
+        <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='notes'" (click)="scrollToSection('notes')">Notes</button>
+    </div>
+
+    <div class="create-candidate-scroll" #createCandidateScroll (scroll)="onCreateCandidateScroll($event)">
+        <div class="form-section" id="hr-section-identity" data-nav-section="identity">
+            <div class="section-title">Identity</div>
+            <div class="passport-photo-card">
+                <div class="passport-photo-card__frame">
+                    <div class="passport-photo-card__image" [class.passport-photo-card__image--empty]="!getPhotoPreview(draftCandidate.photoURL, draftPhoto)">
+                        <img *ngIf="getPhotoPreview(draftCandidate.photoURL, draftPhoto); else draftPhotoFallback" [src]="getPhotoPreview(draftCandidate.photoURL, draftPhoto)" alt="Candidate profile photo preview" />
+                        <ng-template #draftPhotoFallback>
+                            <div class="passport-photo-card__fallback">{{ getCandidateInitials(draftCandidate.firstName, draftCandidate.lastName) }}</div>
+                        </ng-template>
+                    </div>
+                    <div class="passport-photo-card__badge">Profile photo</div>
+                </div>
+                <div class="passport-photo-card__content">
+                    <div class="passport-photo-card__title">Candidate photo</div>
+                    <div class="passport-photo-card__hint">Upload a portrait-style image for the candidate profile. This is stored with the candidate record for review and follow-up.</div>
+                    <div class="passport-photo-card__actions">
+                        <label class="btn btn--ghost btn--small passport-photo-card__upload">
+                            <input type="file" accept="image/*" (change)="onDraftPhotoSelected($event)" hidden />
+                            Upload photo
+                        </label>
+                        <button type="button" class="btn btn--ghost btn--small" (click)="clearDraftPhoto()" [disabled]="!getPhotoPreview(draftCandidate.photoURL, draftPhoto)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid form-grid--3">
+                <label class="field">
+                    <span>First name <em class="req-star">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.firstName" placeholder="John" />
+                </label>
+                <label class="field">
+                    <span>Middle name</span>
+                    <input type="text" [(ngModel)]="draftCandidate.middleName" placeholder="Michael" />
+                </label>
+                <label class="field">
+                    <span>Last name <em class="req-star">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.lastName" placeholder="Doe" />
+                </label>
+                <label class="field">
+                    <span>Email</span>
+                    <input type="email" [(ngModel)]="draftCandidate.email" placeholder="candidate@worktrace.com" />
+                </label>
+                <label class="field">
+                    <span>Phone</span>
+                    <input type="text" [(ngModel)]="draftCandidate.phone" placeholder="(555) 555-5555" />
+                </label>
+                <label class="field">
+                    <span>Alternate phone</span>
+                    <input type="text" [(ngModel)]="draftCandidate.alternatePhone" placeholder="Optional" />
+                </label>
+                <label class="field">
+                    <span>Date of birth</span>
+                    <input type="date" [(ngModel)]="draftCandidate.dateOfBirth" />
+                </label>
+                <label class="field">
+                    <span>Preferred language</span>
+                    <select [(ngModel)]="draftCandidate.preferredLanguage">
+                        <option *ngFor="let item of languageOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>SSN</span>
+                    <input type="text" [(ngModel)]="draftCandidate.ssnFull" placeholder="123-45-6789" />
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section" id="hr-section-employment" data-nav-section="employment">
+            <div class="section-title">Employment</div>
+            <div class="form-grid form-grid--3">
+                <label class="field">
+                    <span>Employment type <em class="req-star">*</em></span>
+                    <select [(ngModel)]="draftCandidate.employmentType" (ngModelChange)="onDraftEmploymentTypeChange()">
+                        <option *ngFor="let item of employmentOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>Area</span>
+                    <select [(ngModel)]="draftCandidate.areaType" (ngModelChange)="onDraftAreaChange()">
+                        <option *ngFor="let item of areaOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>Sub role</span>
+                    <select [(ngModel)]="draftCandidate.subRole">
+                        <option *ngFor="let item of getSubRoleOptions(draftCandidate.areaType)" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    <span>Supervisor</span>
+                    <input type="text" [(ngModel)]="draftCandidate.supervisor" placeholder="Reports to" />
+                </label>
+                <label class="field">
+                    <span>Hire date</span>
+                    <input type="date" [(ngModel)]="draftCandidate.hireDate" (ngModelChange)="refreshDraftVacation()" />
+                </label>
+                <label class="field">
+                    <span>Rehire date</span>
+                    <input type="date" [(ngModel)]="draftCandidate.rehireDate" />
+                </label>
+
+                <label class="field">
+                    <span>Work authorization</span>
+                    <select [(ngModel)]="draftCandidate.workAuthorizationStatus">
+                        <option *ngFor="let item of authorizationOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field" *ngIf="draftCandidate.workAuthorizationStatus !== 'citizen'">
+                    <span>Authorization expiration</span>
+                    <input type="date" [(ngModel)]="draftCandidate.workAuthorizationExpiration" />
+                </label>
+                <label class="field">
+                    <span>Passport number</span>
+                    <input type="text" [(ngModel)]="draftCandidate.passportNumber" placeholder="Passport number" />
+                </label>
+                <label class="field" *ngIf="draftCandidate.workAuthorizationStatus == 'resident'">
+                    <span>Residence number</span>
+                    <input type="text" [(ngModel)]="draftCandidate.residenceNumber" placeholder="Residence number" />
+                </label>
+                <label class="field" *ngIf="draftCandidate.workAuthorizationStatus == 'work_permit'">
+                    <span>Work permit number</span>
+                    <input type="text" [(ngModel)]="draftCandidate.workPermitNumber" placeholder="Work permit number" />
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section" id="hr-section-compensation" data-nav-section="compensation">
+            <div class="section-title">Compensation</div>
+            <div class="form-grid form-grid--3">
+                <label class="field">
+                    <span>Pay type <em class="req-star">*</em></span>
+                    <select [(ngModel)]="draftCandidate.payType">
+                        <option *ngFor="let item of payTypeOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>{{ draftCandidate.payType === 'salary' ? 'Salary / regular rate' : 'Regular rate' }} <em class="req-star">*</em></span>
+                    <input type="number" [(ngModel)]="draftCandidate.hourlyRate" (ngModelChange)="updateDraftOvertimeRate()" placeholder="25" />
+                </label>
+                <label class="field" *ngIf="draftCandidate.employmentType === 'W2'">
+                    <span>Overtime rate (auto)</span>
+                    <input type="number" [ngModel]="draftCandidate.overtimeRate" readonly placeholder="37.5" />
+                </label>
+                <label class="field">
+                    <span>Payment method</span>
+                    <select [(ngModel)]="draftCandidate.paymentMethod" (ngModelChange)="onDraftPaymentMethodChange()">
+                        <option *ngFor="let item of paymentMethodOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-grid form-grid--3" *ngIf="draftCandidate.paymentMethod === 'direct_deposit'">
+                <label class="field">
+                    <span>Bank name <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.bankInfo.bankName" placeholder="Bank name" />
+                </label>
+                <label class="field">
+                    <span>Account holder name <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.bankInfo.accountHolderName" placeholder="Account holder" />
+                </label>
+                <label class="field">
+                    <span>Account type</span>
+                    <select [(ngModel)]="draftCandidate.bankInfo.accountType">
+                        <option *ngFor="let item of bankAccountTypeOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>Routing number <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.bankInfo.routingNumber" placeholder="Routing number" />
+                </label>
+                <label class="field">
+                    <span>Account number <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.bankInfo.accountNumber" placeholder="Account number" />
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section" *ngIf="draftCandidate.employmentType === 'W2'" id="hr-section-w2">
+            <div class="section-title">W2 onboarding + E-Verify</div>
+            <div class="form-grid form-grid--3">
+                <label class="field field--check">
+                    <span>Payroll setup <em class="req-star">*</em></span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.w2Compliance.payrollSetup" />
+                </label>
+                <label class="field field--check">
+                    <span>W-4 / tax form completed <em class="req-star">*</em></span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.w2Compliance.taxFormCompleted" />
+                </label>
+                <label class="field field--check">
+                    <span>I-9 completed <em class="req-star">*</em></span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.w2Compliance.i9Completed" />
+                </label>
+                <label class="field field--check">
+                    <span>E-Verify completed <em class="req-star">*</em></span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.w2Compliance.eVerifyCompleted" />
+                </label>
+                <label class="field">
+                    <span>E-Verify case number <em class="req-star">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.w2Compliance.eVerifyCaseNumber" placeholder="Case number" />
+                </label>
+                <label class="field">
+                    <span>E-Verify date <em class="req-star">*</em></span>
+                    <input type="date" [(ngModel)]="draftCandidate.w2Compliance.eVerifyDate" />
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section" *ngIf="draftCandidate.employmentType === '1099'" id="hr-section-1099">
+            <div class="section-title">1099 insurance + exemption</div>
+            <div class="form-grid form-grid--3">
+                <label class="field">
+                    <span>1099 company name <em class="req-star">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.insuranceCompliance.companyName" placeholder="Company or DBA" />
+                </label>
+                <label class="field">
+                    <span>EIN <em class="req-star" *ngIf="isDraft1099()">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.insuranceCompliance.ein" placeholder="XX-XXXXXXX" />
+                </label>
+                <label class="field field--check">
+                    <span>Workers Comp on file <em class="req-star" *ngIf="isDraft1099()">*</em></span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.insuranceCompliance.hasWorkersComp" />
+                </label>
+                <label class="field">
+                    <span>Workers Comp policy # <em class="req-star" *ngIf="draftCandidate.insuranceCompliance.hasWorkersComp">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.insuranceCompliance.workersCompPolicyNumber" placeholder="Policy number" />
+                </label>
+                <label class="field">
+                    <span>Workers Comp expiration <em class="req-star" *ngIf="draftCandidate.insuranceCompliance.hasWorkersComp">*</em></span>
+                    <input type="date" [(ngModel)]="draftCandidate.insuranceCompliance.workersCompExpiration" />
+                </label>
+                <label class="field field--check">
+                    <span>Exemption provided <em class="req-star" *ngIf="isDraft1099()">*</em></span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.insuranceCompliance.exemptionProvided" />
+                </label>
+                <label class="field">
+                    <span>Exemption type <em class="req-star" *ngIf="draftCandidate.insuranceCompliance.exemptionProvided">*</em></span>
+                    <select [(ngModel)]="draftCandidate.insuranceCompliance.exemptionType">
+                        <option *ngFor="let item of exemptionOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>Exemption expiration <em class="req-star" *ngIf="draftCandidate.insuranceCompliance.exemptionProvided">*</em></span>
+                    <input type="date" [(ngModel)]="draftCandidate.insuranceCompliance.exemptionExpiration" />
+                </label>
+                <label class="field field--check">
+                    <span>Liability insurance on file</span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.insuranceCompliance.hasLiabilityInsurance" />
+                </label>
+                <label class="field">
+                    <span>Liability policy # <em class="req-star" *ngIf="draftCandidate.insuranceCompliance.hasLiabilityInsurance">*</em></span>
+                    <input type="text" [(ngModel)]="draftCandidate.insuranceCompliance.liabilityPolicyNumber" placeholder="Policy number" />
+                </label>
+                <label class="field">
+                    <span>Liability expiration <em class="req-star" *ngIf="draftCandidate.insuranceCompliance.hasLiabilityInsurance">*</em></span>
+                    <input type="date" [(ngModel)]="draftCandidate.insuranceCompliance.liabilityExpiration" />
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section" id="hr-section-vacation">
+            <div class="section-title">Vacation / PTO policy</div>
+            <div class="form-grid form-grid--3">
+                <label class="field field--check">
+                    <span>Vacation enabled</span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.vacation.policy.enabled" (ngModelChange)="refreshDraftVacation()" />
+                </label>
+                <label class="field field--check">
+                    <span>Eligible for PTO</span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.vacation.policy.ptoEligible" (ngModelChange)="refreshDraftVacation()" />
+                </label>
+                <label class="field">
+                    <span>Policy type</span>
+                    <select [(ngModel)]="draftCandidate.vacation.policy.accrualMethod" (ngModelChange)="refreshDraftVacation()">
+                        <option *ngFor="let item of vacationAccrualOptions" [value]="item">{{ item }}</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>Days per year</span>
+                    <input type="number" [(ngModel)]="draftCandidate.vacation.policy.annualDays" (ngModelChange)="refreshDraftVacation()" placeholder="5" />
+                </label>
+                <label class="field">
+                    <span>Eligible after months</span>
+                    <input type="number" [(ngModel)]="draftCandidate.vacation.policy.eligibilityMonths" (ngModelChange)="refreshDraftVacation()" placeholder="12" />
+                </label>
+                <label class="field field--check">
+                    <span>Allow carryover</span>
+                    <input type="checkbox" [(ngModel)]="draftCandidate.vacation.policy.allowCarryover" (ngModelChange)="refreshDraftVacation()" />
+                </label>
+            </div>
+            <div class="inline-hint">Vacation balances and history are calculated automatically from the policy and candidate record.</div>
+        </div>
+
+        <div class="form-section" id="hr-section-address">
+            <div class="section-title">Address</div>
+            <div class="form-grid form-grid--3">
+                <label class="field field--full">
+                    <span>Address line 1</span>
+                    <input type="text" [(ngModel)]="draftCandidate.addressLine1" placeholder="123 Main St" />
+                </label>
+                <label class="field field--full">
+                    <span>Address line 2</span>
+                    <input type="text" [(ngModel)]="draftCandidate.addressLine2" placeholder="Apt, suite, unit..." />
+                </label>
+                <label class="field">
+                    <span>City</span>
+                    <input type="text" [(ngModel)]="draftCandidate.city" placeholder="Orlando" />
+                </label>
+                <label class="field">
+                    <span>State</span>
+                    <input type="text" [(ngModel)]="draftCandidate.state" placeholder="FL" />
+                </label>
+                <label class="field">
+                    <span>ZIP</span>
+                    <input type="text" [(ngModel)]="draftCandidate.zip" placeholder="32801" />
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section" id="hr-section-emergency">
+            <div class="section-title">Emergency contact</div>
+            <div class="form-grid form-grid--3">
+                <label class="field">
+                    <span>Contact name</span>
+                    <input type="text" [(ngModel)]="draftCandidate.emergencyContact.name" placeholder="Emergency contact" />
+                </label>
+                <label class="field">
+                    <span>Relationship</span>
+                    <input type="text" [(ngModel)]="draftCandidate.emergencyContact.relationship" placeholder="Spouse, parent, sibling..." />
+                </label>
+                <label class="field">
+                    <span>Contact phone</span>
+                    <input type="text" [(ngModel)]="draftCandidate.emergencyContact.phone" placeholder="(555) 555-5555" />
+                </label>
+            </div>
+        </div>
+
+
+        <div class="form-section" id="hr-section-documents" data-nav-section="documents">
+            <div class="section-title">Documents archive</div>
+            <div class="inline-hint">Files upload to the candidate record and stay attached for screening and onboarding review. Required at creation: W2 → I-9, W-4, E-Verify; Direct Deposit → Direct Deposit Form; 1099 → Workers Comp or Exemption, plus the related support file.</div>
+            <div class="inline-hint" *ngIf="isEditingSelectedCandidate() && isLoadingCandidateDocuments">Loading existing candidate documents...</div>
+            <div class="form-feedback form-feedback--error" *ngIf="isEditingSelectedCandidate() && candidateDocumentsLoadError">{{ candidateDocumentsLoadError }}</div>
+            <div class="form-grid form-grid--3">
+                <label class="field" *ngFor="let item of draftDocuments">
+                    <span>{{ item.label }}</span>
+                    <input type="file" multiple (change)="onDraftFilesSelected(item.type, $event)" />
+                    <div class="document-list" *ngIf="isEditingSelectedCandidate() && item.existingDocuments.length">
+                        <div class="document-list__label">Attached</div>
+                        <a
+                            class="document-list__item"
+                            *ngFor="let document of item.existingDocuments"
+                            [href]="document.fileUrl || null"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            {{ document.fileName || document.label || document.type }}
+                        </a>
+                    </div>
+                    <div class="document-list" *ngIf="item.files.length">
+                        <div class="document-list__label">Ready to upload</div>
+                        <div class="document-list__item" *ngFor="let file of item.files">{{ file.name }}</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section" id="hr-section-notes" data-nav-section="notes">
+            <div class="section-title">HR notes</div>
+            <label class="field">
+                <span>Notes</span>
+                <textarea rows="3" [(ngModel)]="draftCandidate.notes" placeholder="Special notes, reminders, missing documents, onboarding comments..."></textarea>
+            </label>
+        </div>
+
+    </div>
+
+    <div class="actions-row">
+        <div class="feedback-wrap">
+            <div class="form-feedback form-feedback--success" *ngIf="isEditingSelectedCandidate() ? saveCandidateMessage : createMessage">{{ isEditingSelectedCandidate() ? saveCandidateMessage : createMessage }}</div>
+            <div class="form-feedback form-feedback--error" *ngIf="isEditingSelectedCandidate() ? saveCandidateError : createError">{{ isEditingSelectedCandidate() ? saveCandidateError : createError }}</div>
+        </div>
+        <div class="actions-row__buttons">
+            <button type="button" class="btn btn--ghost" (click)="resetDraft()" [disabled]="isEditingSelectedCandidate() ? isUpdatingCandidate : isSaving">{{ isEditingSelectedCandidate() ? 'Revert changes' : 'Reset' }}</button>
+            <button type="button" class="btn btn--primary" (click)="createCandidate()" [disabled]="isCreateCandidateButtonDisabled()" [attr.aria-disabled]="isCreateCandidateButtonDisabled()">
+                {{ getCreateCandidateButtonLabel() }}
+            </button>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,328 @@
+.wt-filterbar {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 12px;
+}
+
+.wt-filter-label {
+  font-size: 11px;
+  opacity: 0.75;
+  margin-bottom: 6px;
+  letter-spacing: 0.06em;
+}
+
+.wt-input, .wt-select {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: inherit;
+  outline: none;
+}
+
+.wt-btn, .wt-open-btn {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(100, 120, 255, 0.25);
+  color: inherit;
+  cursor: pointer;
+}
+
+.table-card {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-wrap {
+  /* Vertical scroll for long lists */
+  max-height: calc(100vh - 360px);
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.wt-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+}
+
+.wt-table thead th {
+  text-align: left;
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.wt-table tbody td {
+  color: rgba(255,255,255,0.78);
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.wt-table tbody tr:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.loc-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  white-space: nowrap;
+}
+
+.loc-pill.loaded {
+  background: rgba(40, 180, 120, 0.15);
+}
+
+.loc-pill.notloaded {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Days-since pill (status colors requested) */
+.days-pill {
+  display: inline-block;
+  min-width: 44px;
+  text-align: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* 0–7 days */
+.days-pill.good { background: #16A34A; }
+
+/* 8–21 days */
+.days-pill.warn { background: #F59E0B; }
+
+/* 22+ days */
+.days-pill.bad { background: #DC2626; }
+
+.days-pill.na {
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.85);
+}
+
+
+.wt-counterbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 12px;
+}
+
+.wt-counter-left{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width: 160px;
+}
+
+.wt-counter-label{
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(229,231,235,0.8);
+}
+
+.wt-counter-total{
+  font-size: 14px;
+  font-weight: 700;
+  color: #E5E7EB;
+}
+
+.wt-counter-right{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.counter-pill{
+  display:inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.counter-pill.good{ background:#16A34A; }
+.counter-pill.warn{ background:#F59E0B; }
+.counter-pill.bad{ background:#DC2626; }
+
+
+/* ==== Filter Row Grid Layout (anti-overlap, hard override) ==== */
+.wt-filter-row{
+  display: grid !important;
+  grid-template-columns: minmax(260px, 2.2fr) minmax(160px, 1fr) minmax(160px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: end !important;
+  width: 100% !important;
+}
+
+.wt-filter-row,
+.wt-filter-row *{
+  box-sizing: border-box;
+}
+
+.wt-filter-block{
+  min-width: 0 !important;
+  width: 100%;
+}
+
+.wt-filter-search{
+  min-width: 0 !important;
+}
+
+.wt-input,
+.wt-select{
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.wt-filter-clear{
+  display: flex !important;
+  justify-content: flex-end;
+  align-items: end;
+  min-width: unset !important;
+}
+
+.wt-filter-clear .wt-btn{
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 1200px){
+  .wt-filter-row{
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .wt-filter-search{ grid-column: 1 / -1; }
+  .wt-filter-clear{
+    grid-column: 2 / 3;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 700px){
+  .wt-filter-row{
+    grid-template-columns: 1fr !important;
+  }
+  .wt-filter-clear{
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+
+
+/* Location pill text truncation */
+.loc-pill{
+  max-width: 240px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Light / Aurora readability fixes (Results heading + subtitle + counter area) */
+:host-context([data-theme='light']) .wt-counterbar,
+:host-context([data-theme='aurora']) .wt-counterbar {
+  background: rgba(248, 250, 252, 0.95);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+:host-context([data-theme='light']) .wt-counter-label,
+:host-context([data-theme='aurora']) .wt-counter-label {
+  color: #64748b;
+}
+
+:host-context([data-theme='light']) .wt-counter-total,
+:host-context([data-theme='aurora']) .wt-counter-total {
+  color: #0f172a;
+}
+
+:host-context([data-theme='light']) .legend-title,
+:host-context([data-theme='aurora']) .legend-title {
+  color: #64748b;
+  opacity: 1;
+}
+
+/* Light / Aurora filter controls readability */
+:host-context([data-theme='light']) .wt-filterbar,
+:host-context([data-theme='aurora']) .wt-filterbar {
+  background: rgba(248, 250, 252, 0.95);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+:host-context([data-theme='light']) .wt-filter-label,
+:host-context([data-theme='aurora']) .wt-filter-label {
+  color: #475569;
+  opacity: 1;
+}
+
+:host-context([data-theme='light']) .wt-input,
+:host-context([data-theme='light']) .wt-select,
+:host-context([data-theme='aurora']) .wt-input,
+:host-context([data-theme='aurora']) .wt-select {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.18);
+  color: #0f172a;
+}
+
+:host-context([data-theme='light']) .wt-select option,
+:host-context([data-theme='aurora']) .wt-select option {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+:host-context([data-theme='light']) .wt-btn,
+:host-context([data-theme='aurora']) .wt-btn {
+  border-color: rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.1);
+  color: #1e3a8a;
+}
+
+/* Native date picker icon visibility by theme */
+.wt-input[type='date'] {
+  color-scheme: dark;
+}
+
+:host-context([data-theme='light']) .wt-input[type='date'],
+:host-context([data-theme='aurora']) .wt-input[type='date'] {
+  color-scheme: light;
+}
+
+:host-context([data-theme='light']) .wt-input[type='date']::-webkit-calendar-picker-indicator,
+:host-context([data-theme='aurora']) .wt-input[type='date']::-webkit-calendar-picker-indicator {
+  filter: none;
+  opacity: 0.9;
+}

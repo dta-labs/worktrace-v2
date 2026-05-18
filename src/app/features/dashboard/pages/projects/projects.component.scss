@@ -1,0 +1,67 @@
+.tabs-compact .mat-mdc-tab-body-content{padding:12px} .tab-content{padding:12px}
+
+:host {
+  --wtv-projects-tab-border: rgba(255, 255, 255, 0.08);
+  --wtv-projects-tab-text: #e5ecf5;
+  --wtv-projects-tab-active: #8fb3ff;
+  --wtv-projects-tab-underline: #4f9cff;
+}
+
+:host-context([data-theme='midnight']) {
+  --wtv-projects-tab-border: rgba(148, 163, 184, 0.18);
+  --wtv-projects-tab-text: #93a4bc;
+  --wtv-projects-tab-active: #60a5fa;
+  --wtv-projects-tab-underline: #60a5fa;
+}
+
+:host-context([data-theme='light']),
+:host-context([data-theme='aurora']) {
+  --wtv-projects-tab-border: rgba(15, 23, 42, 0.12);
+  --wtv-projects-tab-text: #64748b;
+  --wtv-projects-tab-active: #2563eb;
+  --wtv-projects-tab-underline: #2563eb;
+}
+
+/* === Scoped high-contrast tabs for Projects === */
+:host ::ng-deep .dashboard-tabs .mat-mdc-tab-header {
+  background: transparent;
+  border-bottom: 1px solid var(--wtv-projects-tab-border);
+}
+:host ::ng-deep .dashboard-tabs .mdc-tab__text-label {
+  color: var(--wtv-projects-tab-text) !important;
+  opacity: 1 !important;
+  letter-spacing: .2px;
+}
+:host ::ng-deep .dashboard-tabs .mdc-tab--active .mdc-tab__text-label {
+  color: var(--wtv-projects-tab-active) !important;
+}
+:host ::ng-deep .dashboard-tabs .mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-top-color: var(--wtv-projects-tab-underline) !important;
+  border-top-width: 2px;
+}
+:host ::ng-deep .dashboard-tabs .mat-mdc-tab-ripple,
+:host ::ng-deep .dashboard-tabs .mdc-tab__ripple::before,
+:host ::ng-deep .dashboard-tabs .mdc-tab__ripple::after {
+  background: transparent !important;
+}
+
+
+/* Left-align tabs and add spacing (scoped) */
+:host ::ng-deep .dashboard-tabs .mat-mdc-tab-header .mat-mdc-tab-label-container,
+:host ::ng-deep .dashboard-tabs .mat-mdc-tab-header .mat-mdc-tab-labels,
+:host ::ng-deep .dashboard-tabs .mdc-tab-scroller__scroll-content {
+  justify-content: flex-start !important;
+}
+:host ::ng-deep .dashboard-tabs .mdc-tab-scroller__scroll-content {
+  gap: 28px; /* spacing between tabs */
+}
+
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+

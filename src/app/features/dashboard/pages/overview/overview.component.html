@@ -1,0 +1,353 @@
+<div class="page" (click)="closeMenus()">
+  <div class="header">
+    <div>
+      <div class="title">Projects</div>
+          </div>
+
+      </div>
+
+  <!-- Top sub-navigation (visual-only for now; keeps the bar you had) -->
+  <div class="subnav" aria-label="Projects sub navigation">
+    <button class="subnav-item" type="button" [class.active]="activeTab==='linear'" (click)="setTab('linear')">Project List</button>
+    <button *ngIf="isAdmin" class="subnav-item" type="button" [class.active]="activeTab==='archived'" (click)="setTab('archived')">Cancel Projects</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='calendar'" (click)="setTab('calendar')">Calendar</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='assign'" (click)="setTab('assign')">Assign Projects</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='search'" (click)="setTab('search')">Search</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='ai'" (click)="setTab('ai')">AI Recommendations</button>
+  </div>
+
+  <!-- Linear tab -->
+  <ng-container *ngIf="activeTab === 'linear'">
+
+  <div class="filters">
+    <div class="f">
+      <label>Search</label>
+      <input
+        type="text"
+        placeholder="Project #, name, address, company..."
+        [(ngModel)]="searchText"
+        (input)="applyFilters()"
+      />
+    </div>
+
+    <div class="f">
+      <label>Status</label>
+      <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="planned">Planned</option>
+        <option value="completed">Completed</option>
+        <option value="on_hold">On hold</option>
+      </select>
+    </div>
+
+    <div class="f">
+      <label>Start date from</label>
+      <input type="date" [(ngModel)]="startFrom" (change)="applyFilters()" />
+    </div>
+
+    <div class="f">
+      <label>Start date to</label>
+      <input type="date" [(ngModel)]="startTo" (change)="applyFilters()" />
+    </div>
+
+    <div class="f f-clear">
+      <button class="btn-clear" type="button" (click)="clearFilters()">Clear</button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">Loading projects…</div>
+
+  <div class="list-scroll" *ngIf="!isLoading">
+    <div class="grid">
+    <div class="card" *ngFor="let p of filteredProjects; trackBy: trackById">
+      <div class="card-top">
+        <div class="meta">
+          <div class="code">#{{ p.projectNumber || p.id }}</div>
+          <div class="name">{{ p.name || 'Untitled project' }}</div>
+        </div>
+        <div class="card-right">
+          <div class="card-actions" (click)="$event.stopPropagation()">
+          <button type="button" class="icon-btn" aria-label="Project actions" (click)="toggleCardMenu(p.id, $event)">
+            ⋮
+          </button>
+
+          <div class="card-menu" *ngIf="openMenuId === p.id">
+            <button type="button" class="menu-item" (click)="onEditProject(p)">Edit project</button>
+            <button *ngIf="isAdmin" type="button" class="menu-item danger" (click)="onArchiveProject(p)">Cancel project</button>
+          </div>
+        </div>
+
+        <span class="badge" [class.active]="(p.status || '').toLowerCase() === 'active'"
+                         [class.planned]="(p.status || '').toLowerCase() === 'planned'">
+          {{ (p.status || 'unknown') | titlecase }}
+        </span>
+        </div>
+      </div>
+
+      <div class="address" *ngIf="p.address">{{ p.address }}</div>
+
+      <div class="rows">
+        <div class="row" *ngIf="p.company">
+          <span class="k">Company</span>
+          <span class="v">{{ p.company }}</span>
+        </div>
+
+        <div class="row" *ngIf="p.startDate">
+          <span class="k">Start</span>
+          <span class="v">{{ formatDate(p.startDate) }}</span>
+        </div>
+
+        <div class="row" *ngIf="p.dueDateEstimate">
+          <span class="k">Due</span>
+          <span class="v">{{ formatDate(p.dueDateEstimate) }}</span>
+        </div>
+
+        <div class="row">
+          <span class="k">Workers</span>
+          <span class="v">{{ p.workerCount }}</span>
+        </div>
+
+        <div class="row">
+          <span class="k">Budget</span>
+          <span class="v">{{ p.budget | currency }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty" *ngIf="filteredProjects.length === 0">
+      No projects match your filters.
+    </div>
+  </div>
+  </div>
+  </ng-container>
+
+  <!-- Archived tab -->
+  <ng-container *ngIf="activeTab === 'archived'">
+    <div class="filters">
+      <div class="f">
+        <label>Search</label>
+        <input
+          type="text"
+          placeholder="Project #, name, address, company..."
+          [(ngModel)]="searchText"
+          (input)="applyFilters()"
+        />
+      </div>
+
+      <div class="f">
+        <label>Status</label>
+        <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="planned">Planned</option>
+          <option value="completed">Completed</option>
+          <option value="on_hold">On hold</option>
+        </select>
+      </div>
+
+      <div class="f">
+        <label>Start date from</label>
+        <input type="date" [(ngModel)]="startFrom" (change)="applyFilters()" />
+      </div>
+
+      <div class="f">
+        <label>Start date to</label>
+        <input type="date" [(ngModel)]="startTo" (change)="applyFilters()" />
+      </div>
+
+      <div class="f f-clear">
+        <button class="btn-clear" type="button" (click)="clearFilters()">Clear</button>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="isLoading">Loading archived projects…</div>
+
+    <div class="list-scroll" *ngIf="!isLoading">
+      <div class="grid">
+        <div class="card" *ngFor="let p of filteredArchivedProjects; trackBy: trackById">
+          <div class="card-top">
+            <div class="meta">
+              <div class="code">#{{ p.projectNumber || p.id }}</div>
+              <div class="name">{{ p.name || 'Untitled project' }}</div>
+            </div>
+            <div class="card-right">
+              <div class="card-actions" (click)="$event.stopPropagation()">
+                <button type="button" class="icon-btn" aria-label="Project actions" (click)="toggleCardMenu(p.id, $event)">
+                  ⋮
+                </button>
+
+                <div class="card-menu" *ngIf="openMenuId === p.id">
+                  <button type="button" class="menu-item" (click)="onEditProject(p)">Edit project</button>
+                  <button *ngIf="isAdmin" type="button" class="menu-item" (click)="onRestoreProject(p)">Restore project</button>
+                </div>
+              </div>
+
+              <span class="badge" [class.active]="(p.status || '').toLowerCase() === 'active'"
+                               [class.planned]="(p.status || '').toLowerCase() === 'planned'">
+                {{ (p.status || 'unknown') | titlecase }}
+              </span>
+            </div>
+          </div>
+
+          <div class="address" *ngIf="p.address">{{ p.address }}</div>
+
+          <div class="rows">
+            <div class="row" *ngIf="p.company">
+              <span class="k">Company</span>
+              <span class="v">{{ p.company }}</span>
+            </div>
+
+            <div class="row" *ngIf="p.startDate">
+              <span class="k">Start</span>
+              <span class="v">{{ formatDate(p.startDate) }}</span>
+            </div>
+
+            <div class="row" *ngIf="p.dueDateEstimate">
+              <span class="k">Due</span>
+              <span class="v">{{ formatDate(p.dueDateEstimate) }}</span>
+            </div>
+
+            <div class="row">
+              <span class="k">Workers</span>
+              <span class="v">{{ p.workerCount }}</span>
+            </div>
+
+            <div class="row">
+              <span class="k">Budget</span>
+              <span class="v">{{ p.budget | currency }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty" *ngIf="filteredArchivedProjects.length === 0">
+          No archived projects match your filters.
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Other tabs placeholders (until those sections are implemented) -->
+  <div class="tab-placeholder" *ngIf="activeTab !== 'linear' && activeTab !== 'archived'">
+    <h3>{{ activeTab | titlecase }}</h3>
+    <p>This section is coming soon.</p>
+  </div>
+
+  <!-- Confirm dialog (Archive/Restore) -->
+  <div class="confirm-backdrop" *ngIf="confirmOpen" (click)="cancelConfirm()">
+    <div class="confirm" (click)="$event.stopPropagation()">
+      <div class="confirm-title">
+        {{ confirmAction === 'archive' ? 'Cancel project' : 'Restore project' }}
+      </div>
+      <div class="confirm-body">
+        <p>
+          Are you sure you want to {{ confirmAction }}
+          <strong>{{ confirmProject?.name || ('#' + confirmProject?.projectNumber) }}</strong>?
+        </p>
+        <p class="confirm-hint" *ngIf="confirmAction === 'archive'">
+          This will move it to Cancel Projects and hide it from active lists. You can restore it later from <b>Cancel Projects</b>.
+        </p>
+      </div>
+      <div class="confirm-actions">
+        <button type="button" class="btn" (click)="cancelConfirm()">Back</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">
+          {{ confirmAction === 'archive' ? 'Yes, cancel project' : 'Yes, reactivate project' }}
+        </button>
+</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Edit Project Modal -->
+<div class="wt-overlay" *ngIf="editOpen" (click)="closeEdit()"></div>
+<div class="wt-modal" *ngIf="editOpen" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+  <div class="wt-modal-head">
+    <div class="wt-modal-title">Edit Project</div>
+    <button type="button" class="wt-icon-btn" (click)="closeEdit()">✕</button>
+  </div>
+
+  <div class="wt-modal-body" *ngIf="editDraft as e">
+    <div class="wt-grid">
+      <div class="wt-field">
+        <label>PO Number</label>
+        <input type="text" [(ngModel)]="e.projectNumber" readonly />
+      </div>
+      <div class="wt-field">
+        <label>Project Name</label>
+        <input type="text" [(ngModel)]="e.name" />
+      </div>
+
+      <div class="wt-field">
+        <label>Company</label>
+        <input type="text" [(ngModel)]="e.company" />
+      </div>
+      <div class="wt-field">
+        <label>Address</label>
+        <input type="text" [(ngModel)]="e.address" />
+      </div>
+
+      <div class="wt-field">
+        <label>Team Size (People)</label>
+        <input type="number" [(ngModel)]="e.workerCount" />
+      </div>
+      <div class="wt-field">
+        <label>Budget (USD)</label>
+        <input type="number" [(ngModel)]="e.budget" />
+      </div>
+
+      <div class="wt-field">
+        <label>Status</label>
+        <select [(ngModel)]="e.status">
+          <option value="planned">planned</option>
+          <option value="active">active</option>
+          <option value="on_hold">on_hold</option>
+          <option value="completed">completed</option>
+        </select>
+      </div>
+
+      <div class="wt-field">
+        <label>Start Date</label>
+        <input type="date" [(ngModel)]="e.startDateInput" />
+      </div>
+
+      <div class="wt-field">
+        <label>End Date (Estimated)</label>
+        <input type="date" [(ngModel)]="e.dueDateInput" />
+      </div>
+
+      <div class="wt-field">
+        <label>Start Time</label>
+        <input type="text" placeholder="e.g. 07:00 AM" [(ngModel)]="e.startTime" />
+      </div>
+
+      <div class="wt-field wt-full">
+        
+<div class="form-row two">
+  <div class="form-field">
+    <label>Responsible Name</label>
+    <input type="text" [(ngModel)]="editDraft.responsibleName" />
+  </div>
+  <div class="form-field">
+    <label>Responsible Phone</label>
+    <input type="text" [(ngModel)]="editDraft.responsiblePhone" />
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-field">
+    <label>Responsible Email</label>
+    <input type="email" [(ngModel)]="editDraft.responsibleEmail" />
+  </div>
+</div>
+<label>Description</label>
+        <textarea rows="3" [(ngModel)]="e.description"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="wt-modal-actions">
+    <button type="button" class="btn" (click)="closeEdit()">Back</button>
+    <button type="button" class="btn btn-primary" (click)="saveEdit()">Save changes</button>
+  </div>
+</div>
+

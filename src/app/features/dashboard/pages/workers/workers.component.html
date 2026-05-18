@@ -1,0 +1,47 @@
+<div class="page" (click)="closeMenus()">
+  <div class="header">
+    <div>
+      <div class="title">Workers</div>
+    </div>
+  </div>
+
+  <div class="subnav" aria-label="Workers sub navigation">
+    <button class="subnav-item" type="button" [class.active]="activeTab==='info'" (click)="setTab('info')">Info</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='certifications'" (click)="setTab('certifications')">Certifications</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='evaluations'" (click)="setTab('evaluations')">Evaluations</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='work-history'" (click)="setTab('work-history')">Work History</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='pay'" (click)="setTab('pay')">Pay</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='hours'" (click)="setTab('hours')">Hours</button>
+    <button class="subnav-item" type="button" [class.active]="activeTab==='current-job'" (click)="setTab('current-job')">Current Job</button>
+  </div>
+
+  <div class="panel">
+    <div *ngIf="activeTab==='info'">
+      <!-- BLANK for now -->
+    </div>
+
+    <div *ngIf="activeTab==='certifications'">
+      <!-- BLANK for now -->
+    </div>
+
+    <div *ngIf="activeTab==='evaluations'">
+      <!-- BLANK for now -->
+    </div>
+
+    <div *ngIf="activeTab==='work-history'">
+      <!-- BLANK for now -->
+    </div>
+
+    <div *ngIf="activeTab==='pay'">
+      <!-- BLANK for now -->
+    </div>
+
+    <div *ngIf="activeTab==='hours'">
+      <!-- BLANK for now -->
+    </div>
+
+    <div *ngIf="activeTab==='current-job'">
+      <!-- BLANK for now -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+/* Optional: left-align Material tabs globally */
+.mat-mdc-tab-header .mat-mdc-tab-labels {
+  justify-content: flex-start !important;
+  gap: 32px !important;
+}
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+

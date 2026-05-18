@@ -1,0 +1,166 @@
+.dashboard-layout {
+  --wtv-shell-bg: #111;
+  --wtv-shell-text: #ddd;
+  --wtv-sidebar-bg: #1a1a1a;
+  --wtv-sidebar-link: #aaa;
+  --wtv-sidebar-link-active: #3b82f6;
+  --wtv-topbar-bg: #1e1e1e;
+  --wtv-topbar-border: #333;
+  --wtv-user-info: #bbb;
+  --wtv-primary-btn-bg: #3b82f6;
+  --wtv-primary-btn-text: #fff;
+}
+
+:host-context([data-theme='midnight']) .dashboard-layout {
+  --wtv-shell-bg: #08111f;
+  --wtv-shell-text: #dbe5f1;
+  --wtv-sidebar-bg: #0f172a;
+  --wtv-sidebar-link: #93a4bc;
+  --wtv-sidebar-link-active: #60a5fa;
+  --wtv-topbar-bg: #0f172a;
+  --wtv-topbar-border: #172b45;
+  --wtv-user-info: #c5d3e6;
+  --wtv-primary-btn-bg: #60a5fa;
+  --wtv-primary-btn-text: #fff;
+}
+
+:host-context([data-theme='light']) .dashboard-layout,
+:host-context([data-theme='aurora']) .dashboard-layout {
+  --wtv-shell-bg: #f3f6fb;
+  --wtv-shell-text: #1f2937;
+  --wtv-sidebar-bg: #ffffff;
+  --wtv-sidebar-link: #64748b;
+  --wtv-sidebar-link-active: #2563eb;
+  --wtv-topbar-bg: #ffffff;
+  --wtv-topbar-border: rgba(15, 23, 42, 0.08);
+  --wtv-user-info: #475569;
+  --wtv-primary-btn-bg: #2563eb;
+  --wtv-primary-btn-text: #fff;
+}
+
+.dashboard-layout {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  background-color: var(--wtv-shell-bg);
+  color: var(--wtv-shell-text);
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 220px;
+  flex: 0 0 220px;
+  background-color: var(--wtv-sidebar-bg);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex: 0 0 auto;
+}
+
+.sidebar-header .logo {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.sidebar nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0.5rem 0;
+  color: var(--wtv-sidebar-link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  color: var(--wtv-sidebar-link-active);
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: var(--wtv-primary-btn-bg);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: var(--wtv-primary-btn-text);
+  cursor: pointer;
+  margin-top: 1rem;
+  flex: 0 0 auto;
+}
+
+.main-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: var(--wtv-topbar-bg);
+  border-bottom: 1px solid var(--wtv-topbar-border);
+  flex: 0 0 auto;
+}
+
+.user-info {
+  color: var(--wtv-user-info);
+}
+
+.logout-top {
+  background: var(--wtv-primary-btn-bg);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  color: var(--wtv-primary-btn-text);
+  cursor: pointer;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.nav-ic {
+  font-size: 20px;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  opacity: 0.9;
+  vertical-align: middle;
+}
+
+.sidebar nav a span {
+  line-height: 1;
+}
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}

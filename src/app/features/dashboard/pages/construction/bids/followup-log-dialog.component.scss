@@ -1,0 +1,89 @@
+.fu-dialog{
+  width: 520px;
+  max-width: calc(100vw - 32px);
+  background: rgba(20,20,20,0.98);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+  overflow: hidden;
+}
+.fu-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.fu-title{
+  font-size: 14px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase;
+}
+.fu-x{
+  width: 30px; height: 30px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+}
+.fu-body{ padding: 14px 16px 4px; }
+.fu-row{ display:flex; gap: 12px; }
+.fu-row > *{ flex: 1; }
+.fu-note{ width: 100%; }
+.fu-error{
+  margin-top: 10px; padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,90,90,0.25);
+  background: rgba(255,90,90,0.10);
+  color: rgba(255,220,220,0.95);
+  font-size: 12px;
+}
+.fu-footer{
+  display:flex; justify-content:flex-end; gap: 10px;
+  padding: 12px 16px 16px;
+}
+
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+
+
+
+.fu-context{
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+}
+.fu-context-row{
+  display:flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.fu-context-row:last-child{ margin-bottom: 0; }
+.fu-context-item{
+  flex: 1;
+  min-width: 0;
+}
+.fu-context-item-full{ flex: 1 1 100%; }
+.fu-context-label{
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .35px;
+  color: rgba(255,255,255,0.58);
+  margin-bottom: 4px;
+}
+.fu-context-value{
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(255,255,255,0.92);
+  word-break: break-word;
+}
+@media (max-width: 640px){
+  .fu-context-row,
+  .fu-row{
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,92 @@
+.bw {
+  height: 92vh;
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.bw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 10px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.bw-title-main {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.bw-title-sub {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.bw-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bw-version {
+  width: 220px;
+}
+
+.bw-tabs {
+  flex: 1;
+  overflow: hidden;
+}
+
+.bw-pad {
+  padding: 14px;
+}
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.card-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.muted {
+  opacity: 0.85;
+}
+
+.rev {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rev th, .rev td {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 13px;
+}
+
+
+.snap-table {
+  width: 100%;
+  overflow: auto;
+}
+
+.snap-table th, .snap-table td {
+  font-size: 13px;
+}
+
+
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+

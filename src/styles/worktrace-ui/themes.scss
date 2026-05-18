@@ -1,0 +1,36 @@
+
+body[data-theme="dark"] {
+  --wt-bg-main:#0b0f14;
+  --wt-bg-card:#121826;
+  --wt-bg-soft:#1a2233;
+  --wt-border:#2a3447;
+  --wt-text-main:#e5e7eb;
+  --wt-text-secondary:#9ca3af;
+  --wt-primary:#3b82f6;
+}
+
+body[data-theme="light"] {
+  --wt-bg-main:#f4f6f9;
+  --wt-bg-card:#ffffff;
+  --wt-border:#e5e7eb;
+  --wt-text-main:#111827;
+}
+body[data-theme="midnight"] {
+  --wt-bg-main:#08111f;
+  --wt-bg-card:#0f172a;
+  --wt-bg-soft:#132238;
+  --wt-border:#334155;
+  --wt-text-main:#e2e8f0;
+  --wt-text-secondary:#94a3b8;
+  --wt-primary:#60a5fa;
+}
+
+body[data-theme="aurora"] {
+  --wt-bg-main:#f6f8fc;
+  --wt-bg-card:#ffffff;
+  --wt-bg-soft:#eef4ff;
+  --wt-border:#d9e2f1;
+  --wt-text-main:#1f2937;
+  --wt-text-secondary:#64748b;
+  --wt-primary:#4f46e5;
+}

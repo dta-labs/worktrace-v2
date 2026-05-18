@@ -1,0 +1,102 @@
+<div class="fu-dialog">
+  <div class="fu-header">
+    <div class="fu-title">Log Follow-Up</div>
+    <button class="fu-x" type="button" (click)="close()">✕</button>
+  </div>
+
+  <div class="fu-body" [formGroup]="form">
+    <div class="fu-context" *ngIf="hasContext">
+      <div class="fu-context-row">
+        <div class="fu-context-item">
+          <div class="fu-context-label">Bid owner</div>
+          <div class="fu-context-value">{{ displayAssignedTo }}</div>
+        </div>
+        <div class="fu-context-item">
+          <div class="fu-context-label">Created by</div>
+          <div class="fu-context-value">{{ displayCreatedBy }}</div>
+        </div>
+      </div>
+
+      <div class="fu-context-row">
+        <div class="fu-context-item fu-context-item-full">
+          <div class="fu-context-label">Client contact</div>
+          <div class="fu-context-value">{{ displayClientContact }}</div>
+        </div>
+      </div>
+
+      <div class="fu-context-row">
+        <div class="fu-context-item fu-context-item-full">
+          <div class="fu-context-label">Last follow-up</div>
+          <div class="fu-context-value">{{ displayLastFollowUp }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fu-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="call">Call</mat-option>
+          <mat-option value="email">Email</mat-option>
+          <mat-option value="client_reply">Client Reply</mat-option>
+          <mat-option value="internal_note">Internal Note</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Outcome</mat-label>
+        <mat-select formControlName="outcome">
+          <mat-option value="reviewing">Reviewing</mat-option>
+          <mat-option value="price_high">Price High</mat-option>
+          <mat-option value="price_ok">Price OK</mat-option>
+          <mat-option value="need_revision">Need Revision</mat-option>
+          <mat-option value="no_answer">No Answer</mat-option>
+          <mat-option value="won_pending">Won / Pending</mat-option>
+          <mat-option value="lost_price">Lost — Price</mat-option>
+          <mat-option value="lost_scope">Lost — Scope</mat-option>
+          <mat-option value="lost_time">Lost — Time</mat-option>
+          <mat-option value="other">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" class="fu-note">
+      <mat-label>Notes</mat-label>
+      <textarea matInput rows="4" formControlName="note" placeholder="What did the client say? What’s the next step?"></textarea>
+    </mat-form-field>
+
+    <div class="fu-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Next follow-up</mat-label>
+        <input matInput type="date" formControlName="nextDate" />
+        <mat-hint>Recommended: always set a next date.</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="fu-row">
+      <mat-form-field appearance="fill" *ngIf="showContactName">
+        <mat-label>{{ contactLabel }} name</mat-label>
+        <input matInput formControlName="contactName" placeholder="e.g. John Smith" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="showContactEmail">
+        <mat-label>{{ contactLabel }} email</mat-label>
+        <input matInput formControlName="contactEmail" placeholder="e.g. john@client.com" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="showContactPhone">
+        <mat-label>{{ contactLabel }} phone</mat-label>
+        <input matInput formControlName="contactPhone" placeholder="e.g. (555) 555-5555" />
+      </mat-form-field>
+    </div>
+
+    <div class="fu-error" *ngIf="errorMsg">{{ errorMsg }}</div>
+  </div>
+
+  <div class="fu-footer">
+    <button mat-stroked-button type="button" (click)="close()">Cancel</button>
+    <button mat-flat-button color="primary" type="button" [disabled]="saving" (click)="save()">
+      {{ saving ? 'Saving…' : 'Save Follow-Up' }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,322 @@
+<div class="wt-dialog">
+
+  <!-- Header -->
+  <div class="wt-header">
+    <div class="wt-title">
+      <div class="wt-title-main">{{ client }} — {{ project }}</div>
+      <div class="wt-title-sub">Browse versions. Only the current draft is editable.</div>
+    </div>
+
+    <div class="wt-header-actions">
+      <button type="button" class="wt-btn wt-btn-soft" (click)="openFollowUpLog()">
+        Log Follow-Up
+      </button>
+      <button type="button" class="wt-icon-btn" aria-label="Close" (click)="close()">✕</button>
+    </div>
+  </div>
+
+  <!-- Body (single scroll container) -->
+  <div class="wt-body">
+
+    <!-- Bid Summary -->
+    <div class="card" *ngIf="(bidSummary$ | async) as s">
+      <div class="card-header">
+        <div class="card-title">Bid Summary</div>
+        <div class="card-pill">{{ $any(s).status }}</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="wt-summary">
+        <div class="row">
+          <div class="k">Client</div>
+          <div class="v">{{ $any(s).client }}</div>
+          <div class="k">Project</div>
+          <div class="v">{{ $any(s).project }}</div>
+        </div>
+        <div class="row">
+          <div class="k">Location</div>
+          <div class="v">{{ $any(s).location || '—' }}</div>
+          <div class="k">Created By</div>
+          <div class="v">{{ $any(s).createdBy }}</div>
+        </div>
+        <div class="row">
+          <div class="k">Folder Path</div>
+          <div class="v">{{ $any(s).folderPath }}</div>
+          <div class="k">Version</div>
+          <div class="v">{{ selectedVersionId || '—' }}</div>
+        </div>
+        <div class="row">
+          <div class="k">Received</div>
+          <div class="v">{{ $any(s).receivedAt ? ($any(s).receivedAt | date:'MM/dd/yyyy') : '—' }}</div>
+          <div class="k">Bid Due</div>
+          <div class="v">{{ $any(s).bidDueAt ? ($any(s).bidDueAt | date:'MM/dd/yyyy') : '—' }}</div>
+        </div>
+        <div class="row row-two">
+          <div class="k">Converted</div>
+          <div class="v">{{ $any(s).convertedAt ? ($any(s).convertedAt | date:'MM/dd/yyyy') : '—' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Follow-Up -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Follow-Up History</div>
+        <button type="button" class="wt-btn wt-btn-soft" (click)="openFollowUpLog()">Log Follow-Up</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="fu-list" *ngIf="(followups$ | async) as fus; else fuEmpty">
+        <div class="fu-item" *ngFor="let f of ($any(fus) || [])">
+          <div class="fu-top">
+            <span class="fu-pill fu-pill-type">{{ (($any(f)['type'] || 'note')) | uppercase }}</span>
+            <span class="fu-pill fu-pill-outcome">{{ $any(f)['outcome'] || '—' }}</span>
+            <span class="fu-spacer"></span>
+            <span class="fu-date">{{ $any(f)['createdAt']?.toDate ? ($any(f)['createdAt'].toDate() | date:'MM/dd/yyyy') : '' }}</span>
+          </div>
+
+          <div class="fu-body">
+            <div class="fu-note" *ngIf="$any(f)['note']">{{ $any(f)['note'] }}</div>
+
+            <div class="fu-meta">
+              <span class="fu-by" *ngIf="$any(f)['createdByEmail']">By: {{ $any(f)['createdByEmail'] }}</span>
+              <span class="fu-next" *ngIf="$any(f)['nextFollowUpAt']">Next: {{ $any(f)['nextFollowUpAt'].toDate() | date:'MM/dd/yyyy' }}</span>
+            </div>
+
+            <div class="fu-contact" *ngIf="$any(f)['contactName'] || $any(f)['contactEmail'] || $any(f)['contactPhone']">
+              <ng-container [ngSwitch]="$any(f)['type']">
+                <span *ngSwitchCase="'call'">Spoke with:</span>
+                <span *ngSwitchCase="'email'">From:</span>
+                <span *ngSwitchCase="'client_reply'">From:</span>
+                <span *ngSwitchDefault>Contact:</span>
+              </ng-container>
+              <span class="fu-contact-val">
+                {{ $any(f)['contactName'] || '' }}
+                <ng-container *ngIf="$any(f)['contactEmail']">{{ ($any(f)['contactName'] ? ' — ' : '') + $any(f)['contactEmail'] }}</ng-container>
+                <ng-container *ngIf="$any(f)['contactPhone']">{{ (($any(f)['contactName'] || $any(f)['contactEmail']) ? ' — ' : '') + $any(f)['contactPhone'] }}</ng-container>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #fuEmpty>
+        <div class="fu-empty">No follow-ups logged yet.</div>
+      </ng-template>
+    </div>
+    <div class="wt-grid">
+
+      <!-- Sidebar: Versions (B) -->
+      <div class="wt-sidebar">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Versions</div>
+          </div>
+          <div class="divider"></div>
+
+          <div class="wt-version-list" *ngIf="(versions$ | async) as versions">
+            <button
+              type="button"
+              class="wt-version-item"
+              *ngFor="let v of ($any(versions) || [])"
+              [class.active]="v.id === selectedVersionId"
+              (click)="selectVersion(v.id)">
+              <div class="v-left">
+                <div class="v-title">{{ v.id }}</div>
+                <div class="v-sub">{{ v.status }}</div>
+              </div>
+              <div class="v-right">
+                <button type="button" class="star-btn" (click)="markVersionAsSelected(v.id, versions); $event.stopPropagation()">
+                  <span [class.filled]="v.isSelected">★</span>
+                </button>
+                <div class="v-total">{{ v.calculatedTotal | currency:'USD':'symbol':'1.0-0' }}</div>
+              </div>
+            </button>
+
+            <div class="small muted" *ngIf="!$any(versions)?.length">No versions yet.</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <button mat-stroked-button color="primary" type="button" (click)="createNewVersion()" [disabled]="saving || savingMeta || !(canCreateNewVersion$ | async)">
+            Create New Version
+          </button>
+          <div class="small muted">One click: locks the current draft and creates the next draft. (Enabled only after conversion.)</div>
+        </div>
+      </div>
+
+      <!-- Middle: Version editor/view -->
+      <div class="wt-col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Version {{ selectedVersionId || '—' }}
+              <span class="pill" *ngIf="(selectedVersion$ | async) as sv">{{ sv.status }}</span>
+            </div>
+            <div class="card-meta">
+              <div class="total-label">Calculated total</div>
+              <div class="total-value">{{ (calculatedTotal$ | async) | currency:'USD':'symbol':'1.0-0' }}</div>
+            </div>
+          </div>
+
+          <!-- Version note: show for both draft and locked versions when present. -->
+          <div class="wt-version-actions" *ngIf="(selectedVersion$ | async)?.note">
+            <div class="small muted version-reason">
+              <span class="label">Note</span>
+              <span class="text">{{ (selectedVersion$ | async)?.note }}</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <form [formGroup]="form" (ngSubmit)="add()" class="wt-form">
+            <div class="wt-form-grid">
+              <div class="field">
+                <label>Category *</label>
+                <mat-form-field appearance="outline" class="full">
+                  <mat-select formControlName="category" panelClass="wt-select-panel" disableOptionCentering>
+                    <mat-option *ngFor="let c of categories" [value]="c.value">{{ c.label }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="field">
+                <label>Description (optional)</label>
+                <mat-form-field appearance="outline" class="full">
+                  <input matInput placeholder="e.g. Ductwork labor" formControlName="description" />
+                </mat-form-field>
+              </div>
+
+              <div class="field">
+                <label>Amount (USD) *</label>
+                <mat-form-field appearance="outline" class="full">
+                  <input matInput type="number" placeholder="0" formControlName="amount" />
+                </mat-form-field>
+                <div class="hint">Enter the line item amount. We'll sum everything automatically.</div>
+              </div>
+
+              <!-- Labor-only: track hours separately (Amount stays manual for v1) -->
+              <div class="field" *ngIf="isLabor">
+                <label>Hours *</label>
+                <mat-form-field appearance="outline" class="full">
+                  <input matInput type="number" placeholder="0" formControlName="hours" />
+                </mat-form-field>
+                <div class="hint">Required for Labor. Use total crew hours for this line item.</div>
+              </div>
+
+              <div class="field actions">
+                <button mat-raised-button color="primary" type="submit" [disabled]="saving || form.invalid || !(canEditPdf$ | async)">
+                  {{ saving ? 'Saving…' : 'Set Amount' }}
+                </button>
+              </div>
+            </div>
+
+            <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+          </form>
+
+          <div class="divider"></div>
+
+          <div class="wt-table-wrap">
+            <table class="wt-table" *ngIf="(partidas$ | async) as partidas">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th class="num">Hrs</th>
+                  <th class="num">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of ($any(partidas) || [])">
+                  <td>{{ p.category }}</td>
+                  <td class="wrap">{{ p.description }}</td>
+                  <td class="num">{{ p.category === 'labor' ? (p.hours ?? '') : '' }}</td>
+                  <td class="num">{{ p.amount | currency:'USD':'symbol':'1.0-0' }}</td>
+                </tr>
+                <tr *ngIf="!($any(partidas)?.length)">
+                  <td colspan="4" class="empty">No line items yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right: PDF -->
+      <div class="wt-col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Official PDF</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <form [formGroup]="totalsForm" class="wt-form">
+            
+<div class="field">
+  <label>PDF</label>
+
+  <ng-container *ngIf="(canEditPdf$ | async); else viewOnlyPdf">
+    <input class="file" type="file" accept="application/pdf" (change)="onOfficialPdfSelected($event)" />
+    <div class="hint">Upload the official bid PDF for the <b>selected draft version</b>. Note: if this Bid came from Incoming Bids, the original v1 PDF cannot be replaced—create a new draft version to attach a new file.</div>
+  </ng-container>
+
+  <ng-template #viewOnlyPdf>
+    <div class="hint">This PDF is <b>locked</b> for the original version (v1) when the Bid comes from Incoming Bids. Create a new draft version to upload a different PDF. You can still open the existing PDF.</div>
+  </ng-template>
+
+  <div class="status" *ngIf="uploadingPdf">Uploading…</div>
+  <div class="status ok" *ngIf="pdfMsg">{{ pdfMsg }}</div>
+
+  <div class="status warn" *ngIf="pdfHref as url">
+    Saved PDF:
+    <a [href]="url" target="_blank" rel="noopener">Open PDF</a>
+  </div>
+
+  <div class="muted" *ngIf="!pdfHref && !uploadingPdf">
+    No PDF attached to this version.
+  </div>
+</div>
+
+            <div class="pdf-preview" *ngIf="pdfPreviewUrl as purl">
+              <iframe class="pdf-frame" [src]="purl" title="PDF preview"></iframe>
+            </div>
+
+            <div class="status ok" *ngIf="metaMsg">{{ metaMsg }}</div>
+              <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+          </form>
+
+          <div class="divider"></div>
+
+          <div class="small">
+            Tip: If you need multiple versions later, this PDF will live under the current version.
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="wt-footer">
+    <div class="footer-left">
+      <span class="muted" *ngIf="incomingId; else existingBidNote">This is a draft. It will convert only when you click <b>Save &amp; Convert</b> and total &gt; 0.</span>
+      <ng-template #existingBidNote>
+        <span class="muted">Edit line items and PDF for this Bid.</span>
+      </ng-template>
+    </div>
+    <div class="footer-right">
+      <button mat-stroked-button color="primary" type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" type="button"
+        (click)="saveAndConvert()"
+        [disabled]="savingMeta || saving">
+        {{ savingMeta ? 'Saving…' : (incomingId ? 'Save & Convert' : 'Done') }}
+      </button>
+    </div>
+  </div>
+
+</div>

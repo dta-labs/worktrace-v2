@@ -1,0 +1,431 @@
+// .card{
+//   padding: 16px;
+//   border-radius: 14px;
+//   border: 1px solid rgba(255,255,255,0.08);
+//   background: linear-gradient(180deg, rgba(18,22,34,0.92) 0%, rgba(10,12,20,0.96) 100%);
+//   color: rgba(255,255,255,0.92);
+//   box-shadow: 0 18px 42px rgba(0,0,0,0.24);
+// }
+
+// .card__header{
+//   display:flex;
+//   justify-content:space-between;
+//   align-items:flex-start;
+//   margin-bottom: 14px;
+// }
+
+// .card__header h2{
+//   margin: 0 0 4px;
+//   font-size: 30px;
+//   line-height: 1.1;
+// }
+
+// .muted{ opacity: .75; }
+
+// .filters{
+//   display:grid;
+//   grid-template-columns: minmax(0, 1fr) 160px 160px;
+//   gap: 12px;
+//   margin-bottom: 16px;
+//   align-items: start;
+// }
+
+// .filters__search{ width:100%; }
+// .table-wrap{ overflow:auto; }
+// .table{ width:100%; }
+// .right{ text-align:right; }
+// .icon-left{ margin-right: 6px; }
+// .cell-main{ font-weight: 600; }
+// .cell-sub{ font-size: 12px; margin-top: 2px; }
+// .empty{ padding: 12px 0; }
+
+// :host ::ng-deep .wt-dark-field .mat-mdc-text-field-wrapper,
+// :host ::ng-deep .wt-dark-field .mdc-text-field {
+//   background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.03) 100%) !important;
+//   border-radius: 12px !important;
+// }
+
+// :host ::ng-deep .wt-dark-field .mdc-notched-outline__leading,
+// :host ::ng-deep .wt-dark-field .mdc-notched-outline__notch,
+// :host ::ng-deep .wt-dark-field .mdc-notched-outline__trailing {
+//   border-color: rgba(255,255,255,0.14) !important;
+// }
+
+// :host ::ng-deep .wt-dark-field.mat-focused .mdc-notched-outline__leading,
+// :host ::ng-deep .wt-dark-field.mat-focused .mdc-notched-outline__notch,
+// :host ::ng-deep .wt-dark-field.mat-focused .mdc-notched-outline__trailing {
+//   border-color: rgba(96,124,255,0.95) !important;
+//   border-width: 1.5px !important;
+// }
+
+// :host ::ng-deep .wt-dark-field input,
+// :host ::ng-deep .wt-dark-field .mat-mdc-input-element,
+// :host ::ng-deep .wt-dark-field .mat-mdc-select-value-text,
+// :host ::ng-deep .wt-dark-field .mat-mdc-select-min-line {
+//   color: #f5f8ff !important;
+//   caret-color: #f5f8ff !important;
+// }
+
+// :host ::ng-deep .wt-dark-field input::placeholder {
+//   color: rgba(214,223,255,0.42) !important;
+// }
+
+// :host ::ng-deep .wt-dark-field .mdc-floating-label,
+// :host ::ng-deep .wt-dark-field .mat-mdc-form-field-icon-prefix,
+// :host ::ng-deep .wt-dark-field .mat-mdc-form-field-icon-suffix,
+// :host ::ng-deep .wt-dark-field .mat-mdc-select-arrow,
+// :host ::ng-deep .wt-dark-field .mat-mdc-form-field-hint,
+// :host ::ng-deep .wt-dark-field .mat-mdc-form-field-required-marker {
+//   color: rgba(214,223,255,0.68) !important;
+// }
+
+// :host ::ng-deep .wt-dark-field .mat-mdc-form-field-focus-overlay {
+//   background: transparent !important;
+// }
+
+// :host ::ng-deep .wt-search-field .mat-mdc-form-field-subscript-wrapper {
+//   display: none;
+// }
+
+// :host ::ng-deep .wt-search-field .mat-mdc-icon-button {
+//   color: rgba(255,255,255,0.74) !important;
+// }
+
+// :host ::ng-deep .wt-search-field .mat-mdc-icon-button:hover {
+//   color: #ffffff !important;
+// }
+
+// /* Material table theming inside dark pages */
+// :host ::ng-deep .mat-mdc-table{
+//   background: transparent;
+// }
+
+// :host ::ng-deep .mat-mdc-header-row{
+//   background: rgba(255,255,255,0.03);
+// }
+
+// :host ::ng-deep .mat-mdc-header-cell{
+//   color: rgba(255,255,255,0.70);
+//   font-weight: 600;
+//   border-bottom-color: rgba(255,255,255,0.10);
+// }
+
+// :host ::ng-deep .mat-mdc-cell{
+//   color: rgba(255,255,255,0.90);
+//   border-bottom-color: rgba(255,255,255,0.08);
+// }
+
+// :host ::ng-deep .mat-mdc-row:hover{
+//   background: rgba(255,255,255,0.03);
+// }
+
+// :host ::ng-deep .mat-mdc-outlined-button{
+//   border-color: rgba(255,255,255,0.18);
+// }
+
+// /* Improve datepicker visibility in dark theme */
+// .mat-datepicker-toggle-default-icon {
+//   color: rgba(255,255,255,0.75) !important;
+// }
+// .mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+//   color: rgba(255,255,255,1) !important;
+// }
+
+// @media (max-width: 1100px){
+//   .filters{
+//     grid-template-columns: 1fr;
+//   }
+// }
+
+/*
+  MIGRACIÓN WORKTRACE - COMPANIES LIST
+  Soporte para temas dark/light sin cambiar HTML
+*/
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ============================================
+// 1. VARIABLES CSS POR TEMA
+// ============================================
+
+// Tema oscuro (default)
+:host {
+  --wtv-text-primary: #ffffff;
+  --wtv-text-secondary: rgba(255, 255, 255, 0.70);
+  --wtv-text-muted: rgba(255, 255, 255, 0.50);
+  --wtv-text-placeholder: rgba(255, 255, 255, 0.40);
+  --wtv-text-label: rgba(255, 255, 255, 0.80);
+  --wtv-bg-card: linear-gradient(180deg, rgba(18, 22, 34, 0.92) 0%, rgba(10, 12, 20, 0.96) 100%);
+  --wtv-bg-input: rgba(255, 255, 255, 0.04);
+  --wtv-bg-hover: rgba(255, 255, 255, 0.04);
+  --wtv-border-color: rgba(255, 255, 255, 0.08);
+  --wtv-border-input: rgba(255, 255, 255, 0.14);
+  --wtv-border-hover: rgba(255, 255, 255, 0.25);
+  --wtv-color-primary: #607cff;
+  --wtv-shadow-card: 0 18px 42px rgba(0, 0, 0, 0.24);
+}
+
+// Tema midnight
+:host-context([data-theme="midnight"]) {
+  --wtv-text-primary: #dbe5f1;
+  --wtv-text-secondary: #93a4bc;
+  --wtv-text-muted: #7a8fa0;
+  --wtv-text-placeholder: #6a7a8f;
+  --wtv-text-label: #c5d3e6;
+  --wtv-bg-card: linear-gradient(180deg, rgba(15, 23, 42, 0.88) 0%, rgba(8, 17, 31, 0.92) 100%);
+  --wtv-bg-input: rgba(148, 163, 184, 0.06);
+  --wtv-bg-hover: rgba(148, 163, 184, 0.08);
+  --wtv-border-color: rgba(148, 163, 184, 0.14);
+  --wtv-border-input: rgba(148, 163, 184, 0.18);
+  --wtv-border-hover: rgba(96, 165, 250, 0.25);
+  --wtv-color-primary: #60a5fa;
+  --wtv-shadow-card: 0 18px 42px rgba(8, 17, 31, 0.28);
+}
+
+// Tema claro
+:host-context([data-theme="light"]) {
+  --wtv-text-primary: rgba(0, 0, 0, 0.87);
+  --wtv-text-secondary: rgba(0, 0, 0, 0.60);
+  --wtv-text-muted: rgba(0, 0, 0, 0.45);
+  --wtv-text-placeholder: rgba(0, 0, 0, 0.38);
+  --wtv-text-label: rgba(0, 0, 0, 0.70);
+  --wtv-bg-card: #ffffff;
+  --wtv-bg-input: rgba(0, 0, 0, 0.02);
+  --wtv-bg-hover: rgba(0, 0, 0, 0.04);
+  --wtv-border-color: rgba(0, 0, 0, 0.08);
+  --wtv-border-input: rgba(0, 0, 0, 0.12);
+  --wtv-border-hover: rgba(0, 0, 0, 0.20);
+  --wtv-color-primary: #1976d2;
+  --wtv-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+// Tema aurora
+:host-context([data-theme="aurora"]) {
+  --wtv-text-primary: #1f2937;
+  --wtv-text-secondary: #64748b;
+  --wtv-text-muted: #94a3b8;
+  --wtv-text-placeholder: #cbd5e1;
+  --wtv-text-label: #475569;
+  --wtv-bg-card: #ffffff;
+  --wtv-bg-input: rgba(79, 70, 229, 0.03);
+  --wtv-bg-hover: rgba(79, 70, 229, 0.04);
+  --wtv-border-color: rgba(79, 70, 229, 0.10);
+  --wtv-border-input: rgba(79, 70, 229, 0.14);
+  --wtv-border-hover: rgba(79, 70, 229, 0.22);
+  --wtv-color-primary: #4f46e5;
+  --wtv-shadow-card: 0 4px 12px rgba(79, 70, 229, 0.08);
+}
+
+// ============================================
+// 2. ESTILOS DE LA TARJETA
+// ============================================
+
+.card {
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--wtv-border-color);
+  background: var(--wtv-bg-card);
+  color: var(--wtv-text-primary);
+  box-shadow: var(--wtv-shadow-card);
+}
+
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.card__header h2 {
+  margin: 0 0 4px;
+  font-size: 30px;
+  line-height: 1.1;
+  color: var(--wtv-text-primary);
+}
+
+.muted {
+  opacity: 0.75;
+  color: var(--wtv-text-muted);
+}
+
+// ============================================
+// 3. FILTROS
+// ============================================
+
+.filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 160px 160px;
+  gap: 12px;
+  margin-bottom: 16px;
+  align-items: start;
+}
+
+.filters__search {
+  width: 100%;
+}
+
+// ============================================
+// 4. CAMPOS DE FORMULARIO (ANGULAR MATERIAL)
+// ============================================
+
+:host ::ng-deep {
+  // Fondo y bordes de inputs
+  .wt-dark-field .mat-mdc-text-field-wrapper,
+  .wt-dark-field .mdc-text-field {
+    background: var(--wtv-bg-input) !important;
+    border-radius: 12px !important;
+  }
+  
+  .wt-dark-field .mdc-notched-outline__leading,
+  .wt-dark-field .mdc-notched-outline__notch,
+  .wt-dark-field .mdc-notched-outline__trailing {
+    border-color: var(--wtv-border-input) !important;
+  }
+  
+  // Focus
+  .wt-dark-field.mat-focused .mdc-notched-outline__leading,
+  .wt-dark-field.mat-focused .mdc-notched-outline__notch,
+  .wt-dark-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: var(--wtv-color-primary) !important;
+    border-width: 1.5px !important;
+  }
+  
+  // Texto del input
+  .wt-dark-field input,
+  .wt-dark-field .mat-mdc-input-element,
+  .wt-dark-field .mat-mdc-select-value-text,
+  .wt-dark-field .mat-mdc-select-min-line {
+    color: var(--wtv-text-primary) !important;
+    caret-color: var(--wtv-text-primary) !important;
+  }
+  
+  // Placeholder
+  .wt-dark-field input::placeholder {
+    color: var(--wtv-text-placeholder) !important;
+  }
+  
+  // Labels e iconos
+  .wt-dark-field .mdc-floating-label,
+  .wt-dark-field .mat-mdc-floating-label,
+  .wt-dark-field .mat-mdc-form-field-icon-prefix,
+  .wt-dark-field .mat-mdc-form-field-icon-suffix,
+  .wt-dark-field .mat-mdc-select-arrow,
+  .wt-dark-field .mat-mdc-form-field-hint,
+  .wt-dark-field .mat-mdc-form-field-required-marker {
+    color: var(--wtv-text-label) !important;
+  }
+  
+  // Focus overlay
+  .wt-dark-field .mat-mdc-form-field-focus-overlay {
+    background: transparent !important;
+  }
+  
+  // Search field
+  .wt-search-field .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+  
+  .wt-search-field .mat-mdc-icon-button {
+    color: var(--wtv-text-secondary) !important;
+  }
+  
+  .wt-search-field .mat-mdc-icon-button:hover {
+    color: var(--wtv-text-primary) !important;
+  }
+}
+
+// ============================================
+// 5. TABLA
+// ============================================
+
+.table-wrap {
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+}
+
+:host ::ng-deep {
+  .mat-mdc-table {
+    background: transparent;
+  }
+  
+  .mat-mdc-header-row {
+    background: var(--wtv-bg-hover);
+  }
+  
+  .mat-mdc-header-cell {
+    color: var(--wtv-text-secondary) !important;
+    font-weight: 600;
+    border-bottom-color: var(--wtv-border-color);
+  }
+  
+  .mat-mdc-cell {
+    color: var(--wtv-text-primary) !important;
+    border-bottom-color: var(--wtv-border-color);
+  }
+  
+  .mat-mdc-row:hover {
+    background: var(--wtv-bg-hover);
+  }
+  
+  .mat-mdc-outlined-button {
+    border-color: var(--wtv-border-input);
+    color: var(--wtv-text-primary) !important;
+  }
+}
+
+// ============================================
+// 6. UTILIDADES
+// ============================================
+
+.right {
+  text-align: right;
+}
+
+.icon-left {
+  margin-right: 6px;
+}
+
+.cell-main {
+  font-weight: 600;
+  color: var(--wtv-text-primary);
+}
+
+.cell-sub {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.empty {
+  padding: 12px 0;
+  color: var(--wtv-text-muted);
+}
+
+// ============================================
+// 7. DATEPICKER
+// ============================================
+
+:host ::ng-deep {
+  .mat-datepicker-toggle-default-icon {
+    color: var(--wtv-text-label) !important;
+  }
+  
+  .mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+    color: var(--wtv-text-primary) !important;
+  }
+}
+
+// ============================================
+// 8. RESPONSIVE
+// ============================================
+
+@media (max-width: 1100px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

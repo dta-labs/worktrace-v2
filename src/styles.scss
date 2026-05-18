@@ -1,0 +1,352 @@
+/* WorkTrace Visual System */
+
+@import "./styles/worktrace-system/tokens";
+@import "./styles/worktrace-system/themes";
+@import "./styles/worktrace-system/primitives";
+@import "./styles/worktrace-system/components";
+@import "./styles/worktrace-system/utilities";
+
+@import "styles/worktrace-ui/index";
+
+/* -------------------------------------------------- */
+/* Base styles existentes */
+/* -------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: Inter, Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #0f1115;
+  color: #e5e7eb;
+}
+
+a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+:root {
+  --bg-color: #0f1115;
+  --surface-1: #16191f;
+  --text-color: #e5e7eb;
+  --text-strong: #f3f4f6;
+  --text-muted: #9ca3af;
+  --border-color: rgba(255,255,255,0.06);
+  --primary: #3b82f6;
+}
+
+html, body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-root {
+  display: block;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* -------------------------------------------------- */
+/* Dashboard legacy views - light/aurora/midnight theme bridge */
+/* Applies the same idea used in companies pages to all views */
+/* -------------------------------------------------- */
+
+body[data-theme='midnight'] {
+  .content {
+    color: #dbe5f1;
+  }
+
+  app-overview-page,
+  app-workers-page,
+  app-hr-page,
+  app-projects-page,
+  app-construction-page,
+  app-bids-page,
+  app-home-page,
+  app-settings-page,
+  app-bid-detail-page,
+  app-companies-page {
+    .title,
+    .name,
+    .card__header h2,
+    .hr-card__head h3,
+    .cell-main,
+    .v {
+      color: #f8fbff !important;
+    }
+
+    .subtitle,
+    .muted,
+    .address,
+    .cell-sub,
+    .k,
+    .empty,
+    .hr-card__head p,
+    .field span {
+      color: #93a4bc !important;
+      opacity: 1 !important;
+    }
+
+    .subnav,
+    .subnav--inner {
+      border-bottom-color: rgba(148, 163, 184, 0.18) !important;
+    }
+
+    .subnav-item {
+      color: #93a4bc !important;
+    }
+
+    .subnav-item.active {
+      color: #60a5fa !important;
+      border-bottom-color: #60a5fa !important;
+    }
+
+    .btn-clear,
+    .icon-btn,
+    .mat-mdc-outlined-button {
+      border-color: rgba(148, 163, 184, 0.24) !important;
+      background: rgba(19, 34, 56, 0.8) !important;
+      color: #dbe5f1 !important;
+    }
+
+    .filters,
+    .card,
+    .hr-card,
+    .tab-placeholder,
+    .panel,
+    .panel-inner,
+    .coming-soon {
+      border-color: rgba(148, 163, 184, 0.18) !important;
+      background: #132238 !important;
+      color: #dbe5f1 !important;
+      box-shadow: 0 6px 24px rgba(8, 17, 31, 0.3) !important;
+    }
+
+    .badge,
+    .field--check {
+      border-color: rgba(148, 163, 184, 0.24) !important;
+      background: rgba(23, 43, 69, 0.9) !important;
+      color: #c5d3e6 !important;
+    }
+
+    .code,
+    .eyebrow,
+    .subnav-item.active,
+    .badge.planned {
+      color: #60a5fa !important;
+    }
+
+    .f input,
+    .f select,
+    .field input,
+    .field select,
+    .field textarea,
+    .mat-mdc-input-element,
+    .mat-mdc-select-value-text,
+    .mat-mdc-select-min-line {
+      background: #0f172a !important;
+      border-color: rgba(148, 163, 184, 0.18) !important;
+      color: #f8fbff !important;
+      caret-color: #f8fbff !important;
+    }
+
+    .mat-mdc-table,
+    .mat-mdc-header-row,
+    .mat-mdc-row:hover {
+      background: transparent !important;
+    }
+
+    .mat-mdc-header-cell {
+      color: #93a4bc !important;
+      border-bottom-color: rgba(148, 163, 184, 0.12) !important;
+    }
+
+    .mat-mdc-cell {
+      color: #dbe5f1 !important;
+      border-bottom-color: rgba(148, 163, 184, 0.1) !important;
+    }
+  }
+}
+
+body[data-theme='light'],
+body[data-theme='aurora'] {
+  .content {
+    color: #1f2937;
+  }
+
+  app-overview-page,
+  app-workers-page,
+  app-hr-page,
+  app-projects-page,
+  app-construction-page,
+  app-bids-page,
+  app-home-page,
+  app-settings-page,
+  app-bid-detail-page,
+  app-companies-page {
+    .title,
+    .name,
+    .card__header h2,
+    .hr-card__head h3,
+    .cell-main,
+    .v {
+      color: #0f172a !important;
+    }
+
+    .subtitle,
+    .muted,
+    .address,
+    .cell-sub,
+    .k,
+    .empty,
+    .hr-card__head p,
+    .field span {
+      color: #64748b !important;
+      opacity: 1 !important;
+    }
+
+    .subnav,
+    .subnav--inner {
+      border-bottom-color: rgba(15, 23, 42, 0.12) !important;
+    }
+
+    .subnav-item {
+      color: #64748b !important;
+    }
+
+    .subnav-item.active {
+      color: #2563eb !important;
+      border-bottom-color: #2563eb !important;
+    }
+
+    .btn-clear,
+    .icon-btn,
+    .mat-mdc-outlined-button {
+      border-color: rgba(15, 23, 42, 0.18) !important;
+      background: rgba(255, 255, 255, 0.9) !important;
+      color: #1e293b !important;
+    }
+
+    .filters,
+    .card,
+    .hr-card,
+    .tab-placeholder,
+    .panel,
+    .panel-inner,
+    .coming-soon {
+      border-color: rgba(15, 23, 42, 0.1) !important;
+      background: #ffffff !important;
+      color: #1f2937 !important;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06) !important;
+    }
+
+    .badge,
+    .field--check {
+      border-color: rgba(15, 23, 42, 0.14) !important;
+      background: rgba(248, 250, 252, 0.9) !important;
+      color: #334155 !important;
+    }
+
+    .code,
+    .eyebrow,
+    .subnav-item.active,
+    .badge.planned {
+      color: #2563eb !important;
+    }
+
+    .f input,
+    .f select,
+    .field input,
+    .field select,
+    .field textarea,
+    .mat-mdc-input-element,
+    .mat-mdc-select-value-text,
+    .mat-mdc-select-min-line {
+      background: #ffffff !important;
+      border-color: rgba(15, 23, 42, 0.14) !important;
+      color: #0f172a !important;
+      caret-color: #0f172a !important;
+    }
+
+    .mat-mdc-table,
+    .mat-mdc-header-row,
+    .mat-mdc-row:hover {
+      background: transparent !important;
+    }
+
+    .mat-mdc-header-cell {
+      color: #64748b !important;
+      border-bottom-color: rgba(15, 23, 42, 0.1) !important;
+    }
+
+    .mat-mdc-cell {
+      color: #0f172a !important;
+      border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+    }
+  }
+}
+
+/* Light & Aurora theme readability boost: stronger text weight */
+body[data-theme='light'],
+body[data-theme='aurora'] {
+  app-overview-page,
+  app-workers-page,
+  app-hr-page,
+  app-projects-page,
+  app-construction-page,
+  app-bids-page,
+  app-home-page,
+  app-settings-page,
+  app-bid-detail-page,
+  app-companies-page {
+    .title,
+    .name,
+    .card__header h2,
+    .hr-card__head h3,
+    .cell-main,
+    .v,
+    .page__title,
+    h1,
+    h2,
+    h3 {
+      font-weight: 800 !important;
+    }
+
+    .subtitle,
+    .muted,
+    .address,
+    .cell-sub,
+    .k,
+    .empty,
+    .hr-card__head p,
+    .field span,
+    .mat-mdc-cell,
+    .mat-mdc-header-cell,
+    .subnav-item,
+    .badge,
+    .assign-chip,
+    .priority-chip,
+    p,
+    td,
+    th,
+    label {
+      font-weight: 600 !important;
+    }
+  }
+}

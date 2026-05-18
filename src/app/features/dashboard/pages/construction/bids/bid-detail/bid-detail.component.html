@@ -1,0 +1,147 @@
+<div class="detail" *ngIf="!loading(); else loadingTpl">
+  <div class="embedded-actions" *ngIf="embedded">
+    <div class="embedded-title">Create Bid</div>
+    <button mat-flat-button color="primary" (click)="save()">Save</button>
+  </div>
+  <div class="top" *ngIf="!embedded">
+    <div>
+      <h2>Bid {{ form.value.bidNumber }}</h2>
+      <div class="muted">All edits require a reason and are audited.</div>
+    </div>
+    <div class="top__actions">
+      <button mat-button (click)="back()">Back</button>
+      <button mat-flat-button color="primary" (click)="save()">Save</button>
+    </div>
+  </div>
+
+  <div *ngIf="bid(); else notFound">
+    <div class="grid2">
+      <mat-card class="section">
+        <div class="section__title">Summary</div>
+        <div class="grid">
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Bid #</mat-label>
+            <input matInput formControlName="bidNumber" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let s of statuses" [value]="s.value">{{ s.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority">
+              <mat-option *ngFor="let p of priorities" [value]="p.value">{{ p.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Client</mat-label>
+            <input matInput formControlName="client" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Project Name</mat-label>
+            <input matInput formControlName="projectName" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Contact Name</mat-label>
+            <input matInput formControlName="contactName" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Contact Phone</mat-label>
+            <input matInput formControlName="contactPhone" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Date Received</mat-label>
+            <input matInput [matDatepicker]="dr" formControlName="dateReceived" />
+            <mat-datepicker-toggle matSuffix [for]="dr"></mat-datepicker-toggle>
+            <mat-datepicker #dr></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Due Date</mat-label>
+            <input matInput [matDatepicker]="dd" formControlName="dueDate" />
+            <mat-datepicker-toggle matSuffix [for]="dd"></mat-datepicker-toggle>
+            <mat-datepicker #dd></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Date Sent</mat-label>
+            <input matInput [matDatepicker]="ds" formControlName="dateSent" />
+            <mat-datepicker-toggle matSuffix [for]="ds"></mat-datepicker-toggle>
+            <mat-datepicker #ds></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </mat-card>
+
+      <mat-card class="section">
+        <div class="section__title">Cost Breakdown (v1)</div>
+        <div class="grid">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Labor ($)</mat-label>
+            <input matInput type="number" formControlName="laborAmount" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Labor (hours)</mat-label>
+            <input matInput type="number" formControlName="laborHours" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Equipment ($)</mat-label>
+            <input matInput type="number" formControlName="equipmentAmount" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Materials ($)</mat-label>
+            <input matInput type="number" formControlName="materialsAmount" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Subsistence ($)</mat-label>
+            <input matInput type="number" formControlName="subsistenceAmount" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Rentals ($)</mat-label>
+            <input matInput type="number" formControlName="rentalsAmount" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Subcontractor ($)</mat-label>
+            <input matInput type="number" formControlName="subcontractorAmount" />
+          </mat-form-field>
+
+          <div class="total col-12">
+            <div class="total__label">Total Estimated</div>
+            <div class="total__value">{{ total() | currency:'USD':'symbol':'1.0-0' }}</div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <mat-card class="section">
+      <div class="section__title">Notes</div>
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Notes</mat-label>
+        <textarea matInput rows="3" formControlName="notes"></textarea>
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <ng-template #notFound>
+    <mat-card class="section">
+      Bid not found.
+    </mat-card>
+  </ng-template>
+</div>
+
+<ng-template #loadingTpl>
+  <mat-card class="section">Loading...</mat-card>
+</ng-template>

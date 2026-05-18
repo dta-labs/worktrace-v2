@@ -1,0 +1,151 @@
+<mat-card class="page">
+  <div class="page__header">
+    <div>
+      <h1>Create Company</h1>
+      <p class="muted">Create or update a company/client. Company Name is required.</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="sections">
+
+    <!-- COMPANY -->
+    <mat-card class="section">
+      <div class="section__title"><h2>Company</h2></div>
+
+      <div class="grid">
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label>Company Name *</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error *ngIf="c.name.hasError('required')">Required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label>Company Type</mat-label>
+          <mat-select formControlName="companyType">
+            <mat-option value="GC">General Contractor</mat-option>
+            <mat-option value="SUB">Subcontractor</mat-option>
+            <mat-option value="MECH">Mechanical Contractor</mat-option>
+            <mat-option value="OTHER">Other</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-12">
+          <mat-label>Notes</mat-label>
+          <textarea matInput rows="4" formControlName="notes"></textarea>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- CONTACTS -->
+    <mat-card class="section">
+      <div class="section__title section__title--row">
+        <h2>Contacts</h2>
+        <button
+          mat-flat-button
+          color="primary"
+          class="add-contact-btn"
+          type="button"
+          (click)="addContact()"
+        >
+          <mat-icon>person_add</mat-icon>
+          Add Contact
+        </button>
+      </div>
+
+      <div class="contacts" formArrayName="contacts">
+        <div class="contact-row" *ngFor="let g of contacts.controls; let i = index" [formGroupName]="i">
+          <div class="contact-grid">
+            <mat-form-field appearance="outline" class="col-4">
+              <mat-label>Full Name *</mat-label>
+              <input matInput formControlName="fullName" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-4">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-4">
+              <mat-label>Phone</mat-label>
+              <input matInput formControlName="phone" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-4">
+              <mat-label>Role</mat-label>
+              <input matInput formControlName="role" placeholder="Estimator / PM / AP, etc." />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-4">
+              <mat-label>Primary</mat-label>
+              <mat-select formControlName="isPrimary">
+                <mat-option [value]="true">Yes</mat-option>
+                <mat-option [value]="false">No</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="col-4 contact-actions">
+              <button mat-icon-button type="button" (click)="setPrimary(i)" aria-label="Set primary">
+                <mat-icon>star</mat-icon>
+              </button>
+
+              <button mat-icon-button color="warn" type="button" (click)="removeContact(i)" aria-label="Delete contact">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="contacts-empty" *ngIf="contacts.length === 0">
+          <div class="contacts-empty__icon">
+            <mat-icon>contacts</mat-icon>
+          </div>
+          <div class="contacts-empty__content">
+            <div class="contacts-empty__title">No contacts yet</div>
+            <div class="contacts-empty__text">Click <b>Add Contact</b> to create the first company contact.</div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- ADDRESS -->
+    <mat-card class="section">
+      <div class="section__title"><h2>Company Address</h2></div>
+
+      <div class="grid">
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label>Address Line 1</mat-label>
+          <input matInput formControlName="addrLine1" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label>Address Line 2</mat-label>
+          <input matInput formControlName="addrLine2" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-4">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="addrCity" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-4">
+          <mat-label>State</mat-label>
+          <input matInput formControlName="addrState" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-4">
+          <mat-label>ZIP</mat-label>
+          <input matInput formControlName="addrZip" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <div class="form-actions">
+      <button mat-button type="button" (click)="reset()">Reset</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+        {{ saving ? 'Saving…' : 'Save Company' }}
+      </button>
+    </div>
+
+    <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+  </form>
+</mat-card>

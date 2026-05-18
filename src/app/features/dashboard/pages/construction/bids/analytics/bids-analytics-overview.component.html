@@ -1,0 +1,118 @@
+<div class="analytics-wrapper">
+
+  <div class="error-banner" *ngIf="errorMsg">
+    {{ errorMsg }}
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <div class="kpi-title">Total Estimated (YTD)</div>
+      <div class="kpi-value">{{ formatMoney(kpi.totalEstimated) }}</div>
+      <div class="kpi-sub">Year {{ year }}</div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-title">Bids Delivered</div>
+      <div class="kpi-value">{{ kpi.delivered }}</div>
+      <div class="kpi-sub">Year {{ year }}</div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-title">Average per Bid</div>
+      <div class="kpi-value">{{ formatMoney(kpi.average) }}</div>
+      <div class="kpi-sub">Year {{ year }}</div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-title">Active Bids</div>
+      <div class="kpi-value">{{ kpi.active }}</div>
+      <div class="kpi-sub">Not delivered</div>
+    </mat-card>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- Monthly -->
+    <mat-card class="panel large">
+      <div class="panel-title">Estimated Amount by Month ({{ year }})</div>
+
+      <div class="bars">
+        <div class="bar-row" *ngFor="let m of monthly.months">
+          <div class="bar-label">{{ monthLabel(m.monthIndex) }}</div>
+          <div class="bar-track">
+            <div class="bar-fill" [style.width.%]="barWidth(m.amount, monthly.maxAmount)"></div>
+          </div>
+          <div class="bar-value">{{ formatMoney(m.amount) }}</div>
+          <div class="bar-count">{{ m.count }}</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Donut placeholder (next step) -->
+    <mat-card class="panel">
+      <div class="panel-title">Accounting Breakdown</div>
+      <div class="chart-placeholder">Donut chart next</div>
+    </mat-card>
+
+    <!-- Ranking -->
+    <mat-card class="panel">
+      <div class="panel-title">Estimators Ranking ({{ year }})</div>
+
+      <div class="rank">
+        <div class="rank-row" *ngFor="let r of ranking.rows; let idx = index">
+          <div class="rank-left">
+            <div class="rank-index">{{ idx + 1 }}</div>
+            <div class="rank-email">{{ r.email }}</div>
+          </div>
+
+          <div class="rank-track">
+            <div class="rank-fill" [style.width.%]="barWidth(r.amount, ranking.maxAmount)"></div>
+          </div>
+
+          <div class="rank-amount">{{ formatMoney(r.amount) }}</div>
+          <div class="rank-count">{{ r.count }}</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Recent -->
+    <mat-card class="panel full">
+      <div class="panel-title">Recent Bids ({{ year }})</div>
+
+      <table mat-table [dataSource]="recentRows" class="wt-table">
+
+        <ng-container matColumnDef="project">
+          <th mat-header-cell *matHeaderCellDef>Project</th>
+          <td mat-cell *matCellDef="let r">{{ r.project }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef>Client</th>
+          <td mat-cell *matCellDef="let r">{{ r.client }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdBy">
+          <th mat-header-cell *matHeaderCellDef>Estimator</th>
+          <td mat-cell *matCellDef="let r">{{ r.createdBy }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let r">{{ formatMoney(r.total) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let r">{{ r.date ? (r.date | date:'MMM d, y') : '—' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card>
+
+  </div>
+
+</div>

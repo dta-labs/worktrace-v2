@@ -1,0 +1,65 @@
+.page{
+  padding: 16px 18px 28px;
+}
+
+.header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:10px;
+}
+
+.title{
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.subnav{
+  display:flex;
+  gap:10px;
+  padding: 10px 0 14px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  margin-bottom: 12px;
+}
+
+.subnav-item{
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,.75);
+  padding: 10px 8px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing:.2px;
+}
+
+.subnav-item.active{
+  color: #6aa3ff;
+  border-bottom-color: #6aa3ff;
+}
+
+.panel{
+  padding-top: 6px;
+}
+
+.panel-inner{
+  min-height: 220px;
+}
+
+.coming-soon{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.18);
+  border-radius: 14px;
+  padding: 22px;
+  color: rgba(255,255,255,.82);
+}
+
+
+.panel-inner,
+.panel-inner app-create-company {
+  display: block;
+  width: 100%;
+  max-width: none;
+}

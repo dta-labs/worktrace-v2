@@ -1,0 +1,92 @@
+
+.overdue-row {
+  background: rgba(255, 77, 79, 0.15);
+  border-left: 4px solid #ff4d4f;
+}
+
+.overdue-row td {
+  color: #ffb3b3;
+}
+
+
+.due-preview{
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.due-normal{
+  color: rgba(255,255,255,0.75);
+}
+
+.due-urgent{
+  color: #ffc107;
+}
+
+.due-overdue{
+  color: #f44336;
+}
+
+
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+
+
+
+.address-indicator{
+  margin-left: 6px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+}
+
+
+
+/* Jobsite Address map icon */
+.jobsite-suffix{
+  color: rgba(255,255,255,0.55);
+  cursor: default;
+}
+
+.jobsite-suffix:hover{
+  color: rgba(255,255,255,0.85);
+}
+
+/* Datepicker visibility */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.85) !important;
+}
+
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+
+
+
+/* Force dark table surface for Incoming Bids */
+:host ::ng-deep table.wt-table {
+  background: transparent !important;
+}
+:host ::ng-deep table.wt-table .mat-mdc-header-row,
+:host ::ng-deep table.wt-table .mat-mdc-row,
+:host ::ng-deep table.wt-table .mdc-data-table__row {
+  background: rgba(12, 12, 16, 0.96) !important;
+}
+:host ::ng-deep table.wt-table .mat-mdc-header-cell {
+  background: rgba(8, 10, 16, 0.98) !important;
+  color: rgba(255,255,255,.78) !important;
+  border-bottom-color: rgba(255,255,255,.10) !important;
+}
+:host ::ng-deep table.wt-table .mat-mdc-cell,
+:host ::ng-deep table.wt-table .mdc-data-table__cell {
+  background: rgba(12, 12, 16, 0.96) !important;
+  color: rgba(255,255,255,.92) !important;
+  border-bottom-color: rgba(255,255,255,.08) !important;
+}
+:host ::ng-deep table.wt-table .mat-mdc-row:hover .mat-mdc-cell {
+  background: rgba(255,255,255,.03) !important;
+}

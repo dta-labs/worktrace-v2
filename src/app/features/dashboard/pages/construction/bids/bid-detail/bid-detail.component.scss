@@ -1,0 +1,67 @@
+.detail { display:grid; gap: 12px; }
+.top { display:flex; align-items:flex-end; justify-content:space-between; gap: 12px; }
+.top__actions { display:flex; gap: 8px; }
+.muted { opacity: .75; font-size: 12px; margin-top: 4px; }
+
+.grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.section { padding: 14px; }
+.section__title { font-weight: 700; margin-bottom: 10px; }
+
+.grid { display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+.col-4 { grid-column: span 4; }
+.col-6 { grid-column: span 6; }
+.col-12 { grid-column: span 12; }
+.full { width: 100%; }
+
+.total { display:flex; justify-content:space-between; align-items:center; padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,0.04); }
+.total__label { opacity:.75; }
+.total__value { font-size: 18px; font-weight: 800; }
+
+@media (max-width: 980px){
+  .grid2 { grid-template-columns: 1fr; }
+  .col-4 { grid-column: span 12; }
+}
+
+
+/* Dark theme alignment */
+:host ::ng-deep .mat-mdc-card{
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: none;
+}
+
+:host ::ng-deep .mat-mdc-form-field{
+  width: 100%;
+}
+
+:host ::ng-deep textarea.mat-mdc-input-element{
+  min-height: 120px;
+}
+
+
+.embedded-actions{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+}
+
+.embedded-title{
+  font-size: 16px;
+  font-weight: 800;
+}
+
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+

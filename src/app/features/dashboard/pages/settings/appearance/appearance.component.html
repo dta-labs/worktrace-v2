@@ -1,0 +1,16 @@
+<div class="appearance-page">
+  <h2>Appearance</h2>
+  <p>Select the visual theme for WorkTrace.</p>
+
+  <div class="themes-grid">
+    <div
+      class="theme-card"
+      *ngFor="let theme of themes"
+      [class.active]="selectedTheme === theme.id"
+      (click)="onThemeSelect(theme.id)"
+    >
+      <h3>{{theme.label}}</h3>
+      <p>{{theme.description}}</p>
+    </div>
+  </div>
+</div>

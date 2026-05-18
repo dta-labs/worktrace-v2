@@ -1,0 +1,460 @@
+<mat-tab-group
+  fitInkBarToContent="false"
+  animationDuration="0ms"
+  mat-stretch-tabs="false"
+  class="dashboard-tabs tabs-compact wt-tabs"
+>
+  <!-- 1) INCOMING BIDS (BID INBOX) -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span class="wt-tab-label"><mat-icon>inbox</mat-icon><span>Incoming Bids</span></span>
+    </ng-template>
+    <div class="tab-content">
+      <mat-card class="page">
+        <div class="page__header">
+          <div>
+            <h1>Incoming Bids</h1>
+            <p class="muted">Requests received by email/web before they become a Bid.</p>
+            <div class="incoming-header-stats">
+              <span class="stat-pill primary">
+                To Bid <b>{{ toBidCount$ | async }}</b>
+              </span>
+              <span class="stat-pill danger">
+                Urgent <b>{{ urgentCount$ | async }}</b>
+              </span>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <button mat-flat-button color="primary" type="button" (click)="addIncomingBid()">
+              Add Incoming Bid
+            </button>
+</div>
+        </div>
+
+        <!-- Scroll area (like Project List) so the page header stays fixed and you can move through long lists -->
+        <div class="table-wrap" *ngIf="pendingInboxBids$ | async as rows">
+          <div class="list-scroll">
+            <div class="empty" *ngIf="!rows.length">
+              <p>No incoming bids yet.</p>
+            </div>
+
+            <table mat-table [dataSource]="rows" class="wt-table" *ngIf="rows.length">
+            <!-- Date Received -->
+            <ng-container matColumnDef="dateReceived">
+              <th mat-header-cell *matHeaderCellDef>Date Received</th>
+              <td mat-cell *matCellDef="let r">{{ r.dateReceived | date:'MM/dd/yyyy' }}</td>
+            </ng-container>
+
+            <!-- Client -->
+            <ng-container matColumnDef="client">
+              <th mat-header-cell *matHeaderCellDef>Client</th>
+              <td mat-cell *matCellDef="let r">{{ r.client }}</td>
+            </ng-container>
+
+            <!-- Project -->
+            <ng-container matColumnDef="projectName">
+              <th mat-header-cell *matHeaderCellDef>Project</th>
+              <td mat-cell *matCellDef="let r">{{ r.projectName }}</td>
+            </ng-container>
+
+
+            <!-- Location -->
+            <ng-container matColumnDef="location">
+              <th mat-header-cell *matHeaderCellDef class="col-location">Location</th>
+              <td mat-cell *matCellDef="let r" class="col-location">
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="loc-btn"
+                  [disabled]="!getJobsiteAddress(r)"
+                  [matTooltip]="getJobsiteAddress(r) || 'No location available'"
+                  (click)="openJobsite(r); $event.stopPropagation()"
+                  aria-label="Open in Google Maps"
+                >
+                  <mat-icon class="loc-icon" [class.is-disabled]="!getJobsiteAddress(r)">place</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <!-- Bid Due Date -->
+            <ng-container matColumnDef="bidDueDate">
+              <th mat-header-cell *matHeaderCellDef>
+                <button
+                  type="button"
+                  class="sort-header-btn"
+                  (click)="onIncomingBidDueHeaderClick()"
+                  [attr.aria-label]="'Sort incoming bids by bid due date. Current: ' + incomingBidDueSortDirection"
+                >
+                  {{ getIncomingBidDueSortLabel() }}
+                </button>
+              </th>
+              <td mat-cell *matCellDef="let r"><span [class.overdue-text]="r.isOverdue">{{ r.bidDueDate | date:'MM/dd/yyyy' }}</span></td>
+            </ng-container>
+
+            
+<!-- Days Pending (days left until bid due) -->
+<ng-container matColumnDef="daysPending">
+  <th mat-header-cell *matHeaderCellDef class="days-col">Days Left</th>
+  <td mat-cell *matCellDef="let r" class="days-col">
+    <span *ngIf="r.daysPending === null || r.daysPending === undefined" class="days-badge days-badge--none">—</span>
+
+    <span *ngIf="r.daysPending !== null && r.daysPending !== undefined"
+          class="days-badge"
+          [ngClass]="getDaysBadgeClass(r.daysPending)"
+          [matTooltip]="getDaysTooltip(r.daysPending)">
+      {{ r.daysPending }}
+    </span>
+  </td>
+</ng-container>
+<!-- Created By -->
+            <ng-container matColumnDef="createdByLabel">
+              <th mat-header-cell *matHeaderCellDef>Created By</th>
+              <td mat-cell *matCellDef="let r">{{ r.createdByLabel }}</td>
+            </ng-container>
+
+            <!-- Assigned To (TEMP: free-text name) -->
+            <ng-container matColumnDef="assignedTo">
+              <th mat-header-cell *matHeaderCellDef>Assigned To</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="assign-chip" [class.assigned]="!!r.assignedToName" [class.unassigned]="!r.assignedToName">
+                  {{ r.assignedToName ? ('Assigned: ' + r.assignedToName) : 'Unassigned' }}
+                </span>
+
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="button"
+                  class="ml8 assign-btn"
+                  (click)="assignIncoming(r); $event.stopPropagation()"
+                >
+                  Assign
+                </button>
+
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  type="button"
+                  class="ml8 unassign-btn"
+                  *ngIf="r.assignedToName"
+                  (click)="unassignIncoming(r); $event.stopPropagation()"
+                >
+                  Unassign
+                </button>
+              </td>
+            </ng-container>
+
+                        <!-- Priority -->
+            <ng-container matColumnDef="priority">
+              <th mat-header-cell *matHeaderCellDef>Priority</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="priority-chip" [ngClass]="'p-' + ((r.priority || 'normal'))">
+                  {{ (r.priority || 'normal') | titlecase }}
+                </span>
+
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="button"
+                  class="priority-edit-btn"
+                  (click)="editPriority(r); $event.stopPropagation()"
+                >
+                  Edit
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Actions -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let r">
+                <div class="incoming-actions">
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    type="button"
+                    class="create-bid-btn"
+                    (click)="createBidFromIncoming(r)"
+                    [disabled]="creatingId === (r.id ?? '')"
+                  >
+                    {{ getIncomingActionLabel(r) }}
+                  </button>
+
+                  <button
+                    mat-stroked-button
+                    color="warn"
+                    type="button"
+                    class="trash-btn"
+                    (click)="moveToTrash(r)"
+                    [disabled]="!!getBidId(r)"
+                    title="Move to Trash with justification"
+                  >
+                    Trash
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+<tr mat-header-row *matHeaderRowDef="incomingColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: incomingColumns"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </mat-tab>
+
+  
+
+
+
+  <!-- 2) CREATE BID (existing form; later we will refactor to convert Inbox → Bid) -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span class="wt-tab-label"><mat-icon>description</mat-icon><span>Bids Created</span></span>
+    </ng-template>
+  <div class="tab-content">
+    <div class="section-header">
+      <h2>Bids Created</h2>
+      <p class="muted">Bids already converted from the Inbox. They no longer appear in Incoming Bids.</p>
+    </div>
+
+    <ng-container *ngIf="createdInboxBids$ | async as createdRows">
+      
+      <app-bids-created
+        [rows]="createdRows"
+        [getBidId]="getBidId"
+        [getLocationLabel]="getLocationLabel"
+        (openBidClick)="openBid($event)"
+        (viewPdfClick)="viewPdf($event)"
+      ></app-bids-created>
+    </ng-container>
+  </div>
+</mat-tab>
+
+  <!-- Placeholders: later wired to real charts & AI -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span class="wt-tab-label"><mat-icon>bar_chart</mat-icon><span>Analytics</span></span>
+    </ng-template>
+    <div class="tab-content">
+      <app-bids-analytics-overview></app-bids-analytics-overview>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span class="wt-tab-label"><mat-icon>psychology</mat-icon><span>AI Coach</span></span>
+    </ng-template>
+    <div class="tab-content">
+      <mat-card class="page">
+        <div class="page__header">
+          <div>
+            <h1>AI Coach</h1>
+            <p class="muted">Recommendations and alerts (coming next).</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </mat-tab>
+<!-- Incoming Bids Trash (ADMIN only) -->
+  <mat-tab *ngIf="isAdmin">
+    <ng-template mat-tab-label>
+      <span class="wt-tab-label"><mat-icon>delete</mat-icon><span>Incoming Bids Trash</span></span>
+    </ng-template>
+    <div class="tab-content">
+      <mat-card class="page trash-page">
+        <div class="page__header">
+          <div>
+            <h1>Incoming Bids Trash</h1>
+            <p class="muted">Deleted inbox items (admin only).</p>
+          </div>
+        </div>
+
+        <ng-container *ngIf="trashInboxBids$ | async as trashRows">
+          <div class="table-wrap" *ngIf="trashRows?.length; else trashEmpty">
+            <div class="list-scroll">
+<table mat-table [dataSource]="trashRows" class="wt-table" *ngIf="trashRows.length">
+            <!-- Date Received -->
+            <ng-container matColumnDef="dateReceived">
+              <th mat-header-cell *matHeaderCellDef>Date Received</th>
+              <td mat-cell *matCellDef="let r">{{ r.dateReceived | date:'MM/dd/yyyy' }}</td>
+            </ng-container>
+
+            <!-- Client -->
+            <ng-container matColumnDef="client">
+              <th mat-header-cell *matHeaderCellDef>Client</th>
+              <td mat-cell *matCellDef="let r">{{ r.client }}</td>
+            </ng-container>
+
+            <!-- Project -->
+            <ng-container matColumnDef="projectName">
+              <th mat-header-cell *matHeaderCellDef>Project</th>
+              <td mat-cell *matCellDef="let r">{{ r.projectName }}</td>
+            </ng-container>
+
+
+            <!-- Location -->
+            <ng-container matColumnDef="location">
+              <th mat-header-cell *matHeaderCellDef class="col-location">Location</th>
+              <td mat-cell *matCellDef="let r" class="col-location">
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="loc-btn"
+                  [disabled]="!getJobsiteAddress(r)"
+                  [matTooltip]="getJobsiteAddress(r) || 'No location available'"
+                  (click)="openJobsite(r); $event.stopPropagation()"
+                  aria-label="Open in Google Maps"
+                >
+                  <mat-icon class="loc-icon" [class.is-disabled]="!getJobsiteAddress(r)">place</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <!-- Bid Due Date -->
+            <ng-container matColumnDef="bidDueDate">
+              <th mat-header-cell *matHeaderCellDef>Bid Due</th>
+              <td mat-cell *matCellDef="let r"><span [class.overdue-text]="r.isOverdue">{{ r.bidDueDate | date:'MM/dd/yyyy' }}</span></td>
+            </ng-container>
+
+            <!-- Days Pending (days left until bid due) -->
+            <ng-container matColumnDef="daysPending">
+              <th mat-header-cell *matHeaderCellDef>Days Left</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="muted" *ngIf="r.daysPending === null || r.daysPending === undefined">—</span>
+                <span *ngIf="r.daysPending !== null && r.daysPending !== undefined" [class.overdue-text]="r.daysPending < 0">
+                  {{ r.daysPending }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Created By -->
+            <ng-container matColumnDef="createdByLabel">
+              <th mat-header-cell *matHeaderCellDef>Created By</th>
+              <td mat-cell *matCellDef="let r">{{ r.createdByLabel }}</td>
+            </ng-container>
+
+            <!-- Assigned To (TEMP: free-text name) -->
+            <ng-container matColumnDef="assignedTo">
+              <th mat-header-cell *matHeaderCellDef>Assigned To</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="assign-chip" [class.assigned]="!!r.assignedToName" [class.unassigned]="!r.assignedToName">
+                  {{ r.assignedToName ? ('Assigned: ' + r.assignedToName) : 'Unassigned' }}
+                </span>
+
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="button"
+                  class="ml8 assign-btn"
+                  (click)="assignIncoming(r); $event.stopPropagation()"
+                >
+                  Assign
+                </button>
+
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  type="button"
+                  class="ml8 unassign-btn"
+                  *ngIf="r.assignedToName"
+                  (click)="unassignIncoming(r); $event.stopPropagation()"
+                >
+                  Unassign
+                </button>
+              </td>
+            </ng-container>
+
+                        <!-- Priority -->
+            <ng-container matColumnDef="priority">
+              <th mat-header-cell *matHeaderCellDef>Priority</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="priority-chip" [ngClass]="'p-' + ((r.priority || 'normal'))">
+                  {{ (r.priority || 'normal') | titlecase }}
+                </span>
+
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="button"
+                  class="priority-edit-btn"
+                  (click)="editPriority(r); $event.stopPropagation()"
+                >
+                  Edit
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Actions -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let r">
+                <div class="incoming-actions">
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    type="button"
+                    class="create-bid-btn"
+                    (click)="createBidFromIncoming(r)"
+                    [disabled]="creatingId === (r.id ?? '')"
+                  >
+                    {{ getIncomingActionLabel(r) }}
+                  </button>
+
+                  <button
+                    mat-stroked-button
+                    color="warn"
+                    type="button"
+                    class="trash-btn"
+                    (click)="moveToTrash(r)"
+                    [disabled]="!!getBidId(r)"
+                    title="Move to Trash with justification"
+                  >
+                    Trash
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+
+<!-- Delete Reason -->
+<ng-container matColumnDef="deleteReason">
+  <th mat-header-cell *matHeaderCellDef>Reason</th>
+  <td mat-cell *matCellDef="let r">{{ r.deleteReason || '—' }}</td>
+</ng-container>
+
+<!-- Deleted By -->
+<ng-container matColumnDef="deletedByEmail">
+  <th mat-header-cell *matHeaderCellDef>Deleted By</th>
+  <td mat-cell *matCellDef="let r">{{ r.deletedByEmail || r.deletedByUid || '—' }}</td>
+</ng-container>
+
+<!-- Deleted At -->
+<ng-container matColumnDef="deletedAt">
+  <th mat-header-cell *matHeaderCellDef>Deleted At</th>
+  <td mat-cell *matCellDef="let r">
+    {{ ((r.deletedAt?.toDate ? r.deletedAt.toDate() : r.deletedAt) || (r.updatedAt?.toDate ? r.updatedAt.toDate() : r.updatedAt)) | date:'MM/dd/yyyy, h:mm a' }}
+  </td>
+</ng-container>
+
+<tr mat-header-row *matHeaderRowDef="trashColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: trashColumns"></tr>
+            </table>
+            </div>
+          </div>
+          <ng-template #trashEmpty>
+            <div class="table-wrap">
+              <div class="list-scroll">
+                <div class="empty empty--centered">
+                  <div class="empty__icon">🗑️</div>
+                  <h3>Trash is empty</h3>
+                  <p>Deleted incoming bids will appear here.</p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </mat-card>
+    </div>
+  </mat-tab>
+
+</mat-tab-group>

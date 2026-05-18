@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="card">
+    <h1>WorkTrace</h1>
+    <p class="subtitle">Sign in to continue</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-control" [class.error]="email?.invalid && (email?.touched || email?.dirty)">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="username" />
+        <small *ngIf="email?.hasError('required')">Email is required</small>
+        <small *ngIf="email?.hasError('email')">Invalid email</small>
+      </div>
+
+      <div class="form-control" [class.error]="password?.invalid && (password?.touched || password?.dirty)">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" />
+        <small *ngIf="password?.hasError('required')">Password is required</small>
+      </div>
+
+      <div class="row between">
+        <label class="remember">
+          <input type="checkbox" formControlName="remember" />
+          Remember me
+        </label>
+        <a class="link" routerLink="/reset-password">Forgot password?</a>
+      </div>
+
+      <button class="btn" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+      <div class="error-box" *ngIf="errorMsg">
+        {{ errorMsg }}
+      </div>
+    </form>
+  </div>
+</div>

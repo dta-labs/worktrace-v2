@@ -1,0 +1,96 @@
+/* Theme variables only. No runtime logic yet. */
+
+body[data-theme='dark'],
+:root {
+  --wt-theme-name: 'dark';
+}
+
+body[data-theme='light'] {
+  --wt-theme-name: 'light';
+  --wt-bg-app: #f3f6fb;
+  --wt-bg-canvas: #ffffff;
+  --wt-bg-surface-1: #ffffff;
+  --wt-bg-surface-2: #f8fafc;
+  --wt-bg-surface-3: #eef2f7;
+  --wt-bg-soft: rgba(15, 23, 42, 0.04);
+
+  --wt-border-subtle: rgba(15, 23, 42, 0.08);
+  --wt-border-default: rgba(15, 23, 42, 0.12);
+  --wt-border-strong: rgba(15, 23, 42, 0.18);
+
+  --wt-text-main: #1f2937;
+  --wt-text-strong: #0f172a;
+  --wt-text-muted: #64748b;
+  --wt-text-soft: #334155;
+
+  --wt-primary: #2563eb;
+  --wt-primary-hover: #1d4ed8;
+  --wt-primary-soft: rgba(37, 99, 235, 0.12);
+  --wt-accent: #3b82f6;
+}
+
+body[data-theme='aurora'] {
+  --wt-theme-name: 'aurora';
+  --wt-bg-app: #f6f8fc;
+  --wt-bg-canvas: #ffffff;
+  --wt-bg-surface-1: #ffffff;
+  --wt-bg-surface-2: #f7faff;
+  --wt-bg-surface-3: #eef4ff;
+  --wt-bg-soft: rgba(79, 70, 229, 0.06);
+
+  --wt-border-subtle: rgba(79, 70, 229, 0.10);
+  --wt-border-default: rgba(79, 70, 229, 0.14);
+  --wt-border-strong: rgba(79, 70, 229, 0.20);
+
+  --wt-text-main: #1f2937;
+  --wt-text-strong: #0f172a;
+  --wt-text-muted: #64748b;
+  --wt-text-soft: #334155;
+
+  --wt-primary: #4f46e5;
+  --wt-primary-hover: #4338ca;
+  --wt-primary-soft: rgba(79, 70, 229, 0.12);
+  --wt-accent: #14b8a6;
+}
+
+body[data-theme='midnight'] {
+  --wt-theme-name: 'midnight';
+  --wt-bg-app: #08111f;
+  --wt-bg-canvas: #0f172a;
+  --wt-bg-surface-1: #132238;
+  --wt-bg-surface-2: #172b45;
+  --wt-bg-surface-3: #1f3a5b;
+  --wt-bg-soft: rgba(255, 255, 255, 0.05);
+
+  --wt-border-subtle: rgba(148, 163, 184, 0.12);
+  --wt-border-default: rgba(148, 163, 184, 0.18);
+  --wt-border-strong: rgba(148, 163, 184, 0.24);
+
+  --wt-text-main: #dbe5f1;
+  --wt-text-strong: #f8fbff;
+  --wt-text-muted: #93a4bc;
+  --wt-text-soft: #c5d3e6;
+
+  --wt-primary: #60a5fa;
+  --wt-primary-hover: #3b82f6;
+  --wt-primary-soft: rgba(96, 165, 250, 0.16);
+  --wt-accent: #93c5fd;
+}
+
+body[data-density='compact'] {
+  --wt-density-table-row: 44px;
+  --wt-density-input-height: 40px;
+  --wt-density-toolbar-height: 46px;
+}
+
+body[data-density='comfortable'] {
+  --wt-density-table-row: 52px;
+  --wt-density-input-height: 44px;
+  --wt-density-toolbar-height: 52px;
+}
+
+body[data-density='spacious'] {
+  --wt-density-table-row: 58px;
+  --wt-density-input-height: 48px;
+  --wt-density-toolbar-height: 56px;
+}

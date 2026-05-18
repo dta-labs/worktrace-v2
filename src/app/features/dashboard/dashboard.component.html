@@ -1,0 +1,49 @@
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <mat-icon class="logo nav-ic">settings</mat-icon>
+      <h2>WorkTrace</h2>
+    </div>
+    <nav>
+      <a *ngIf="access.overview" routerLink="/dashboard/overview" routerLinkActive="active">
+        <mat-icon class="nav-ic">dashboard</mat-icon>
+        <span>Overview</span>
+      </a>
+
+      <a *ngIf="access.construction" routerLink="/dashboard/construction" routerLinkActive="active">
+        <mat-icon class="nav-ic">apartment</mat-icon>
+        <span>Construction Department</span>
+      </a>
+
+      <a *ngIf="access.workers" routerLink="/dashboard/workers" routerLinkActive="active">
+        <mat-icon class="nav-ic">engineering</mat-icon>
+        <span>Workers</span>
+      </a>
+
+      <a *ngIf="access.humanResources" routerLink="/dashboard/hr" routerLinkActive="active">
+        <mat-icon class="nav-ic">groups</mat-icon>
+        <span>Human Resources</span>
+      </a>
+
+      <a *ngIf="access.companies" routerLink="/dashboard/companies" routerLinkActive="active">
+        <mat-icon class="nav-ic">business</mat-icon>
+        <span>Companies</span>
+      </a>
+
+      <a *ngIf="access.settings" routerLink="/dashboard/settings" routerLinkActive="active">
+        <mat-icon class="nav-ic">settings</mat-icon>
+        <span>Settings</span>
+      </a>
+    </nav>
+    <button (click)="logout()" class="logout-btn">Logout</button>
+  </aside>
+  <main class="main-content">
+    <header class="topbar">
+      <span *ngIf="userEmail" class="user-info">Logged in as {{ userEmail }}</span>
+      <button class="logout-top" (click)="logout()">Logout</button>
+    </header>
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

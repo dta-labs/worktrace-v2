@@ -1,0 +1,159 @@
+from pathlib import Path
+
+content = """<div class="bw">
+  <div class="bw-header">
+    <div class="bw-title">
+      <div class="bw-title-main">{{ headerTitle }}</div>
+      <div class="bw-title-sub">Bid workspace (modal) — navigate source, line items, PDF and revisions.</div>
+    </div>
+
+    <div class="bw-actions" *ngIf="(currentVersion$ | async) as cv">
+      <mat-form-field appearance="outline" class="bw-version">
+        <mat-label>Version</mat-label>
+        <mat-select [(value)]="selectedVersion">
+          <mat-option [value]="cv">Current (v{{ cv }})</mat-option>
+          <mat-option *ngFor="let v of (versions$ | async)" [value]="v.versionNumber">
+            v{{ v.versionNumber }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-stroked-button color="primary" type="button" (click)="newRevision()">New Revision</button>
+      <button mat-icon-button type="button" aria-label="Close" (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-tab-group class="bw-tabs" animationDuration="0ms">
+    <mat-tab label="Overview">
+      <div class="bw-pad">
+        <div class="card" *ngIf="(bid$ | async) as bid">
+          <div class="card-title">Overview</div>
+          <div class="muted">
+            <div><b>Status:</b> {{ bid.status || '—' }}</div>
+            <div><b>Current Version:</b> v{{ bid.currentVersion || bid.versionCounter || 1 }}</div>
+            <div><b>Bid Due:</b> {{ bid.bidDueAt?.toDate ? (bid.bidDueAt.toDate() | date) : (bid.bidDueAt || '—') }}</div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Source">
+      <div class="bw-pad">
+        <div class="card">
+          <div class="card-title">Incoming (Source)</div>
+          <div class="muted">Source data is linked to this Bid.</div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Line Items">
+      <ng-container *ngIf="(currentVersion$ | async) as cv">
+        <ng-container *ngIf="selectedVersion && selectedVersion === cv; else snapshotView">
+          <app-partidas-dialog
+            [bidId]="bidId"
+            [incomingId]="incomingId"
+            [title]="headerTitle"
+            [embedded]="true">
+          </app-partidas-dialog>
+        </ng-container>
+
+        <ng-template #snapshotView>
+          <div class="bw-pad">
+            <div class="card">
+              <div class="card-title">Line Items — v{{ selectedVersion }}</div>
+              <div class="muted" style="margin-bottom: 10px;">
+                Viewing a snapshot. Switch to <b>Current</b> to edit.
+              </div>
+
+              <table mat-table [dataSource]="(snapshotPartidas$(selectedVersion!) | async) ?? []" class="snap-table">
+                <ng-container matColumnDef="category">
+                  <th mat-header-cell *matHeaderCellDef>Category</th>
+                  <td mat-cell *matCellDef="let r">{{ r.category }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef>Description</th>
+                  <td mat-cell *matCellDef="let r">{{ r.description || '—' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="hours">
+                  <th mat-header-cell *matHeaderCellDef>Hrs</th>
+                  <td mat-cell *matCellDef="let r">{{ r.hours ?? '—' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef>Amount</th>
+                  <td mat-cell *matCellDef="let r">{{ r.amount | number:'1.2-2' }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="snapshotCols"></tr>
+                <tr mat-row *matRowDef="let row; columns: snapshotCols;"></tr>
+              </table>
+
+              <div class="muted" *ngIf="((snapshotPartidas$(selectedVersion!) | async) ?? []).length === 0">
+                No snapshot items found for this version.
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </mat-tab>
+
+    <mat-tab label="Official PDF">
+      <div class="bw-pad">
+        <div class="card">
+          <div class="card-title">Official PDF</div>
+          <div class="muted">
+            Upload the PDF from the Line Items screen (right panel). Next step: save PDFs per version and show them here.
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Revisions">
+      <div class="bw-pad">
+        <div class="card">
+          <div class="card-title">Revisions (Version Snapshots)</div>
+
+          <table class="rev" *ngIf="(versions$ | async) as vers">
+            <tr>
+              <th>Version</th>
+              <th>Created</th>
+              <th>Note</th>
+              <th>Calc Total</th>
+              <th>PDF</th>
+            </tr>
+            <tr *ngFor="let v of vers">
+              <td>v{{ v.versionNumber }}</td>
+              <td>{{ v.createdAt?.toDate ? (v.createdAt.toDate() | date:'short') : '—' }}</td>
+              <td>{{ v.note || '—' }}</td>
+              <td>{{ (v.calculatedTotal ?? 0) | number:'1.0-2' }}</td>
+              <td>{{ v.officialPdfCurrent ? 'Uploaded' : '—' }}</td>
+            </tr>
+          </table>
+
+          <div class="muted" *ngIf="!(versions$ | async)?.length">
+            No version snapshots yet. Use <b>New Revision</b> to create one.
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Activity">
+      <div class="bw-pad">
+        <div class="card">
+          <div class="card-title">Activity</div>
+          <div class="muted">Activity log will be wired later (follow-ups, status changes, PDF uploads).</div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+"""
+
+path = Path("/mnt/data/bid-workspace-dialog.component.html")
+path.write_text(content)
+
+str(path)

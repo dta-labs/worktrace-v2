@@ -1,0 +1,37 @@
+<div class="page" (click)="closeMenus()">
+  <div class="header">
+    <div>
+      <div class="title">Companies</div>
+    </div>
+  </div>
+
+  <div class="subnav" aria-label="Companies sub navigation">
+    <button
+      class="subnav-item"
+      type="button"
+      [class.active]="activeTab==='create'"
+      (click)="setTab('create')"
+    >
+      Create Company
+    </button>
+
+    <button
+      class="subnav-item"
+      type="button"
+      [class.active]="activeTab==='companies'"
+      (click)="setTab('companies')"
+    >
+      Lista de compañías
+    </button>
+  </div>
+
+  <div class="panel">
+    <div *ngIf="activeTab==='create'" class="panel-inner">
+      <app-create-company [editClient]="selectedForEdit" (saved)="selectedForEdit=null; setTab('companies')"></app-create-company>
+    </div>
+
+    <div *ngIf="activeTab==='companies'" class="panel-inner">
+      <app-companies-list (edit)="onEditFromList($event)"></app-companies-list>
+    </div>
+  </div>
+</div>

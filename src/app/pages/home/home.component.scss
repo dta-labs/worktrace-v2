@@ -1,0 +1,184 @@
+:host {
+  display: block;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: Inter, sans-serif;
+}
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.navbar {
+  background: var(--surface-1);
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--text-strong);
+}
+.menu .nav-link {
+  margin-left: 1.2rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.menu .nav-link:hover {
+  color: var(--primary);
+}
+.hero {
+  text-align: center;
+  padding: 5rem 1rem 6rem;
+  background: var(--bg-color);
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 1rem auto 2rem;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+.tools {
+  padding: 4rem 0;
+}
+.tools h2 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: var(--text-strong);
+}
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.tool-card {
+  background: var(--surface-1);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.pricing {
+  padding: 4rem 0;
+}
+.pricing h2 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: var(--text-strong);
+}
+.pricing-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.price-card {
+  background: var(--surface-1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+.price-card h3 {
+  font-size: 1.3rem;
+  color: var(--text-strong);
+}
+.price-card .price {
+  font-size: 1.6rem;
+  margin: 1rem 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+.price-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+.price-card ul li {
+  margin: 0.4rem 0;
+}
+.footer {
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  padding: 1rem 0;
+  color: var(--text-muted);
+}
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.3rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+.btn-outline {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline:hover {
+  background: rgba(59,130,246,0.08);
+}
+
+
+/* Shine effect on hero title */
+
+@keyframes shine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+
+
+
+@keyframes shine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  background: linear-gradient(90deg, #ffffff, #d1d5db, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.menu .nav-link { cursor: pointer; }
+
+
+/* Improve datepicker visibility in dark theme */
+.mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,0.75) !important;
+}
+.mat-datepicker-toggle:hover .mat-datepicker-toggle-default-icon {
+  color: rgba(255,255,255,1) !important;
+}
+
