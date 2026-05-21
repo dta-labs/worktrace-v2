@@ -6,14 +6,14 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="form-control" [class.error]="email?.invalid && (email?.touched || email?.dirty)">
         <label>Email</label>
-        <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="username" />
+        <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="username" data-cy="login-email" />
         <small *ngIf="email?.hasError('required')">Email is required</small>
         <small *ngIf="email?.hasError('email')">Invalid email</small>
       </div>
 
       <div class="form-control" [class.error]="password?.invalid && (password?.touched || password?.dirty)">
         <label>Password</label>
-        <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" />
+        <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" data-cy="login-password" />
         <small *ngIf="password?.hasError('required')">Password is required</small>
       </div>
 
@@ -25,11 +25,11 @@
         <a class="link" routerLink="/reset-password">Forgot password?</a>
       </div>
 
-      <button class="btn" [disabled]="loading">
+      <button class="btn" [disabled]="loading" data-cy="login-submit" type="submit">
         {{ loading ? 'Signing in...' : 'Sign in' }}
       </button>
 
-      <div class="error-box" *ngIf="errorMsg">
+      <div class="error-box" *ngIf="errorMsg" data-cy="login-error">
         {{ errorMsg }}
       </div>
     </form>

@@ -39,8 +39,8 @@
   </aside>
   <main class="main-content">
     <header class="topbar">
-      <span *ngIf="userEmail" class="user-info">Logged in as {{ userEmail }}</span>
-      <button class="logout-top" (click)="logout()">Logout</button>
+      <span *ngIf="userEmail" class="user-info" data-cy="welcome-message">Logged in as {{ userEmail }}</span>
+      <button class="logout-top" (click)="logout()" data-cy="logout-button">Logout</button>
     </header>
     <section class="content">
       <router-outlet></router-outlet>
