@@ -23,6 +23,7 @@ package-lock.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+*.code-workspace
 
 # Angular cache
 /.angular/cache
