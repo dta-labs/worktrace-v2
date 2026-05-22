@@ -30,7 +30,6 @@
         "src/app/*"
       ]
     },
-    "ignoreDeprecations": "6.0"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
