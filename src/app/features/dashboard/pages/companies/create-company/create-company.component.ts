@@ -15,21 +15,20 @@ import { ClientsService, ClientItem } from '../../construction/bids/clients.serv
 type CompanyType = 'GC' | 'SUB' | 'MECH' | 'OTHER' | 'BOTH';
 
 @Component({
-  selector: 'app-create-company',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatSelectModule,
-    MatIconModule,
-  ],
-  templateUrl: './create-company.component.html',
-  styleUrls: ['./create-company.component.scss'],
+    selector: 'app-create-company',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatSelectModule,
+        MatIconModule,
+    ],
+    templateUrl: './create-company.component.html',
+    styleUrls: ['./create-company.component.scss']
 })
 export class CreateCompanyComponent {
   private fb = inject(FormBuilder);

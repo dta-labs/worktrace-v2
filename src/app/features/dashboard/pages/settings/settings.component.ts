@@ -14,11 +14,10 @@ type DensityId = 'compact' | 'comfortable' | 'spacious';
 type WorkerFolderNamingMode = 'last_first' | 'first_last' | 'last_only' | 'first_only';
 
 @Component({
-  selector: 'app-settings-page',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss',
+    selector: 'app-settings-page',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './settings.component.html',
+    styleUrl: './settings.component.scss'
 })
 export class SettingsPageComponent implements OnInit, OnDestroy {
   activeTab: SettingsTab = 'general';

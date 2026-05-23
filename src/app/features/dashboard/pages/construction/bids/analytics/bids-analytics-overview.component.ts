@@ -7,11 +7,10 @@ import { BidsAnalyticsService } from './bids-analytics.service';
 type KPI = { totalEstimated: number; delivered: number; average: number; active: number };
 
 @Component({
-  selector: 'app-bids-analytics-overview',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatTableModule],
-  templateUrl: './bids-analytics-overview.component.html',
-  styleUrls: ['./bids-analytics-overview.component.scss']
+    selector: 'app-bids-analytics-overview',
+    imports: [CommonModule, MatCardModule, MatTableModule],
+    templateUrl: './bids-analytics-overview.component.html',
+    styleUrls: ['./bids-analytics-overview.component.scss']
 })
 export class BidsAnalyticsOverviewComponent implements OnInit {
 

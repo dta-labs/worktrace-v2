@@ -18,21 +18,20 @@ type CompanyTypeFilter = 'ALL' | 'GC' | 'SUB' | 'MECH' | 'OTHER';
 type StatusFilter = 'ALL' | 'ACTIVE' | 'INACTIVE';
 
 @Component({
-  selector: 'app-companies-list',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-  ],
-  templateUrl: './companies-list.component.html',
-  styleUrls: ['./companies-list.component.scss'],
+    selector: 'app-companies-list',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+    ],
+    templateUrl: './companies-list.component.html',
+    styleUrls: ['./companies-list.component.scss']
 })
 export class CompaniesListComponent {
   private clientsSvc = inject(ClientsService);

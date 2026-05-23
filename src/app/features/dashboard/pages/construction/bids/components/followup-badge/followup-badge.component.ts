@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-followup-badge',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './followup-badge.component.html',
-  styleUrls: ['./followup-badge.component.scss']
+    selector: 'app-followup-badge',
+    imports: [CommonModule],
+    templateUrl: './followup-badge.component.html',
+    styleUrls: ['./followup-badge.component.scss']
 })
 export class FollowupBadgeComponent {
   @Input() bid: any;

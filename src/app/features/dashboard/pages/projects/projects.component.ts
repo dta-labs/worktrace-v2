@@ -10,10 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { CreateProjectComponent } from './create-project/create-project.component';
 
 @Component({
-  selector: 'app-projects-page',
-  standalone: true,
-  imports: [CommonModule, MatTabsModule, MatFormFieldModule, MatSelectModule, MatListModule, MatButtonModule, CreateProjectComponent],
-  templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss'],
+    selector: 'app-projects-page',
+    imports: [CommonModule, MatTabsModule, MatFormFieldModule, MatSelectModule, MatListModule, MatButtonModule, CreateProjectComponent],
+    templateUrl: './projects.component.html',
+    styleUrls: ['./projects.component.scss']
 })
 export class ProjectsPageComponent {}

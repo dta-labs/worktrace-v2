@@ -1,12 +1,12 @@
 /* WorkTrace Visual System */
 
-@import "./styles/worktrace-system/tokens";
-@import "./styles/worktrace-system/themes";
-@import "./styles/worktrace-system/primitives";
-@import "./styles/worktrace-system/components";
-@import "./styles/worktrace-system/utilities";
+@use "styles/worktrace-system/tokens";
+@use "styles/worktrace-system/themes";
+@use "styles/worktrace-system/primitives";
+@use "styles/worktrace-system/components";
+@use "styles/worktrace-system/utilities";
 
-@import "styles/worktrace-ui/index";
+@use "styles/worktrace-ui/index";
 
 /* -------------------------------------------------- */
 /* Base styles existentes */
@@ -16,7 +16,8 @@
   color-scheme: light dark;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   overflow: hidden;
@@ -41,11 +42,12 @@ button {
   --text-color: #e5e7eb;
   --text-strong: #f3f4f6;
   --text-muted: #9ca3af;
-  --border-color: rgba(255,255,255,0.06);
+  --border-color: rgba(255, 255, 255, 0.06);
   --primary: #3b82f6;
 }
 
-html, body {
+html,
+body {
   background: var(--bg-color);
   color: var(--text-color);
 }
@@ -82,6 +84,7 @@ body[data-theme='midnight'] {
   app-settings-page,
   app-bid-detail-page,
   app-companies-page {
+
     .title,
     .name,
     .card__header h2,
@@ -200,6 +203,7 @@ body[data-theme='aurora'] {
   app-settings-page,
   app-bid-detail-page,
   app-companies-page {
+
     .title,
     .name,
     .card__header h2,
@@ -305,6 +309,7 @@ body[data-theme='aurora'] {
 /* Light & Aurora theme readability boost: stronger text weight */
 body[data-theme='light'],
 body[data-theme='aurora'] {
+
   app-overview-page,
   app-workers-page,
   app-hr-page,
@@ -315,6 +320,7 @@ body[data-theme='aurora'] {
   app-settings-page,
   app-bid-detail-page,
   app-companies-page {
+
     .title,
     .name,
     .card__header h2,

@@ -4,10 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-location-view-dialog',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
-  template: `
+    selector: 'app-location-view-dialog',
+    imports: [CommonModule, MatDialogModule, MatButtonModule],
+    template: `
     <h2 mat-dialog-title>Jobsite Address</h2>
     <div mat-dialog-content>
       <div class="addr">{{ address }}</div>
@@ -37,8 +36,8 @@ import { MatButtonModule } from '@angular/material/button';
       <button mat-flat-button color="primary" (click)="close()">Close</button>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       .addr{white-space:pre-wrap;line-height:1.5;font-size:14px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
       .meta{margin-top:12px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.02)}
       .row{display:flex;gap:10px;align-items:flex-start;margin:6px 0}
@@ -46,7 +45,7 @@ import { MatButtonModule } from '@angular/material/button';
       .v{flex:1;font-size:12px;opacity:.92;line-height:1.4}
       .hint{opacity:.75;font-size:12px;margin-top:10px}
     `,
-  ],
+    ]
 })
 export class LocationViewDialogComponent {
   private ref = inject(MatDialogRef<LocationViewDialogComponent>);

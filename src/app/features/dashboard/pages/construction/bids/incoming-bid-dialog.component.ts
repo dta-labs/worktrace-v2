@@ -52,25 +52,24 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'app-incoming-bid-dialog',
-  standalone: true,
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: {
-        parse: { dateInput: 'MM/dd/yyyy' },
-        display: {
-          dateInput: 'MM/dd/yyyy',
-          monthYearLabel: 'MMM yyyy',
-          dateA11yLabel: 'MM/dd/yyyy',
-          monthYearA11yLabel: 'MMMM yyyy',
+    selector: 'app-incoming-bid-dialog',
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: {
+                parse: { dateInput: 'MM/dd/yyyy' },
+                display: {
+                    dateInput: 'MM/dd/yyyy',
+                    monthYearLabel: 'MMM yyyy',
+                    dateA11yLabel: 'MM/dd/yyyy',
+                    monthYearA11yLabel: 'MMMM yyyy',
+                },
+            },
         },
-      },
-    },
-  ],
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,MatInputModule,MatDatepickerModule,MatNativeDateModule,MatIconModule,MatButtonModule, MatSelectModule],
-  template: `
+    ],
+    imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatButtonModule, MatSelectModule],
+    template: `
     <div class="wt-modal" role="dialog" aria-modal="true">
       <div class="wt-modal-head">
         <div class="wt-modal-title">Add Incoming Bid</div>
@@ -193,7 +192,7 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
 
 :host-context([data-theme='midnight']) {
   --modal-bg: linear-gradient(180deg, #08192f 0%, #071325 100%);
@@ -880,7 +879,7 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
   width: 100%;
 }
 `,
-  ],
+    ]
 })
 export class IncomingBidDialogComponent implements AfterViewInit {
   submitted = false;

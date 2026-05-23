@@ -36,21 +36,20 @@ const activeRequiresStart: ValidatorFn = (group: AbstractControl): ValidationErr
 };
 
 @Component({
-  selector: 'app-create-project',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCardModule
-  ],
-  templateUrl: './create-project.component.html',
-  styleUrls: ['./create-project.component.scss']
+    selector: 'app-create-project',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCardModule
+    ],
+    templateUrl: './create-project.component.html',
+    styleUrls: ['./create-project.component.scss']
 })
 export class CreateProjectComponent {
   private fb = inject(FormBuilder);

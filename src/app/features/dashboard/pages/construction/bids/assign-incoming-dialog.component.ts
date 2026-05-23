@@ -11,17 +11,16 @@ export interface AssignIncomingDialogData {
 }
 
 @Component({
-  selector: 'app-assign-incoming-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
-  template: `
+    selector: 'app-assign-incoming-dialog',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+    ],
+    template: `
     <div class="wt-assign-wrap">
       <div class="wt-assign-header">
         <div class="wt-assign-title">Assign Incoming Bid</div>
@@ -52,8 +51,8 @@ export interface AssignIncomingDialogData {
       </div>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: block;
         width: 100%;
@@ -262,7 +261,7 @@ export interface AssignIncomingDialogData {
         opacity: 0.5;
       }
     `,
-  ],
+    ]
 })
 export class AssignIncomingDialogComponent {
   form = this.fb.group({

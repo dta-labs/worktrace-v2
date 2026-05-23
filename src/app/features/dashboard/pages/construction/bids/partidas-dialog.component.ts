@@ -80,20 +80,19 @@ interface FollowUpModalContext {
 }
 
 @Component({
-  selector: 'app-partidas-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-  ],
-  templateUrl: './partidas-dialog.component.html',
-  styleUrls: ['./partidas-dialog.component.scss'],
+    selector: 'app-partidas-dialog',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+    ],
+    templateUrl: './partidas-dialog.component.html',
+    styleUrls: ['./partidas-dialog.component.scss']
 })
 export class PartidasDialogComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
@@ -952,10 +951,9 @@ this.savingMeta = true;
 
 
 @Component({
-  selector: 'app-info-dialog',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
-  template: `
+    selector: 'app-info-dialog',
+    imports: [CommonModule, MatDialogModule, MatButtonModule],
+    template: `
     <div class="wt-dialog">
       <h2 class="wt-title">{{ data.title || 'Info' }}</h2>
       <div class="wt-body">{{ data.message || '' }}</div>
@@ -964,12 +962,12 @@ this.savingMeta = true;
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .wt-dialog { padding: 18px 18px 10px; color: #e8e8e8; background: #0f1218; }
     .wt-title { margin: 0 0 10px; font-size: 16px; font-weight: 700; }
     .wt-body { font-size: 13px; line-height: 1.45; opacity: .9; }
     .wt-actions { display:flex; justify-content:flex-end; margin-top: 16px; }
-  `],
+  `]
 })
 export class InfoDialogComponent {
   constructor(
@@ -980,10 +978,9 @@ export class InfoDialogComponent {
 }
 
 @Component({
-  selector: 'app-version-reason-dialog',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  template: `
+    selector: 'app-version-reason-dialog',
+    imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+    template: `
     <div class="wt-dialog">
       <h2 class="wt-title">Reason for creating this new version</h2>
 
@@ -1000,12 +997,12 @@ export class InfoDialogComponent {
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .wt-dialog { padding: 18px 18px 10px; color: #e8e8e8; background: #0f1218; }
     .wt-title { margin: 0 0 12px; font-size: 16px; font-weight: 700; }
     .wt-field { width: 100%; }
     .wt-actions { display:flex; justify-content:flex-end; gap: 8px; margin-top: 14px; }
-  `],
+  `]
 })
 export class VersionReasonDialogComponent {
   reasonCtrl = new FormControl<string>(this.data?.reason ?? '', { nonNullable: true, validators: [Validators.required] });

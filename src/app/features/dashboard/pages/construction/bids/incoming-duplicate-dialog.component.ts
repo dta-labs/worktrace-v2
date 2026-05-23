@@ -23,19 +23,18 @@ export interface DuplicateDialogResult {
 }
 
 @Component({
-  selector: 'app-incoming-duplicate-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-  ],
-  template: `
+    selector: 'app-incoming-duplicate-dialog',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+    ],
+    template: `
     <h2 mat-dialog-title>Existing request found</h2>
     <div mat-dialog-content>
       <p>
@@ -95,8 +94,8 @@ export interface DuplicateDialogResult {
       <button mat-flat-button color="primary" (click)="applyUpdate()">Apply Update</button>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       .summary{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:8px 0 12px 0}
       .k{opacity:.75;margin-right:6px}
       .muted{opacity:.75}
@@ -105,7 +104,7 @@ export interface DuplicateDialogResult {
       .col-6{grid-column:span 6}
       @media (max-width:900px){.col-6{grid-column:span 12}}
     `,
-  ],
+    ]
 })
 export class IncomingDuplicateDialogComponent {
   readonly data = inject(MAT_DIALOG_DATA) as DuplicateDialogData;

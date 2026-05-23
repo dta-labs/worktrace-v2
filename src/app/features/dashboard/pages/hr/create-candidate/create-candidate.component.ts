@@ -159,17 +159,16 @@ type DraftCandidateView = Omit<ManagedCandidateView, 'hourlyRate' | 'overtimeRat
 };
 
 @Component({
-  selector: 'app-create-candidate',
-  standalone: true,
+    selector: 'app-create-candidate',
     imports: [
         CommonModule,
         FormsModule,
         NgForOf,
         NgIf
     ],
-  templateUrl: './create-candidate.component.html',
-  styleUrl: './create-candidate.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './create-candidate.component.html',
+    styleUrl: './create-candidate.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCandidateComponent {
 

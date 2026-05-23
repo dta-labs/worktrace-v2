@@ -7,11 +7,10 @@ import { Subscription } from 'rxjs';
 import { UserAccessService, ScreenAccessMap } from '../../core/services/user-access.service';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [RouterModule, CommonModule, MatIconModule],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    imports: [RouterModule, CommonModule, MatIconModule],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   userEmail: string | null = null;

@@ -140,11 +140,10 @@ type PaginationItem = number | 'ellipsis';
 
 @Component({
     selector: 'app-candidates-list',
-    standalone: true,
     imports: [CommonModule, FormsModule, CreateCandidateComponent],
     templateUrl: './candidates-list.component.html',
     styleUrl: './candidates-list.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CandidatesListComponent implements OnInit {
     private readonly firestore = inject(Firestore);

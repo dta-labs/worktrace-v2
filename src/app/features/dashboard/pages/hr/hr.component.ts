@@ -144,11 +144,10 @@ interface ManagedWorkerView {
 type PaginationItem = number | 'ellipsis';
 
 @Component({
-  selector: 'app-hr-page',
-  standalone: true,
+    selector: 'app-hr-page',
     imports: [CommonModule, FormsModule, CreateCandidateComponent, CandidatesListComponent],
-  templateUrl: './hr.component.html',
-  styleUrl: './hr.component.scss',
+    templateUrl: './hr.component.html',
+    styleUrl: './hr.component.scss'
 })
 export class HrPageComponent implements OnInit, AfterViewInit {
   private readonly firestore = inject(Firestore);

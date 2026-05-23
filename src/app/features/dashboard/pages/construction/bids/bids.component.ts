@@ -39,29 +39,28 @@ import { BidsAnalyticsOverviewComponent } from './analytics/bids-analytics-overv
 type BidStatus = 'draft' | 'submitted' | 'won' | 'lost' | 'canceled';
 
 @Component({
-  selector: 'app-bids-page',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatTabsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTableModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    BidsCreatedComponent,
-    BidsAnalyticsOverviewComponent
-],
-  templateUrl: './bids.component.html',
-  styleUrls: ['./bids.component.scss'],
+    selector: 'app-bids-page',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatTabsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTableModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        BidsCreatedComponent,
+        BidsAnalyticsOverviewComponent
+    ],
+    templateUrl: './bids.component.html',
+    styleUrls: ['./bids.component.scss']
 })
 export class BidsPageComponent implements OnInit {
   private fb = inject(FormBuilder);

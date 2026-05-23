@@ -8,10 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-decline-incoming-dialog',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  template: `
+    selector: 'app-decline-incoming-dialog',
+    imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+    template: `
     <div class="wt-modal">
       <div class="wt-modal-header">
         <div>
@@ -49,7 +48,7 @@ import { MatButtonModule } from '@angular/material/button';
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .w-100 { width: 100%; }
     .wt-danger-box{
       border: 1px solid rgba(255,90,90,.35);

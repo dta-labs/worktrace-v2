@@ -46,19 +46,18 @@ type FollowUpOutcome =
   | 'other';
 
 @Component({
-  selector: 'app-followup-log-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-  ],
-  templateUrl: './followup-log-dialog.component.html',
-  styleUrls: ['./followup-log-dialog.component.scss'],
+    selector: 'app-followup-log-dialog',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+    ],
+    templateUrl: './followup-log-dialog.component.html',
+    styleUrls: ['./followup-log-dialog.component.scss']
 })
 export class FollowUpLogDialogComponent {
   saving = false;

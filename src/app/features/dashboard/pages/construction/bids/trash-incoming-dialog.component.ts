@@ -8,17 +8,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-trash-incoming-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
-  template: `
+    selector: 'app-trash-incoming-dialog',
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+    ],
+    template: `
     <h2 mat-dialog-title>Move to Trash</h2>
 
     <mat-dialog-content class="dialog-content">
@@ -59,7 +58,7 @@ import { MatButtonModule } from '@angular/material/button';
       </button>
     </mat-dialog-actions>
   `,
-  styles: [`
+    styles: [`
     :host {
       --trash-surface-bg: linear-gradient(180deg, #111827 0%, #0b1222 100%);
       --trash-text: #f8fafc;

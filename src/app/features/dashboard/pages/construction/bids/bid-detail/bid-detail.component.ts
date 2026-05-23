@@ -16,16 +16,15 @@ import { Bid, BidPriority, BidStatus } from '../../../../../../models/bid.model'
 import { ReasonDialogComponent } from './reason-dialog.component';
 
 @Component({
-  selector: 'app-bid-detail-page',
-  standalone: true,
-  imports: [
-    CommonModule, RouterModule, ReactiveFormsModule,
-    MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule,
-    MatDatepickerModule, MatNativeDateModule, MatDialogModule,
-  ],
-  templateUrl: './bid-detail.component.html',
-  styleUrls: ['./bid-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-bid-detail-page',
+    imports: [
+        CommonModule, RouterModule, ReactiveFormsModule,
+        MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule,
+        MatDatepickerModule, MatNativeDateModule, MatDialogModule,
+    ],
+    templateUrl: './bid-detail.component.html',
+    styleUrls: ['./bid-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BidDetailPageComponent implements OnInit, OnChanges {
   private route = inject(ActivatedRoute);

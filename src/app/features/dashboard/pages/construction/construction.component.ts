@@ -8,11 +8,10 @@ import { Firestore, doc } from '@angular/fire/firestore';
 import { getDoc } from 'firebase/firestore';
 
 @Component({
-  selector: 'app-construction-page',
-  standalone: true,
-  imports: [CommonModule, RouterModule, MatTabsModule, MatIconModule],
-  templateUrl: './construction.component.html',
-  styleUrls: ['./construction.component.scss'],
+    selector: 'app-construction-page',
+    imports: [CommonModule, RouterModule, MatTabsModule, MatIconModule],
+    templateUrl: './construction.component.html',
+    styleUrls: ['./construction.component.scss']
 })
 export class ConstructionPageComponent implements OnInit {
   isAdmin = false;

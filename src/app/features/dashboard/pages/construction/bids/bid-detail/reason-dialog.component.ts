@@ -7,10 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-reason-dialog',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  template: `
+    selector: 'app-reason-dialog',
+    imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+    template: `
   <h2 mat-dialog-title>Reason for modification</h2>
   <div mat-dialog-content>
     <mat-form-field appearance="outline" class="full">
@@ -24,7 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
     <button mat-flat-button color="primary" (click)="submit()" [disabled]="reason.invalid">Save</button>
   </div>
   `,
-  styles: [`.full{ width: 100%; }`]
+    styles: [`.full{ width: 100%; }`]
 })
 export class ReasonDialogComponent {
   private ref = inject(MatDialogRef<ReasonDialogComponent>);
