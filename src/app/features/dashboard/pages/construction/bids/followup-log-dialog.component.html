@@ -5,32 +5,32 @@
   </div>
 
   <div class="fu-body" [formGroup]="form">
-    <div class="fu-context" *ngIf="hasContext">
-      <div class="fu-context-row">
-        <div class="fu-context-item">
-          <div class="fu-context-label">Bid owner</div>
-          <div class="fu-context-value">{{ displayAssignedTo }}</div>
+    @if (hasContext) {
+      <div class="fu-context">
+        <div class="fu-context-row">
+          <div class="fu-context-item">
+            <div class="fu-context-label">Bid owner</div>
+            <div class="fu-context-value">{{ displayAssignedTo }}</div>
+          </div>
+          <div class="fu-context-item">
+            <div class="fu-context-label">Created by</div>
+            <div class="fu-context-value">{{ displayCreatedBy }}</div>
+          </div>
         </div>
-        <div class="fu-context-item">
-          <div class="fu-context-label">Created by</div>
-          <div class="fu-context-value">{{ displayCreatedBy }}</div>
+        <div class="fu-context-row">
+          <div class="fu-context-item fu-context-item-full">
+            <div class="fu-context-label">Client contact</div>
+            <div class="fu-context-value">{{ displayClientContact }}</div>
+          </div>
+        </div>
+        <div class="fu-context-row">
+          <div class="fu-context-item fu-context-item-full">
+            <div class="fu-context-label">Last follow-up</div>
+            <div class="fu-context-value">{{ displayLastFollowUp }}</div>
+          </div>
         </div>
       </div>
-
-      <div class="fu-context-row">
-        <div class="fu-context-item fu-context-item-full">
-          <div class="fu-context-label">Client contact</div>
-          <div class="fu-context-value">{{ displayClientContact }}</div>
-        </div>
-      </div>
-
-      <div class="fu-context-row">
-        <div class="fu-context-item fu-context-item-full">
-          <div class="fu-context-label">Last follow-up</div>
-          <div class="fu-context-value">{{ displayLastFollowUp }}</div>
-        </div>
-      </div>
-    </div>
+    }
 
     <div class="fu-row">
       <mat-form-field appearance="fill">
@@ -74,23 +74,31 @@
     </div>
 
     <div class="fu-row">
-      <mat-form-field appearance="fill" *ngIf="showContactName">
-        <mat-label>{{ contactLabel }} name</mat-label>
-        <input matInput formControlName="contactName" placeholder="e.g. John Smith" />
-      </mat-form-field>
+      @if (showContactName) {
+        <mat-form-field appearance="fill">
+          <mat-label>{{ contactLabel }} name</mat-label>
+          <input matInput formControlName="contactName" placeholder="e.g. John Smith" />
+        </mat-form-field>
+      }
 
-      <mat-form-field appearance="fill" *ngIf="showContactEmail">
-        <mat-label>{{ contactLabel }} email</mat-label>
-        <input matInput formControlName="contactEmail" placeholder="e.g. john@client.com" />
-      </mat-form-field>
+      @if (showContactEmail) {
+        <mat-form-field appearance="fill">
+          <mat-label>{{ contactLabel }} email</mat-label>
+          <input matInput formControlName="contactEmail" placeholder="e.g. john@client.com" />
+        </mat-form-field>
+      }
 
-      <mat-form-field appearance="fill" *ngIf="showContactPhone">
-        <mat-label>{{ contactLabel }} phone</mat-label>
-        <input matInput formControlName="contactPhone" placeholder="e.g. (555) 555-5555" />
-      </mat-form-field>
+      @if (showContactPhone) {
+        <mat-form-field appearance="fill">
+          <mat-label>{{ contactLabel }} phone</mat-label>
+          <input matInput formControlName="contactPhone" placeholder="e.g. (555) 555-5555" />
+        </mat-form-field>
+      }
     </div>
 
-    <div class="fu-error" *ngIf="errorMsg">{{ errorMsg }}</div>
+    @if (errorMsg) {
+      <div class="fu-error">{{ errorMsg }}</div>
+    }
   </div>
 
   <div class="fu-footer">

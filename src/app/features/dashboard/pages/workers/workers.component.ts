@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-workers-page',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './workers.component.html',
     styleUrl: './workers.component.scss'
 })

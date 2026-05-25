@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,7 +11,7 @@ import { CreateProjectComponent } from './create-project/create-project.componen
 
 @Component({
     selector: 'app-projects-page',
-    imports: [CommonModule, MatTabsModule, MatFormFieldModule, MatSelectModule, MatListModule, MatButtonModule, CreateProjectComponent],
+    imports: [MatTabsModule, MatFormFieldModule, MatSelectModule, MatListModule, MatButtonModule, CreateProjectComponent],
     templateUrl: './projects.component.html',
     styleUrls: ['./projects.component.scss']
 })

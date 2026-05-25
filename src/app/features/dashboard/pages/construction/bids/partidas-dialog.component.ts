@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,6 +36,7 @@ import {
 } from 'rxjs';
 import { BidFlowService } from './bid-flow.service';
 import { FollowUpLogDialogComponent } from './followup-log-dialog.component';
+import { AsyncPipe, DatePipe, UpperCasePipe, CurrencyPipe } from '@angular/common';
 
 // -----------------------------
 // Local types (keep lightweight)
@@ -80,19 +81,22 @@ interface FollowUpModalContext {
 }
 
 @Component({
-    selector: 'app-partidas-dialog',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-    ],
-    templateUrl: './partidas-dialog.component.html',
-    styleUrls: ['./partidas-dialog.component.scss']
+  selector: 'app-partidas-dialog',
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    AsyncPipe,
+    DatePipe,
+    UpperCasePipe,
+    CurrencyPipe
+  ],
+  templateUrl: './partidas-dialog.component.html',
+  styleUrls: ['./partidas-dialog.component.scss']
 })
 export class PartidasDialogComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
@@ -191,26 +195,26 @@ export class PartidasDialogComponent implements OnInit, OnDestroy {
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 
-/**
- * Versioning is only allowed AFTER conversion (v1 is the first official version).
- * Additionally, you may only create the NEXT draft when the CURRENT draft is selected
- * and has both: (a) a PDF attached and (b) a non‑zero calculated total.
- */
-readonly canCreateNewVersion$ = combineLatest([
-  this.bid$,
-  this.selectedVersion$,
-]).pipe(
-  map(([bid, ver]: any[]) => {
-    if (!bid || bid?.isDraft || !bid?.convertedAt) return false;
-    const draftId = String(bid?.draftVersionId ?? '').trim();
-    const selectedId = String(ver?.id ?? '').trim();
-    if (!draftId || !selectedId || draftId !== selectedId) return false;
-    const total = Number(ver?.calculatedTotal ?? 0) || 0;
-    const hasPdf = this.hasPdfAttached(ver);
-    return hasPdf && total > 0;
-  }),
-  shareReplay({ bufferSize: 1, refCount: true }),
-);
+  /**
+   * Versioning is only allowed AFTER conversion (v1 is the first official version).
+   * Additionally, you may only create the NEXT draft when the CURRENT draft is selected
+   * and has both: (a) a PDF attached and (b) a non‑zero calculated total.
+   */
+  readonly canCreateNewVersion$ = combineLatest([
+    this.bid$,
+    this.selectedVersion$,
+  ]).pipe(
+    map(([bid, ver]: any[]) => {
+      if (!bid || bid?.isDraft || !bid?.convertedAt) return false;
+      const draftId = String(bid?.draftVersionId ?? '').trim();
+      const selectedId = String(ver?.id ?? '').trim();
+      if (!draftId || !selectedId || draftId !== selectedId) return false;
+      const total = Number(ver?.calculatedTotal ?? 0) || 0;
+      const hasPdf = this.hasPdfAttached(ver);
+      return hasPdf && total > 0;
+    }),
+    shareReplay({ bufferSize: 1, refCount: true }),
+  );
 
   /** Selected version document stream (for viewing). */
 
@@ -587,39 +591,39 @@ readonly canCreateNewVersion$ = combineLatest([
   }
 
   private async syncPdfForVersion(ver: any): Promise<void> {
-  const raw = this.pickString(
-    ver?.pdf?.downloadUrl,
-    ver?.pdf?.url,
-    ver?.pdf?.storagePath,
-    ver?.pdfUrl,
-    ver?.officialPdf,
-    ''
-  );
+    const raw = this.pickString(
+      ver?.pdf?.downloadUrl,
+      ver?.pdf?.url,
+      ver?.pdf?.storagePath,
+      ver?.pdfUrl,
+      ver?.officialPdf,
+      ''
+    );
 
-  if (!raw) {
-    this.totalsForm.controls['officialPdfPath'].setValue('');
-    this.pdfHref = null;
-    this.pdfPreviewUrl = null;
-    return;
-  }
-
-  try {
-    let resolved = String(raw);
-
-    // If we stored a Firebase Storage path, resolve it to a download URL.
-    if (!resolved.startsWith('http')) {
-      resolved = await this.bidFlow.resolveStoragePathToDownloadUrl(resolved);
+    if (!raw) {
+      this.totalsForm.controls['officialPdfPath'].setValue('');
+      this.pdfHref = null;
+      this.pdfPreviewUrl = null;
+      return;
     }
 
-    this.totalsForm.controls['officialPdfPath'].setValue(resolved);
-    this.pdfHref = resolved;
-    this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(resolved);
-  } catch {
-    // ignore
-  }
-}
+    try {
+      let resolved = String(raw);
 
-async createNewVersion(): Promise<void> {
+      // If we stored a Firebase Storage path, resolve it to a download URL.
+      if (!resolved.startsWith('http')) {
+        resolved = await this.bidFlow.resolveStoragePathToDownloadUrl(resolved);
+      }
+
+      this.totalsForm.controls['officialPdfPath'].setValue(resolved);
+      this.pdfHref = resolved;
+      this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(resolved);
+    } catch {
+      // ignore
+    }
+  }
+
+  async createNewVersion(): Promise<void> {
     // Only allow creating from the CURRENT draft (editable) version
     const isEditable = await firstValueFrom(this.isEditable$);
     if (!isEditable) {
@@ -840,14 +844,14 @@ async createNewVersion(): Promise<void> {
       }
     }
 
-// Hard requirement: official PDF must be attached before converting.
-const finalPdf = String(this.totalsForm.controls['officialPdfPath'].value ?? '').trim();
-if (!finalPdf) {
-  this.errorMsg = 'Attach the official estimate PDF before converting.';
-  return;
-}
+    // Hard requirement: official PDF must be attached before converting.
+    const finalPdf = String(this.totalsForm.controls['officialPdfPath'].value ?? '').trim();
+    if (!finalPdf) {
+      this.errorMsg = 'Attach the official estimate PDF before converting.';
+      return;
+    }
 
-this.savingMeta = true;
+    this.savingMeta = true;
     try {
       await this.bidFlow.finalizeDraftConversion(this.incomingId, this.bidId);
       this.metaMsg = 'Converted to Bid.';
@@ -951,9 +955,9 @@ this.savingMeta = true;
 
 
 @Component({
-    selector: 'app-info-dialog',
-    imports: [CommonModule, MatDialogModule, MatButtonModule],
-    template: `
+  selector: 'app-info-dialog',
+  imports: [MatDialogModule, MatButtonModule],
+  template: `
     <div class="wt-dialog">
       <h2 class="wt-title">{{ data.title || 'Info' }}</h2>
       <div class="wt-body">{{ data.message || '' }}</div>
@@ -962,7 +966,7 @@ this.savingMeta = true;
       </div>
     </div>
   `,
-    styles: [`
+  styles: [`
     .wt-dialog { padding: 18px 18px 10px; color: #e8e8e8; background: #0f1218; }
     .wt-title { margin: 0 0 10px; font-size: 16px; font-weight: 700; }
     .wt-body { font-size: 13px; line-height: 1.45; opacity: .9; }
@@ -973,31 +977,33 @@ export class InfoDialogComponent {
   constructor(
     private ref: MatDialogRef<InfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title?: string; message?: string }
-  ) {}
+  ) { }
   close() { this.ref.close(); }
 }
 
 @Component({
-    selector: 'app-version-reason-dialog',
-    imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-    template: `
+  selector: 'app-version-reason-dialog',
+  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  template: `
     <div class="wt-dialog">
       <h2 class="wt-title">Reason for creating this new version</h2>
-
+    
       <mat-form-field appearance="outline" class="wt-field">
         <mat-label>Short note (required)</mat-label>
         <input matInput [formControl]="reasonCtrl" maxlength="120" autocomplete="off" />
         <mat-hint align="end">{{ reasonCtrl.value.length }}/120</mat-hint>
-        <mat-error *ngIf="reasonCtrl.invalid">Please enter a short reason.</mat-error>
+        @if (reasonCtrl.invalid) {
+          <mat-error>Please enter a short reason.</mat-error>
+        }
       </mat-form-field>
-
+    
       <div class="wt-actions">
         <button mat-button (click)="cancel()">Cancel</button>
         <button mat-raised-button color="primary" [disabled]="reasonCtrl.invalid" (click)="ok()">OK</button>
       </div>
     </div>
-  `,
-    styles: [`
+    `,
+  styles: [`
     .wt-dialog { padding: 18px 18px 10px; color: #e8e8e8; background: #0f1218; }
     .wt-title { margin: 0 0 12px; font-size: 16px; font-weight: 700; }
     .wt-field { width: 100%; }
@@ -1010,7 +1016,7 @@ export class VersionReasonDialogComponent {
   constructor(
     private ref: MatDialogRef<VersionReasonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { reason?: string }
-  ) {}
+  ) { }
 
   cancel() { this.ref.close(undefined); }
   ok() { this.ref.close((this.reasonCtrl.value ?? '').trim()); }

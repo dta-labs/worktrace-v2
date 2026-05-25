@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -17,16 +17,15 @@ type CompanyType = 'GC' | 'SUB' | 'MECH' | 'OTHER' | 'BOTH';
 @Component({
     selector: 'app-create-company',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatSnackBarModule,
-        MatSelectModule,
-        MatIconModule,
-    ],
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatIconModule
+],
     templateUrl: './create-company.component.html',
     styleUrls: ['./create-company.component.scss']
 })

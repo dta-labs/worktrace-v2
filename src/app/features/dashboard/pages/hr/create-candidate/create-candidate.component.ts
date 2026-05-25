@@ -1,4 +1,4 @@
-import {CommonModule, NgForOf, NgIf} from '@angular/common';
+
 import {
     AfterViewInit,
     ChangeDetectorRef,
@@ -161,11 +161,8 @@ type DraftCandidateView = Omit<ManagedCandidateView, 'hourlyRate' | 'overtimeRat
 @Component({
     selector: 'app-create-candidate',
     imports: [
-        CommonModule,
-        FormsModule,
-        NgForOf,
-        NgIf
-    ],
+    FormsModule
+],
     templateUrl: './create-candidate.component.html',
     styleUrl: './create-candidate.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

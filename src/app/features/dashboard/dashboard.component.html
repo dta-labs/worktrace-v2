@@ -5,41 +5,55 @@
       <h2>WorkTrace</h2>
     </div>
     <nav>
-      <a *ngIf="access.overview" routerLink="/dashboard/overview" routerLinkActive="active">
-        <mat-icon class="nav-ic">dashboard</mat-icon>
-        <span>Overview</span>
-      </a>
+      @if (access.overview) {
+        <a routerLink="/dashboard/overview" routerLinkActive="active">
+          <mat-icon class="nav-ic">dashboard</mat-icon>
+          <span>Overview</span>
+        </a>
+      }
 
-      <a *ngIf="access.construction" routerLink="/dashboard/construction" routerLinkActive="active">
-        <mat-icon class="nav-ic">apartment</mat-icon>
-        <span>Construction Department</span>
-      </a>
+      @if (access.construction) {
+        <a routerLink="/dashboard/construction" routerLinkActive="active">
+          <mat-icon class="nav-ic">apartment</mat-icon>
+          <span>Construction Department</span>
+        </a>
+      }
 
-      <a *ngIf="access.workers" routerLink="/dashboard/workers" routerLinkActive="active">
-        <mat-icon class="nav-ic">engineering</mat-icon>
-        <span>Workers</span>
-      </a>
+      @if (access.workers) {
+        <a routerLink="/dashboard/workers" routerLinkActive="active">
+          <mat-icon class="nav-ic">engineering</mat-icon>
+          <span>Workers</span>
+        </a>
+      }
 
-      <a *ngIf="access.humanResources" routerLink="/dashboard/hr" routerLinkActive="active">
-        <mat-icon class="nav-ic">groups</mat-icon>
-        <span>Human Resources</span>
-      </a>
+      @if (access.humanResources) {
+        <a routerLink="/dashboard/hr" routerLinkActive="active">
+          <mat-icon class="nav-ic">groups</mat-icon>
+          <span>Human Resources</span>
+        </a>
+      }
 
-      <a *ngIf="access.companies" routerLink="/dashboard/companies" routerLinkActive="active">
-        <mat-icon class="nav-ic">business</mat-icon>
-        <span>Companies</span>
-      </a>
+      @if (access.companies) {
+        <a routerLink="/dashboard/companies" routerLinkActive="active">
+          <mat-icon class="nav-ic">business</mat-icon>
+          <span>Companies</span>
+        </a>
+      }
 
-      <a *ngIf="access.settings" routerLink="/dashboard/settings" routerLinkActive="active">
-        <mat-icon class="nav-ic">settings</mat-icon>
-        <span>Settings</span>
-      </a>
+      @if (access.settings) {
+        <a routerLink="/dashboard/settings" routerLinkActive="active">
+          <mat-icon class="nav-ic">settings</mat-icon>
+          <span>Settings</span>
+        </a>
+      }
     </nav>
     <button (click)="logout()" class="logout-btn">Logout</button>
   </aside>
   <main class="main-content">
     <header class="topbar">
-      <span *ngIf="userEmail" class="user-info" data-cy="welcome-message">Logged in as {{ userEmail }}</span>
+      @if (userEmail) {
+        <span class="user-info" data-cy="welcome-message">Logged in as {{ userEmail }}</span>
+      }
       <button class="logout-top" (click)="logout()" data-cy="logout-button">Logout</button>
     </header>
     <section class="content">

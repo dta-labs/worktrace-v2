@@ -1,4 +1,7 @@
-import { CommonModule } from '@angular/common';
+import {
+  AsyncPipe,
+  DatePipe
+} from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -17,7 +20,6 @@ import { PartidasDialogComponent } from './partidas-dialog.component';
   selector: 'app-bid-workspace-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatTabsModule,
     MatButtonModule,
@@ -26,6 +28,8 @@ import { PartidasDialogComponent } from './partidas-dialog.component';
     MatIconModule,
     MatTableModule,
     PartidasDialogComponent,
+    AsyncPipe,
+    DatePipe
   ],
   templateUrl: './bid-workspace-dialog.component.html',
   styleUrls: ['./bid-workspace-dialog.component.scss'],

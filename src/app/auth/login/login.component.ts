@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from '../../core/auth/auth.service';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    imports: [CommonModule, ReactiveFormsModule, RouterLink]
+    imports: [ReactiveFormsModule, RouterLink]
 })
 export class LoginComponent {
   form = this.fb.group({

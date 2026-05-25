@@ -11,16 +11,17 @@
       <mat-label>Search</mat-label>
       <mat-icon matPrefix>search</mat-icon>
       <input matInput formControlName="q" placeholder="Company, contact, city..." />
-      <button
-        *ngIf="filters.controls.q.value"
-        mat-icon-button
-        matSuffix
-        type="button"
-        aria-label="Clear search"
-        (click)="clearSearch()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
+      @if (filters.controls.q.value) {
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          aria-label="Clear search"
+          (click)="clearSearch()"
+          >
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="filters__type wt-dark-field">
@@ -93,8 +94,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <div class="empty muted" *ngIf="(rows$ | async)?.length === 0">
-      No companies match your filters.
-    </div>
+    @if ((rows$ | async)?.length === 0) {
+      <div class="empty muted">
+        No companies match your filters.
+      </div>
+    }
   </div>
 </mat-card>

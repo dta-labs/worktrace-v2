@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { getDoc } from 'firebase/firestore';
 
 @Component({
     selector: 'app-construction-page',
-    imports: [CommonModule, RouterModule, MatTabsModule, MatIconModule],
+    imports: [RouterModule, MatTabsModule, MatIconModule],
     templateUrl: './construction.component.html',
     styleUrls: ['./construction.component.scss']
 })

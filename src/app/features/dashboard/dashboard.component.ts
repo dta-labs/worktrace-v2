@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/auth/auth.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,7 @@ import { UserAccessService, ScreenAccessMap } from '../../core/services/user-acc
 
 @Component({
     selector: 'app-dashboard',
-    imports: [RouterModule, CommonModule, MatIconModule],
+    imports: [RouterModule, MatIconModule],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })

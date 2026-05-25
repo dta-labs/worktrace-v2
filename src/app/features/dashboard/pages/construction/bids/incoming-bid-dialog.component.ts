@@ -75,7 +75,7 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
         <div class="wt-modal-title">Add Incoming Bid</div>
         <button type="button" class="wt-icon-btn" (click)="close()">✕</button>
       </div>
-
+    
       <div class="wt-modal-body">
         <form [formGroup]="form" autocomplete="off">
           <div class="wt-grid wt-grid">
@@ -87,29 +87,31 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
                   panelClass="wt-select-panel"
                   placeholder="Select existing (manage Companies in the Companies tab)"
                   [errorStateMatcher]="submitMatcher">
-                  <mat-option *ngFor="let c of clients" [value]="c.name">{{ c.name }}</mat-option>
+                  @for (c of clients; track c) {
+                    <mat-option [value]="c.name">{{ c.name }}</mat-option>
+                  }
                 </mat-select>
-
+    
                 <!-- <mat-select formControlName="client"
-                  placeholder="Select existing (manage Companies in the Companies tab)" [errorStateMatcher]="submitMatcher">
-                  <mat-option *ngFor="let c of clients" [value]="c.name">{{ c.name }}</mat-option>
-                </mat-select> -->
+                placeholder="Select existing (manage Companies in the Companies tab)" [errorStateMatcher]="submitMatcher">
+                <mat-option *ngFor="let c of clients" [value]="c.name">{{ c.name }}</mat-option>
+              </mat-select> -->
+            </mat-form-field>
+            <div class="wt-help">To add a new Company/Client, go to <b>Companies</b> → <b>Create Company</b>.</div>
+          </div>
+    
+          <div class="wt-field">
+            <label>Project *</label>
+            <mat-form-field appearance="outline" class="wt-full wt-select wt-mf">
+              <input
+                matInput
+                type="text"
+                formControlName="projectName"
+                placeholder="Project name"
+                [errorStateMatcher]="submitMatcher" />
               </mat-form-field>
-              <div class="wt-help">To add a new Company/Client, go to <b>Companies</b> → <b>Create Company</b>.</div>
             </div>
-
-            <div class="wt-field">
-              <label>Project *</label>
-              <mat-form-field appearance="outline" class="wt-full wt-select wt-mf">
-                <input
-                  matInput
-                  type="text"
-                  formControlName="projectName"
-                  placeholder="Project name"
-                  [errorStateMatcher]="submitMatcher" />
-              </mat-form-field>
-            </div>
-
+    
             <div class="wt-field">
               <label>Date Received</label>
               <mat-form-field appearance="outline" class="wt-full wt-date-mf">
@@ -129,69 +131,73 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
                 <mat-datepicker #duePicker></mat-datepicker>
               </mat-form-field>
             </div>
-
+    
             <div class="wt-field wt-full">
               <label>Responsible / Contact</label>
               <mat-form-field appearance="outline" class="wt-full wt-select">
                 <mat-select formControlName="contactId" [disabled]="!contactOptions.length" panelClass="wt-select-panel" placeholder="Select a contact (from this Company)" [errorStateMatcher]="submitMatcher">
                   <mat-option value="">Select a contact (from this Company)</mat-option>
-                  <mat-option *ngFor="let ct of contactOptions" [value]="ct.id">
-                    {{ ct.fullName }}{{ ct.role ? ' — ' + ct.role : '' }}{{ ct.isPrimary ? ' (Primary)' : '' }}
-                  </mat-option>
+                  @for (ct of contactOptions; track ct) {
+                    <mat-option [value]="ct.id">
+                      {{ ct.fullName }}{{ ct.role ? ' — ' + ct.role : '' }}{{ ct.isPrimary ? ' (Primary)' : '' }}
+                    </mat-option>
+                  }
                 </mat-select>
-
+    
                 <!-- <mat-select formControlName="contactId" [disabled]="!contactOptions.length"
-                  placeholder="Select a contact (from this Company)" [errorStateMatcher]="submitMatcher">
-                  <mat-option value="">Select a contact (from this Company)</mat-option>
-                  <mat-option *ngFor="let ct of contactOptions" [value]="ct.id">
-                    {{ ct.fullName }}{{ ct.role ? ' — ' + ct.role : '' }}{{ ct.isPrimary ? ' (Primary)' : '' }}
-                  </mat-option>
-                </mat-select> -->
-              </mat-form-field>
-              <div class="wt-help" *ngIf="!contactOptions.length">
+                placeholder="Select a contact (from this Company)" [errorStateMatcher]="submitMatcher">
+                <mat-option value="">Select a contact (from this Company)</mat-option>
+                <mat-option *ngFor="let ct of contactOptions" [value]="ct.id">
+                  {{ ct.fullName }}{{ ct.role ? ' — ' + ct.role : '' }}{{ ct.isPrimary ? ' (Primary)' : '' }}
+                </mat-option>
+              </mat-select> -->
+            </mat-form-field>
+            @if (!contactOptions.length) {
+              <div class="wt-help">
                 No contacts found for this Company. Add one in <b>Companies</b> → <b>Edit</b> → <b>Contacts</b>.
               </div>
-            </div>
-
-            <div class="wt-field">
-              <label>Contact Email</label>
-              <input type="email" formControlName="contactEmail" />
-            </div>
-
-            <div class="wt-field">
-              <label>Contact Phone</label>
-              <input type="text" formControlName="contactPhone" />
-            </div>
-
-            <div class="wt-field">
-              <label>Jobsite Address</label>
-              <div class="wt-input-wrap">
-                <input type="text" formControlName="jobsiteAddress" #jobsiteAddressInput placeholder="123 Main St, Orlando, FL 32801" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-                <span class="wt-input-suffix" aria-hidden="true" title="Jobsite location">📍</span>
-              </div>
-              <div class="wt-help">Physical jobsite address (optional). This will show as a “Location loaded” button in the list.</div>
-            </div>
-
-            <div class="wt-field">
-              <label>Priority</label>
-              <select formControlName="priority">
-                <option value="urgent">Urgent</option>
-                <option value="high">High</option>
-                <option value="normal">Normal</option>
-                <option value="low">Low</option>
-              </select>
-              <div class="wt-help">Used to color-code the Incoming Bids list.</div>
-            </div>
+            }
           </div>
-        </form>
-      </div>
-
-      <div class="wt-modal-actions">
-        <button type="button" class="btn" (click)="close()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="save()">Continue</button>
-      </div>
+    
+          <div class="wt-field">
+            <label>Contact Email</label>
+            <input type="email" formControlName="contactEmail" />
+          </div>
+    
+          <div class="wt-field">
+            <label>Contact Phone</label>
+            <input type="text" formControlName="contactPhone" />
+          </div>
+    
+          <div class="wt-field">
+            <label>Jobsite Address</label>
+            <div class="wt-input-wrap">
+              <input type="text" formControlName="jobsiteAddress" #jobsiteAddressInput placeholder="123 Main St, Orlando, FL 32801" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+              <span class="wt-input-suffix" aria-hidden="true" title="Jobsite location">📍</span>
+            </div>
+            <div class="wt-help">Physical jobsite address (optional). This will show as a “Location loaded” button in the list.</div>
+          </div>
+    
+          <div class="wt-field">
+            <label>Priority</label>
+            <select formControlName="priority">
+              <option value="urgent">Urgent</option>
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
+              <option value="low">Low</option>
+            </select>
+            <div class="wt-help">Used to color-code the Incoming Bids list.</div>
+          </div>
+        </div>
+      </form>
     </div>
-  `,
+    
+    <div class="wt-modal-actions">
+      <button type="button" class="btn" (click)="close()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="save()">Continue</button>
+    </div>
+    </div>
+    `,
     styles: [`
 
 :host-context([data-theme='midnight']) {

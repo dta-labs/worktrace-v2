@@ -7,14 +7,20 @@
       <div class="form-control" [class.error]="email?.invalid && (email?.touched || email?.dirty)">
         <label>Email</label>
         <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="username" data-cy="login-email" />
-        <small *ngIf="email?.hasError('required')">Email is required</small>
-        <small *ngIf="email?.hasError('email')">Invalid email</small>
+        @if (email?.hasError('required')) {
+          <small>Email is required</small>
+        }
+        @if (email?.hasError('email')) {
+          <small>Invalid email</small>
+        }
       </div>
 
       <div class="form-control" [class.error]="password?.invalid && (password?.touched || password?.dirty)">
         <label>Password</label>
         <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" data-cy="login-password" />
-        <small *ngIf="password?.hasError('required')">Password is required</small>
+        @if (password?.hasError('required')) {
+          <small>Password is required</small>
+        }
       </div>
 
       <div class="row between">
@@ -29,9 +35,11 @@
         {{ loading ? 'Signing in...' : 'Sign in' }}
       </button>
 
-      <div class="error-box" *ngIf="errorMsg" data-cy="login-error">
-        {{ errorMsg }}
-      </div>
+      @if (errorMsg) {
+        <div class="error-box" data-cy="login-error">
+          {{ errorMsg }}
+        </div>
+      }
     </form>
   </div>
 </div>

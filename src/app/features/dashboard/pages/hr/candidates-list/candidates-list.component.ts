@@ -1,4 +1,4 @@
-import {CommonModule} from '@angular/common';
+
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {collection, deleteDoc, doc, Firestore, getDocs} from '@angular/fire/firestore';
@@ -140,7 +140,7 @@ type PaginationItem = number | 'ellipsis';
 
 @Component({
     selector: 'app-candidates-list',
-    imports: [CommonModule, FormsModule, CreateCandidateComponent],
+    imports: [FormsModule, CreateCandidateComponent],
     templateUrl: './candidates-list.component.html',
     styleUrl: './candidates-list.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

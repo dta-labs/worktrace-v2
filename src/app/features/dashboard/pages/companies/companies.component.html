@@ -11,7 +11,7 @@
       type="button"
       [class.active]="activeTab==='create'"
       (click)="setTab('create')"
-    >
+      >
       Create Company
     </button>
 
@@ -20,18 +20,22 @@
       type="button"
       [class.active]="activeTab==='companies'"
       (click)="setTab('companies')"
-    >
+      >
       Lista de compañías
     </button>
   </div>
 
   <div class="panel">
-    <div *ngIf="activeTab==='create'" class="panel-inner">
-      <app-create-company [editClient]="selectedForEdit" (saved)="selectedForEdit=null; setTab('companies')"></app-create-company>
-    </div>
+    @if (activeTab==='create') {
+      <div class="panel-inner">
+        <app-create-company [editClient]="selectedForEdit" (saved)="selectedForEdit=null; setTab('companies')"></app-create-company>
+      </div>
+    }
 
-    <div *ngIf="activeTab==='companies'" class="panel-inner">
-      <app-companies-list (edit)="onEditFromList($event)"></app-companies-list>
-    </div>
+    @if (activeTab==='companies') {
+      <div class="panel-inner">
+        <app-companies-list (edit)="onEditFromList($event)"></app-companies-list>
+      </div>
+    }
   </div>
 </div>

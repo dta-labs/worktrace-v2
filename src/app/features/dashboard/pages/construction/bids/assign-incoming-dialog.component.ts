@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -13,23 +13,22 @@ export interface AssignIncomingDialogData {
 @Component({
     selector: 'app-assign-incoming-dialog',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-    ],
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
+],
     template: `
     <div class="wt-assign-wrap">
       <div class="wt-assign-header">
         <div class="wt-assign-title">Assign Incoming Bid</div>
         <div class="wt-assign-sub">Set the estimator or bidder responsible for this request.</div>
       </div>
-
+    
       <div class="wt-assign-body">
         <label class="wt-assign-label" for="assignIncomingName">Assign to *</label>
-
+    
         <mat-form-field appearance="outline" class="wt-assign-field">
           <input
             id="assignIncomingName"
@@ -37,20 +36,22 @@ export interface AssignIncomingDialogData {
             [formControl]="form.controls.name"
             placeholder="e.g. Juan Perez"
             autocomplete="off"
-          />
-          <mat-hint>Use the same display name your team recognizes.</mat-hint>
-          <mat-error *ngIf="form.controls.name.invalid && form.controls.name.touched">Name is required</mat-error>
-        </mat-form-field>
+            />
+            <mat-hint>Use the same display name your team recognizes.</mat-hint>
+            @if (form.controls.name.invalid && form.controls.name.touched) {
+              <mat-error>Name is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+    
+        <div class="wt-assign-actions">
+          <button mat-stroked-button type="button" class="wt-btn-cancel" (click)="close()">Cancel</button>
+          <button mat-flat-button color="primary" type="button" class="wt-btn-assign" [disabled]="form.invalid" (click)="save()">
+            Assign
+          </button>
+        </div>
       </div>
-
-      <div class="wt-assign-actions">
-        <button mat-stroked-button type="button" class="wt-btn-cancel" (click)="close()">Cancel</button>
-        <button mat-flat-button color="primary" type="button" class="wt-btn-assign" [disabled]="form.invalid" (click)="save()">
-          Assign
-        </button>
-      </div>
-    </div>
-  `,
+    `,
     styles: [
         `
       :host {

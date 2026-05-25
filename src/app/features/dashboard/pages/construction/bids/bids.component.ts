@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, firstValueFrom, of } from 'rxjs';
@@ -35,32 +35,35 @@ import { Auth } from '@angular/fire/auth';
 import { Firestore, doc, docData, getDoc } from '@angular/fire/firestore';
 
 import { BidsAnalyticsOverviewComponent } from './analytics/bids-analytics-overview.component';
- 
+
 type BidStatus = 'draft' | 'submitted' | 'won' | 'lost' | 'canceled';
 
 @Component({
-    selector: 'app-bids-page',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatTabsModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatTableModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        BidsCreatedComponent,
-        BidsAnalyticsOverviewComponent
-    ],
-    templateUrl: './bids.component.html',
-    styleUrls: ['./bids.component.scss']
+  selector: 'app-bids-page',
+  imports: [
+    DatePipe,
+    AsyncPipe,
+    TitleCasePipe,
+    NgClass,
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    BidsCreatedComponent,
+    BidsAnalyticsOverviewComponent
+  ],
+  templateUrl: './bids.component.html',
+  styleUrls: ['./bids.component.scss']
 })
 export class BidsPageComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -71,46 +74,46 @@ export class BidsPageComponent implements OnInit {
   private snack = inject(MatSnackBar);
   private router = inject(Router);
   private auth = inject(Auth);
-  private firestore = inject(Firestore); 
+  private firestore = inject(Firestore);
   isAdmin = false;
 
   saving = false;
   errorMsg: string | null = null;
   successMsg: string | null = null;
-ngOnInit(): void {
-  void this.loadAdmin();
-}
-
-private async loadAdmin(): Promise<void> {
-  try {
-    const user = await this.auth.currentUser;
-    if (!user) {
-      this.isAdmin = false;
-      return;
-    }
-
-    const snap = await getDoc(doc(this.firestore, 'users', user.uid));
-    if (!snap.exists()) {
-      // Dev-friendly default (same pattern as Construction/Overview)
-      this.isAdmin = true;
-      return;
-    }
-
-    const data = snap.data() as any;
-
-    // If the user doc exists but role is missing/empty, treat as admin (dev-friendly)
-    const roleRaw = (data?.role ?? '').toString().trim();
-    if (!roleRaw) {
-      this.isAdmin = true;
-      return;
-    }
-
-    const roleStr = roleRaw.toLowerCase();
-    this.isAdmin = roleStr === 'admin';
-  } catch {
-    this.isAdmin = false;
+  ngOnInit(): void {
+    void this.loadAdmin();
   }
-}
+
+  private async loadAdmin(): Promise<void> {
+    try {
+      const user = await this.auth.currentUser;
+      if (!user) {
+        this.isAdmin = false;
+        return;
+      }
+
+      const snap = await getDoc(doc(this.firestore, 'users', user.uid));
+      if (!snap.exists()) {
+        // Dev-friendly default (same pattern as Construction/Overview)
+        this.isAdmin = true;
+        return;
+      }
+
+      const data = snap.data() as any;
+
+      // If the user doc exists but role is missing/empty, treat as admin (dev-friendly)
+      const roleRaw = (data?.role ?? '').toString().trim();
+      if (!roleRaw) {
+        this.isAdmin = true;
+        return;
+      }
+
+      const roleStr = roleRaw.toLowerCase();
+      this.isAdmin = roleStr === 'admin';
+    } catch {
+      this.isAdmin = false;
+    }
+  }
 
 
   form = this.fb.group({
@@ -139,20 +142,20 @@ private async loadAdmin(): Promise<void> {
     'actions',
   ];
 
-trashColumns: string[] = [
-  'dateReceived',
-  'client',
-  'projectName',
-  'location',
-  'bidDueDate',
-  'daysPending',
-  'createdByLabel',
-  'assignedTo',
-  'priority',
-  'deleteReason',
-  'deletedByEmail',
-  'deletedAt',
-];
+  trashColumns: string[] = [
+    'dateReceived',
+    'client',
+    'projectName',
+    'location',
+    'bidDueDate',
+    'daysPending',
+    'createdByLabel',
+    'assignedTo',
+    'priority',
+    'deleteReason',
+    'deletedByEmail',
+    'deletedAt',
+  ];
 
 
   // --- Bids Created (Converted from Inbox) ---
@@ -179,54 +182,54 @@ trashColumns: string[] = [
   }
 
 
-// Normalize Firestore Timestamp/string/Date into Date | null
-private toJsDate(v: any): Date | null {
-  if (!v) return null;
-  try {
-    if (v instanceof Date) return v;
-    if (typeof v === 'object' && typeof v.toDate === 'function') return v.toDate();
-    if (typeof v === 'number') return new Date(v);
-    if (typeof v === 'string') {
-      // Supports ISO date (yyyy-mm-dd) or full ISO timestamp
-      const s = v.trim();
-      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
-        const [y, m, d] = s.split('-').map(n => parseInt(n, 10));
-        return new Date(y, m - 1, d);
+  // Normalize Firestore Timestamp/string/Date into Date | null
+  private toJsDate(v: any): Date | null {
+    if (!v) return null;
+    try {
+      if (v instanceof Date) return v;
+      if (typeof v === 'object' && typeof v.toDate === 'function') return v.toDate();
+      if (typeof v === 'number') return new Date(v);
+      if (typeof v === 'string') {
+        // Supports ISO date (yyyy-mm-dd) or full ISO timestamp
+        const s = v.trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+          const [y, m, d] = s.split('-').map(n => parseInt(n, 10));
+          return new Date(y, m - 1, d);
+        }
+        const dt = new Date(s);
+        return isNaN(dt.getTime()) ? null : dt;
       }
-      const dt = new Date(s);
-      return isNaN(dt.getTime()) ? null : dt;
+      return null;
+    } catch {
+      return null;
     }
-    return null;
-  } catch {
-    return null;
   }
-}
 
-private startOfDay(d: Date): Date {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
+  private startOfDay(d: Date): Date {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
 
-private computeDaysPending(bidDue: Date | null): number | null {
-  if (!bidDue) return null;
-  const today = this.startOfDay(new Date());
-  const due = this.startOfDay(bidDue);
-  const diffMs = due.getTime() - today.getTime();
-  return Math.ceil(diffMs / (24 * 60 * 60 * 1000));
-}
+  private computeDaysPending(bidDue: Date | null): number | null {
+    if (!bidDue) return null;
+    const today = this.startOfDay(new Date());
+    const due = this.startOfDay(bidDue);
+    const diffMs = due.getTime() - today.getTime();
+    return Math.ceil(diffMs / (24 * 60 * 60 * 1000));
+  }
 
-private enrichInboxRow(r: any): any {
-  const bidDue = this.toJsDate(r?.bidDueDate ?? r?.bidDueAt ?? r?.bidDue ?? null);
-  const dateReceived = this.toJsDate(r?.dateReceived ?? r?.receivedAt ?? null);
-  const daysPending = this.computeDaysPending(bidDue);
-  const isOverdue = bidDue ? this.startOfDay(bidDue).getTime() < this.startOfDay(new Date()).getTime() : false;
-  return {
-    ...r,
-    bidDueDate: bidDue,
-    dateReceived: dateReceived ?? r?.dateReceived,
-    daysPending,
-    isOverdue,
-  };
-}
+  private enrichInboxRow(r: any): any {
+    const bidDue = this.toJsDate(r?.bidDueDate ?? r?.bidDueAt ?? r?.bidDue ?? null);
+    const dateReceived = this.toJsDate(r?.dateReceived ?? r?.receivedAt ?? null);
+    const daysPending = this.computeDaysPending(bidDue);
+    const isOverdue = bidDue ? this.startOfDay(bidDue).getTime() < this.startOfDay(new Date()).getTime() : false;
+    return {
+      ...r,
+      bidDueDate: bidDue,
+      dateReceived: dateReceived ?? r?.dateReceived,
+      daysPending,
+      isOverdue,
+    };
+  }
 
 
   pendingInboxBids$ = combineLatest([
@@ -252,53 +255,53 @@ private enrichInboxRow(r: any): any {
   );
 
 
-private sortIncomingRowsByBidDue(rows: any[], sortDir: 'none' | 'asc' | 'desc'): any[] {
-  if (sortDir === 'none') return rows;
+  private sortIncomingRowsByBidDue(rows: any[], sortDir: 'none' | 'asc' | 'desc'): any[] {
+    if (sortDir === 'none') return rows;
 
-  const copy = [...rows];
-  const getTime = (row: any): number | null => {
-    const d = this.toJsDate(row?.bidDueDate ?? row?.bidDueAt ?? row?.bidDue ?? null);
-    return d ? this.startOfDay(d).getTime() : null;
-  };
+    const copy = [...rows];
+    const getTime = (row: any): number | null => {
+      const d = this.toJsDate(row?.bidDueDate ?? row?.bidDueAt ?? row?.bidDue ?? null);
+      return d ? this.startOfDay(d).getTime() : null;
+    };
 
-  copy.sort((a, b) => {
-    const ta = getTime(a);
-    const tb = getTime(b);
+    copy.sort((a, b) => {
+      const ta = getTime(a);
+      const tb = getTime(b);
 
-    if (ta === null && tb === null) return 0;
-    if (ta === null) return 1;
-    if (tb === null) return -1;
+      if (ta === null && tb === null) return 0;
+      if (ta === null) return 1;
+      if (tb === null) return -1;
 
-    return sortDir === 'asc' ? ta - tb : tb - ta;
-  });
+      return sortDir === 'asc' ? ta - tb : tb - ta;
+    });
 
-  return copy;
-}
+    return copy;
+  }
 
-onIncomingBidDueHeaderClick(): void {
-  const next: 'none' | 'asc' | 'desc' =
-    this.incomingBidDueSortDirection === 'none'
-      ? 'asc'
-      : this.incomingBidDueSortDirection === 'asc'
-        ? 'desc'
-        : 'none';
+  onIncomingBidDueHeaderClick(): void {
+    const next: 'none' | 'asc' | 'desc' =
+      this.incomingBidDueSortDirection === 'none'
+        ? 'asc'
+        : this.incomingBidDueSortDirection === 'asc'
+          ? 'desc'
+          : 'none';
 
-  this.incomingBidDueSortDirection = next;
-  this.incomingBidDueSort$.next(next);
-}
+    this.incomingBidDueSortDirection = next;
+    this.incomingBidDueSort$.next(next);
+  }
 
-getIncomingBidDueSortLabel(): string {
-  return this.incomingBidDueSortDirection === 'asc'
-    ? 'Bid Due ↑'
-    : this.incomingBidDueSortDirection === 'desc'
-      ? 'Bid Due ↓'
-      : 'Bid Due';
-}
+  getIncomingBidDueSortLabel(): string {
+    return this.incomingBidDueSortDirection === 'asc'
+      ? 'Bid Due ↑'
+      : this.incomingBidDueSortDirection === 'desc'
+        ? 'Bid Due ↓'
+        : 'Bid Due';
+  }
 
 
-trashInboxBids$ = this.inboxSvc.trash$().pipe(
-  map(rows => (rows ?? []).map(r => this.enrichInboxRow(r)).filter(r => !this.hasBidId(r)))
-);
+  trashInboxBids$ = this.inboxSvc.trash$().pipe(
+    map(rows => (rows ?? []).map(r => this.enrichInboxRow(r)).filter(r => !this.hasBidId(r)))
+  );
 
   /**
    * "Bids Created" is a list of converted inbox items.
@@ -347,7 +350,7 @@ trashInboxBids$ = this.inboxSvc.trash$().pipe(
       return combineLatest(hydrated$);
     })
   );
-incomingActionLabel(row: any): string {
+  incomingActionLabel(row: any): string {
     const id = row?.id ?? '';
     if (this.creatingId === id) return 'Creating…';
     return (row as any)?.bidId ? 'Open' : 'Create Bid';
@@ -495,41 +498,41 @@ incomingActionLabel(row: any): string {
   }
 
 
-async createBidFromIncoming(r: BidInboxItem) {
-  if (!r) return;
+  async createBidFromIncoming(r: BidInboxItem) {
+    if (!r) return;
 
-  const rid = (r.id ?? '').toString();
-  if (!rid) return;
+    const rid = (r.id ?? '').toString();
+    if (!rid) return;
 
-  // If already converted, just open.
-  if ((r as any).bidId) {
-    this.openPartidasDialog(String((r as any).bidId), r, rid);
-    return;
+    // If already converted, just open.
+    if ((r as any).bidId) {
+      this.openPartidasDialog(String((r as any).bidId), r, rid);
+      return;
+    }
+
+    // If a draft exists, continue it (do NOT remove from Incoming list).
+    if ((r as any).draftBidId) {
+      this.openPartidasDialog(String((r as any).draftBidId), r, rid);
+      return;
+    }
+
+    this.creatingId = rid;
+
+    try {
+      // Create a draft bid and keep the Incoming row in place.
+      const bidId = await this.bidFlow.createDraftBidFromIncoming(rid);
+      this.openPartidasDialog(bidId, r, rid);
+    } catch (e: any) {
+      console.error('Create Bid failed', e);
+      const msg =
+        e?.code === 'permission-denied'
+          ? 'Permission denied. Check Firestore rules for bids and bidInbox.'
+          : e?.message || 'Could not create bid.';
+      this.snack.open(msg, 'OK', { duration: 5000 });
+    } finally {
+      this.creatingId = null;
+    }
   }
-
-  // If a draft exists, continue it (do NOT remove from Incoming list).
-  if ((r as any).draftBidId) {
-    this.openPartidasDialog(String((r as any).draftBidId), r, rid);
-    return;
-  }
-
-  this.creatingId = rid;
-
-  try {
-    // Create a draft bid and keep the Incoming row in place.
-    const bidId = await this.bidFlow.createDraftBidFromIncoming(rid);
-    this.openPartidasDialog(bidId, r, rid);
-  } catch (e: any) {
-    console.error('Create Bid failed', e);
-    const msg =
-      e?.code === 'permission-denied'
-        ? 'Permission denied. Check Firestore rules for bids and bidInbox.'
-        : e?.message || 'Could not create bid.';
-    this.snack.open(msg, 'OK', { duration: 5000 });
-  } finally {
-    this.creatingId = null;
-  }
-}
 
   openPartidasDialog(bidId: string, r?: BidInboxItem, incomingId?: string) {
     if (!bidId) return;
@@ -564,21 +567,21 @@ async createBidFromIncoming(r: BidInboxItem) {
     window.open(u, '_blank', 'noopener,noreferrer');
   }
 
-async editPriority(r: BidInboxItem): Promise<void> {
-  if (!r?.id) return;
-  if (r.status === 'Assigned') return;
+  async editPriority(r: BidInboxItem): Promise<void> {
+    if (!r?.id) return;
+    if (r.status === 'Assigned') return;
 
-  const ref = this.dialog.open(EditPriorityDialogComponent, {
-    width: '560px',
-    maxWidth: '96vw',
-    panelClass: 'wt-dialog-panel',
-    data: { priority: (r as any)?.priority ?? 'normal' },
-  });
-  const next = (await firstValueFrom(ref.afterClosed())) as string | null;
-  if (next === null) return;
+    const ref = this.dialog.open(EditPriorityDialogComponent, {
+      width: '560px',
+      maxWidth: '96vw',
+      panelClass: 'wt-dialog-panel',
+      data: { priority: (r as any)?.priority ?? 'normal' },
+    });
+    const next = (await firstValueFrom(ref.afterClosed())) as string | null;
+    if (next === null) return;
 
-  await this.inboxSvc.addIncomingUpdate(r, { priority: next as any }, 'Priority updated');
-}
+    await this.inboxSvc.addIncomingUpdate(r, { priority: next as any }, 'Priority updated');
+  }
 
   async assignIncoming(r: BidInboxItem): Promise<void> {
     if (!r?.id) return;

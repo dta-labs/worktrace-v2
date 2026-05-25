@@ -15,475 +15,475 @@
   </nav>
 
   <div class="settings-content">
-    <div *ngIf="activeTab==='general'" class="settings-stack">
-      <section class="wtv-card settings-hero">
-        <div class="wtv-card__body settings-hero__body">
-          <div>
-            <p class="wtv-eyebrow">Workspace configuration</p>
-            <h2 class="wtv-title">General settings</h2>
-            <p class="settings-copy">
-              This area will centralize global preferences for language, timezone, date formats,
-              currency, and default landing pages.
-            </p>
-          </div>
-          <span class="wtv-chip wtv-chip--info">Foundation ready</span>
-        </div>
-      </section>
-
-      <section class="wtv-grid wtv-grid--2">
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body">
-            <div class="settings-mini-title">What will live here</div>
-            <ul class="settings-list">
-              <li>Default language</li>
-              <li>Timezone</li>
-              <li>Date format</li>
-              <li>Currency</li>
-              <li>Default landing page</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body">
-            <div class="settings-mini-title">Implementation note</div>
-            <p class="settings-copy settings-copy--small">
-              We are only preparing the visual structure right now. No global settings logic has been connected yet.
-            </p>
-          </div>
-        </article>
-      </section>
-    </div>
-
-    <div *ngIf="activeTab==='appearance'" class="settings-stack">
-      <section class="wtv-card settings-hero">
-        <div class="wtv-card__body settings-hero__body">
-          <div>
-            <p class="wtv-eyebrow">Visual system</p>
-            <h2 class="wtv-title">Appearance preferences</h2>
-            <p class="settings-copy">
-              Define the visual environment users will choose from later. This stage prepares the structure without saving runtime preferences yet.
-            </p>
-          </div>
-          <span class="wtv-chip wtv-chip--warning">Draft zone</span>
-        </div>
-      </section>
-
-      <section class="wtv-grid wtv-grid--2 appearance-layout">
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body settings-card__body--tight">
-            <div class="settings-section-head">
-              <div>
-                <div class="settings-mini-title">Dark modes</div>
-                <p class="settings-copy settings-copy--small">Two darker environments for technical and late-hour workflows.</p>
-              </div>
-            </div>
-
-            <div class="option-grid option-grid--themes">
-              <button
-                type="button"
-                class="option-card"
-                *ngFor="let option of darkThemeOptions"
-                [class.active]="selectedTheme === option.id"
-                (click)="selectedTheme = option.id"
-              >
-                <span class="theme-preview theme-preview--{{ option.id }}"></span>
-                <span class="option-card__title">{{ option.label }}</span>
-                <span class="option-card__desc">{{ option.description }}</span>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body settings-card__body--tight">
-            <div class="settings-section-head">
-              <div>
-                <div class="settings-mini-title">Light modes</div>
-                <p class="settings-copy settings-copy--small">Two brighter interfaces for office, estimating, and everyday use.</p>
-              </div>
-            </div>
-
-            <div class="option-grid option-grid--themes">
-              <button
-                type="button"
-                class="option-card"
-                *ngFor="let option of lightThemeOptions"
-                [class.active]="selectedTheme === option.id"
-                (click)="selectedTheme = option.id"
-              >
-                <span class="theme-preview theme-preview--{{ option.id }}"></span>
-                <span class="option-card__title">{{ option.label }}</span>
-                <span class="option-card__desc">{{ option.description }}</span>
-              </button>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section class="wtv-grid wtv-grid--2 appearance-layout">
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body settings-card__body--tight">
-            <div class="settings-section-head">
-              <div>
-                <div class="settings-mini-title">Interface density</div>
-                <p class="settings-copy settings-copy--small">Control how compact the interface should feel across tables and forms.</p>
-              </div>
-            </div>
-
-            <div class="option-grid option-grid--density">
-              <button
-                type="button"
-                class="option-card option-card--density"
-                *ngFor="let option of densityOptions"
-                [class.active]="selectedDensity === option.id"
-                (click)="selectedDensity = option.id"
-              >
-                <span class="density-lines density-lines--{{ option.id }}">
-                  <span></span><span></span><span></span>
-                </span>
-                <span class="option-card__title">{{ option.label }}</span>
-                <span class="option-card__desc">{{ option.description }}</span>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body settings-card__body--tight">
-            <div class="settings-section-head">
-              <div>
-                <div class="settings-mini-title">Preview summary</div>
-                <p class="settings-copy settings-copy--small">A quick read of the currently selected combination.</p>
-              </div>
-            </div>
-
-            <div class="appearance-summary appearance-summary--{{ selectedTheme }}">
-              <div class="appearance-summary__surface">
-                <div class="appearance-summary__bar"></div>
-                <div class="appearance-summary__panel appearance-summary__panel--primary"></div>
-                <div class="appearance-summary__panel appearance-summary__panel--secondary"></div>
-              </div>
-              <div class="appearance-summary__meta">
-                <div class="settings-mini-title settings-mini-title--inline">Selected theme</div>
-                <div class="appearance-summary__value">{{ selectedTheme | titlecase }}</div>
-                <div class="settings-mini-title settings-mini-title--inline">Density</div>
-                <div class="appearance-summary__value">{{ selectedDensity | titlecase }}</div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section class="wtv-card settings-card">
-        <div class="wtv-card__body wtv-actions settings-actions">
-          <button type="button" class="wtv-btn wtv-btn--secondary" (click)="resetAppearanceDraft()">Reset Draft</button>
-<!--          <button type="button" class="wtv-btn wtv-btn&#45;&#45;primary" disabled>Save Preferences (next stage)</button>-->
-            <button type="button" class="wtv-btn wtv-btn--primary" (click)="changeTheme()">Save Preferences (next stage)</button>
-        </div>
-      </section>
-    </div>
-
-    <div *ngIf="activeTab==='user-permissions'" class="settings-stack">
-      <section class="wtv-card settings-hero">
-        <div class="wtv-card__body settings-hero__body">
-          <div>
-            <p class="wtv-eyebrow">Roles & access</p>
-            <h2 class="wtv-title">User permissions</h2>
-            <p class="settings-copy">
-              This tab will define who can create, edit, approve, archive, and administer data inside WorkTrace.
-            </p>
-          </div>
-          <span class="wtv-chip wtv-chip--neutral">Planned</span>
-        </div>
-      </section>
-
-      <section class="wtv-grid wtv-grid--2">
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body">
-            <div class="settings-mini-title">Target roles</div>
-            <ul class="settings-list">
-              <li>Admin</li>
-              <li>Estimator / Bidder</li>
-              <li>Project Manager</li>
-              <li>Viewer / Read only</li>
-            </ul>
-          </div>
-        </article>
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body">
-            <div class="settings-mini-title">Future controls</div>
-            <ul class="settings-list">
-              <li>Create and edit bids</li>
-              <li>Manage workers and companies</li>
-              <li>Approve deletions and restores</li>
-              <li>Access settings and integrations</li>
-            </ul>
-          </div>
-        </article>
-      </section>
-    </div>
-
-    <div *ngIf="activeTab==='bids-configuration'" class="settings-stack">
-      <section class="wtv-card settings-hero">
-        <div class="wtv-card__body settings-hero__body">
-          <div>
-            <p class="wtv-eyebrow">Construction workflow defaults</p>
-            <h2 class="wtv-title">Bids configuration</h2>
-            <p class="settings-copy">
-              Configure the Google Drive root used for bids and define the default folder structure created for every bid workspace.
-            </p>
-          </div>
-          <span class="wtv-chip wtv-chip--info">Connected to Firestore</span>
-        </div>
-      </section>
-
-      <section class="wtv-card settings-card">
-        <div class="wtv-card__body settings-card__body--tight">
-          <div class="drive-row">
-            <div class="drive-k">Status</div>
-            <div class="drive-v">
-              <span class="pill" [class.ok]="bidsEnabled" [class.off]="!bidsEnabled">{{ bidsEnabled ? 'Enabled' : 'Disabled' }}</span>
-            </div>
-            <div class="drive-actions">
-              <label class="toggle">
-                <input type="checkbox" [(ngModel)]="bidsEnabled" />
-                <span>Enable Google Drive for bids</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="drive-row">
-            <div class="drive-k">Root folder</div>
-            <div class="drive-v">
-              <div class="muted" style="margin-bottom:8px">
-                Paste the Google Drive folder ID that will act as the main root for bids and bid workspaces.
-              </div>
-              <input class="template-input" type="text" [(ngModel)]="bidsRootFolderId" placeholder="Google Drive Folder ID (e.g. 1Ewqtg...)" />
-
-              <div style="margin-top:10px" *ngIf="bidsRootFolderId">
-                <div><b>{{ bidsRootFolderName || 'Not validated yet' }}</b></div>
-                <div class="muted">ID: {{ bidsRootFolderId }}</div>
-                <div class="muted" *ngIf="bidsRootFolderUrl">
-                  <a [href]="bidsRootFolderUrl" target="_blank" rel="noopener">Open in Drive</a>
-                </div>
-              </div>
-
-              <div class="msg ok" *ngIf="bidsValidateMsg">{{ bidsValidateMsg }}</div>
-            </div>
-            <div class="drive-actions">
-              <button class="btn" type="button" (click)="validateBidRootFolder()" [disabled]="bidsValidating || bidsLoading">
-                {{ bidsValidating ? 'Validating…' : 'Validate' }}
-              </button>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="settings-section-head">
+    @if (activeTab==='general') {
+      <div class="settings-stack">
+        <section class="wtv-card settings-hero">
+          <div class="wtv-card__body settings-hero__body">
             <div>
-              <div class="settings-mini-title">Bid folder template</div>
-              <p class="settings-copy settings-copy--small">
-                These folders are created automatically when a bid workspace is initialized.
+              <p class="wtv-eyebrow">Workspace configuration</p>
+              <h2 class="wtv-title">General settings</h2>
+              <p class="settings-copy">
+                This area will centralize global preferences for language, timezone, date formats,
+                currency, and default landing pages.
               </p>
             </div>
+            <span class="wtv-chip wtv-chip--info">Foundation ready</span>
           </div>
-
-          <div class="template-list" *ngIf="!bidsLoading; else bidLoadingTpl">
-            <div class="template-item" *ngFor="let name of bidFolderTemplate; let i = index">
-              <input class="template-input" type="text" [(ngModel)]="bidFolderTemplate[i]" placeholder="Folder name" />
-              <button class="icon-btn" type="button" (click)="removeBidTemplateRow(i)" [disabled]="bidFolderTemplate.length<=1">×</button>
+        </section>
+        <section class="wtv-grid wtv-grid--2">
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body">
+              <div class="settings-mini-title">What will live here</div>
+              <ul class="settings-list">
+                <li>Default language</li>
+                <li>Timezone</li>
+                <li>Date format</li>
+                <li>Currency</li>
+                <li>Default landing page</li>
+              </ul>
             </div>
-
-            <div class="template-actions">
-              <button class="btn" type="button" (click)="addBidTemplateRow()">+ Add folder</button>
-              <button class="btn" type="button" (click)="resetBidTemplate()">Reset default</button>
+          </article>
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body">
+              <div class="settings-mini-title">Implementation note</div>
+              <p class="settings-copy settings-copy--small">
+                We are only preparing the visual structure right now. No global settings logic has been connected yet.
+              </p>
             </div>
+          </article>
+        </section>
+      </div>
+    }
+
+    @if (activeTab==='appearance') {
+      <div class="settings-stack">
+        <section class="wtv-card settings-hero">
+          <div class="wtv-card__body settings-hero__body">
+            <div>
+              <p class="wtv-eyebrow">Visual system</p>
+              <h2 class="wtv-title">Appearance preferences</h2>
+              <p class="settings-copy">
+                Define the visual environment users will choose from later. This stage prepares the structure without saving runtime preferences yet.
+              </p>
+            </div>
+            <span class="wtv-chip wtv-chip--warning">Draft zone</span>
           </div>
-
-          <ng-template #bidLoadingTpl>
-            <div class="muted">Loading bid settings…</div>
-          </ng-template>
-
-          <div class="msg error" *ngIf="bidsError">{{ bidsError }}</div>
-          <div class="msg" *ngIf="bidsInfoMsg && !bidsError">{{ bidsInfoMsg }}</div>
-          <div class="msg ok" *ngIf="bidsSavedMsg">{{ bidsSavedMsg }}</div>
-        </div>
-      </section>
-
-      <section class="wtv-grid wtv-grid--2">
-        <article class="wtv-card settings-card">
-          <div class="wtv-card__body">
-            <div class="settings-mini-title">What this controls</div>
-            <ul class="settings-list">
-              <li>Default bid workspace folders</li>
-              <li>Independent Google Drive root for bids</li>
-              <li>Consistent estimating package structure</li>
-              <li>Cleaner handoff to PM and accounting</li>
-            </ul>
+        </section>
+        <section class="wtv-grid wtv-grid--2 appearance-layout">
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body settings-card__body--tight">
+              <div class="settings-section-head">
+                <div>
+                  <div class="settings-mini-title">Dark modes</div>
+                  <p class="settings-copy settings-copy--small">Two darker environments for technical and late-hour workflows.</p>
+                </div>
+              </div>
+              <div class="option-grid option-grid--themes">
+                @for (option of darkThemeOptions; track option) {
+                  <button
+                    type="button"
+                    class="option-card"
+                    [class.active]="selectedTheme === option.id"
+                    (click)="selectedTheme = option.id"
+                    >
+                    <span class="theme-preview theme-preview--{{ option.id }}"></span>
+                    <span class="option-card__title">{{ option.label }}</span>
+                    <span class="option-card__desc">{{ option.description }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          </article>
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body settings-card__body--tight">
+              <div class="settings-section-head">
+                <div>
+                  <div class="settings-mini-title">Light modes</div>
+                  <p class="settings-copy settings-copy--small">Two brighter interfaces for office, estimating, and everyday use.</p>
+                </div>
+              </div>
+              <div class="option-grid option-grid--themes">
+                @for (option of lightThemeOptions; track option) {
+                  <button
+                    type="button"
+                    class="option-card"
+                    [class.active]="selectedTheme === option.id"
+                    (click)="selectedTheme = option.id"
+                    >
+                    <span class="theme-preview theme-preview--{{ option.id }}"></span>
+                    <span class="option-card__title">{{ option.label }}</span>
+                    <span class="option-card__desc">{{ option.description }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          </article>
+        </section>
+        <section class="wtv-grid wtv-grid--2 appearance-layout">
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body settings-card__body--tight">
+              <div class="settings-section-head">
+                <div>
+                  <div class="settings-mini-title">Interface density</div>
+                  <p class="settings-copy settings-copy--small">Control how compact the interface should feel across tables and forms.</p>
+                </div>
+              </div>
+              <div class="option-grid option-grid--density">
+                @for (option of densityOptions; track option) {
+                  <button
+                    type="button"
+                    class="option-card option-card--density"
+                    [class.active]="selectedDensity === option.id"
+                    (click)="selectedDensity = option.id"
+                    >
+                    <span class="density-lines density-lines--{{ option.id }}">
+                      <span></span><span></span><span></span>
+                    </span>
+                    <span class="option-card__title">{{ option.label }}</span>
+                    <span class="option-card__desc">{{ option.description }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          </article>
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body settings-card__body--tight">
+              <div class="settings-section-head">
+                <div>
+                  <div class="settings-mini-title">Preview summary</div>
+                  <p class="settings-copy settings-copy--small">A quick read of the currently selected combination.</p>
+                </div>
+              </div>
+              <div class="appearance-summary appearance-summary--{{ selectedTheme }}">
+                <div class="appearance-summary__surface">
+                  <div class="appearance-summary__bar"></div>
+                  <div class="appearance-summary__panel appearance-summary__panel--primary"></div>
+                  <div class="appearance-summary__panel appearance-summary__panel--secondary"></div>
+                </div>
+                <div class="appearance-summary__meta">
+                  <div class="settings-mini-title settings-mini-title--inline">Selected theme</div>
+                  <div class="appearance-summary__value">{{ selectedTheme | titlecase }}</div>
+                  <div class="settings-mini-title settings-mini-title--inline">Density</div>
+                  <div class="appearance-summary__value">{{ selectedDensity | titlecase }}</div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+        <section class="wtv-card settings-card">
+          <div class="wtv-card__body wtv-actions settings-actions">
+            <button type="button" class="wtv-btn wtv-btn--secondary" (click)="resetAppearanceDraft()">Reset Draft</button>
+            <!--          <button type="button" class="wtv-btn wtv-btn&#45;&#45;primary" disabled>Save Preferences (next stage)</button>-->
+            <button type="button" class="wtv-btn wtv-btn--primary" (click)="changeTheme()">Save Preferences (next stage)</button>
           </div>
-        </article>
-        <article class="wtv-card settings-card">
+        </section>
+      </div>
+    }
+
+    @if (activeTab==='user-permissions') {
+      <div class="settings-stack">
+        <section class="wtv-card settings-hero">
+          <div class="wtv-card__body settings-hero__body">
+            <div>
+              <p class="wtv-eyebrow">Roles & access</p>
+              <h2 class="wtv-title">User permissions</h2>
+              <p class="settings-copy">
+                This tab will define who can create, edit, approve, archive, and administer data inside WorkTrace.
+              </p>
+            </div>
+            <span class="wtv-chip wtv-chip--neutral">Planned</span>
+          </div>
+        </section>
+        <section class="wtv-grid wtv-grid--2">
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body">
+              <div class="settings-mini-title">Target roles</div>
+              <ul class="settings-list">
+                <li>Admin</li>
+                <li>Estimator / Bidder</li>
+                <li>Project Manager</li>
+                <li>Viewer / Read only</li>
+              </ul>
+            </div>
+          </article>
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body">
+              <div class="settings-mini-title">Future controls</div>
+              <ul class="settings-list">
+                <li>Create and edit bids</li>
+                <li>Manage workers and companies</li>
+                <li>Approve deletions and restores</li>
+                <li>Access settings and integrations</li>
+              </ul>
+            </div>
+          </article>
+        </section>
+      </div>
+    }
+
+    @if (activeTab==='bids-configuration') {
+      <div class="settings-stack">
+        <section class="wtv-card settings-hero">
+          <div class="wtv-card__body settings-hero__body">
+            <div>
+              <p class="wtv-eyebrow">Construction workflow defaults</p>
+              <h2 class="wtv-title">Bids configuration</h2>
+              <p class="settings-copy">
+                Configure the Google Drive root used for bids and define the default folder structure created for every bid workspace.
+              </p>
+            </div>
+            <span class="wtv-chip wtv-chip--info">Connected to Firestore</span>
+          </div>
+        </section>
+        <section class="wtv-card settings-card">
           <div class="wtv-card__body settings-card__body--tight">
-            <div class="settings-mini-title">Save</div>
-            <p class="settings-copy settings-copy--small">
-              This action stores only the bid root and bid folder template in Firestore.
-            </p>
-            <div class="settings-save-box">
-              <button class="btn primary" type="button" (click)="saveBidSettings()" [disabled]="bidsSaving || bidsLoading">
-                {{ bidsSaving ? 'Saving…' : 'Save bid configuration' }}
-              </button>
-            </div>
-          </div>
-        </article>
-      </section>
-    </div>
-
-    <div *ngIf="activeTab==='hr-configuration'" class="settings-stack">
-      <section class="wtv-card settings-hero">
-        <div class="wtv-card__body settings-hero__body">
-          <div>
-            <p class="wtv-eyebrow">Workers document architecture</p>
-            <h2 class="wtv-title">Human resources configuration</h2>
-            <p class="settings-copy">
-              Configure the Google Drive root, the fixed path for worker files, the worker folder naming rule, and the default subfolders created for every employee record.
-            </p>
-          </div>
-          <span class="wtv-chip wtv-chip--warning">Drive dependent</span>
-        </div>
-      </section>
-
-      <section class="wtv-card settings-card">
-        <div class="wtv-card__body settings-card__body--tight">
-          <div class="drive-row">
-            <div class="drive-k">Status</div>
-            <div class="drive-v">
-              <span class="pill" [class.ok]="driveEnabled" [class.off]="!driveEnabled">{{ driveEnabled ? 'Enabled' : 'Disabled' }}</span>
-            </div>
-            <div class="drive-actions">
-              <label class="toggle">
-                <input type="checkbox" [(ngModel)]="driveEnabled" />
-                <span>Enable Google Drive for workers</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="drive-row">
-            <div class="drive-k">Root folder</div>
-            <div class="drive-v">
-              <div class="muted" style="margin-bottom:8px">
-                Paste the Google Drive folder ID that will act as the main root for workers and other HR files.
+            <div class="drive-row">
+              <div class="drive-k">Status</div>
+              <div class="drive-v">
+                <span class="pill" [class.ok]="bidsEnabled" [class.off]="!bidsEnabled">{{ bidsEnabled ? 'Enabled' : 'Disabled' }}</span>
               </div>
-              <input class="template-input" type="text" [(ngModel)]="driveRootFolderId" placeholder="Google Drive Folder ID (e.g. 1Ewqtg...)" />
-
-              <div style="margin-top:10px" *ngIf="driveRootFolderId">
-                <div><b>{{ driveRootFolderName || 'Not validated yet' }}</b></div>
-                <div class="muted">ID: {{ driveRootFolderId }}</div>
-                <div class="muted" *ngIf="driveRootFolderUrl">
-                  <a [href]="driveRootFolderUrl" target="_blank" rel="noopener">Open in Drive</a>
+              <div class="drive-actions">
+                <label class="toggle">
+                  <input type="checkbox" [(ngModel)]="bidsEnabled" />
+                  <span>Enable Google Drive for bids</span>
+                </label>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="drive-row">
+              <div class="drive-k">Root folder</div>
+              <div class="drive-v">
+                <div class="muted" style="margin-bottom:8px">
+                  Paste the Google Drive folder ID that will act as the main root for bids and bid workspaces.
                 </div>
+                <input class="template-input" type="text" [(ngModel)]="bidsRootFolderId" placeholder="Google Drive Folder ID (e.g. 1Ewqtg...)" />
+                @if (bidsRootFolderId) {
+                  <div style="margin-top:10px">
+                    <div><b>{{ bidsRootFolderName || 'Not validated yet' }}</b></div>
+                    <div class="muted">ID: {{ bidsRootFolderId }}</div>
+                    @if (bidsRootFolderUrl) {
+                      <div class="muted">
+                        <a [href]="bidsRootFolderUrl" target="_blank" rel="noopener">Open in Drive</a>
+                      </div>
+                    }
+                  </div>
+                }
+                @if (bidsValidateMsg) {
+                  <div class="msg ok">{{ bidsValidateMsg }}</div>
+                }
               </div>
-
-              <div class="msg ok" *ngIf="driveValidateMsg">{{ driveValidateMsg }}</div>
-            </div>
-            <div class="drive-actions">
-              <button class="btn" type="button" (click)="validateHrRootFolder()" [disabled]="driveValidating || driveLoading">
-                {{ driveValidating ? 'Validating…' : 'Validate' }}
-              </button>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="drive-row" style="align-items:flex-start">
-            <div class="drive-k">Fixed path</div>
-            <div class="drive-v">
-              <div class="muted" style="margin-bottom:10px">
-                WorkTrace will create or reuse this path before creating the worker-specific folder.
-              </div>
-
-              <div class="template-list template-list--2">
-                <div class="template-item">
-                  <input class="template-input" type="text" [(ngModel)]="driveHumanResourcesFolderName" placeholder="07-HUMAN RESOURCES" />
-                </div>
-                <div class="template-item">
-                  <input class="template-input" type="text" [(ngModel)]="driveWorkersFolderName" placeholder="WORKERS" />
-                </div>
-              </div>
-
-              <div class="preview-box">
-                <div class="preview-box__label">Path preview</div>
-                <div class="preview-box__value">{{ driveHumanResourcesFolderName || '07-HUMAN RESOURCES' }} / {{ driveWorkersFolderName || 'WORKERS' }} / {{ workerFolderPreview() }}</div>
-              </div>
-            </div>
-            <div class="drive-actions"></div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="drive-row" style="align-items:flex-start">
-            <div class="drive-k">Worker folder naming</div>
-            <div class="drive-v">
-              <div class="muted" style="margin-bottom:10px">
-                Decide whether each worker folder should use the first name, the last name, or both.
-              </div>
-
-              <div class="option-grid option-grid--naming">
-                <button
-                  type="button"
-                  class="option-card option-card--naming"
-                  *ngFor="let option of workerNamingOptions"
-                  [class.active]="workerFolderNamingMode === option.id"
-                  (click)="workerFolderNamingMode = option.id"
-                >
-                  <span class="option-card__title">{{ option.label }}</span>
-                  <span class="option-card__desc">{{ option.description }}</span>
+              <div class="drive-actions">
+                <button class="btn" type="button" (click)="validateBidRootFolder()" [disabled]="bidsValidating || bidsLoading">
+                  {{ bidsValidating ? 'Validating…' : 'Validate' }}
                 </button>
               </div>
             </div>
-            <div class="drive-actions"></div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="drive-row" style="align-items:flex-start">
-            <div class="drive-k">Default worker subfolders</div>
-            <div class="drive-v">
-              <div class="muted" style="margin-bottom:10px">
-                These are the default folders created inside each worker record. Keep photo and documents here, then add only the folders your operation really needs.
+            <div class="divider"></div>
+            <div class="settings-section-head">
+              <div>
+                <div class="settings-mini-title">Bid folder template</div>
+                <p class="settings-copy settings-copy--small">
+                  These folders are created automatically when a bid workspace is initialized.
+                </p>
               </div>
-
-              <div class="template-list" *ngIf="!driveLoading; else workerLoadingTpl">
-                <div class="template-item" *ngFor="let name of workerSubfolderTemplate; let i = index">
-                  <input class="template-input" type="text" [(ngModel)]="workerSubfolderTemplate[i]" placeholder="Folder name" />
-                  <button class="icon-btn" type="button" (click)="removeWorkerTemplateRow(i)" [disabled]="workerSubfolderTemplate.length<=1">×</button>
-                </div>
-
+            </div>
+            @if (!bidsLoading) {
+              <div class="template-list">
+                @for (name of bidFolderTemplate; track name; let i = $index) {
+                  <div class="template-item">
+                    <input class="template-input" type="text" [(ngModel)]="bidFolderTemplate[i]" placeholder="Folder name" />
+                    <button class="icon-btn" type="button" (click)="removeBidTemplateRow(i)" [disabled]="bidFolderTemplate.length<=1">×</button>
+                  </div>
+                }
                 <div class="template-actions">
-                  <button class="btn" type="button" (click)="addWorkerTemplateRow()">+ Add folder</button>
-                  <button class="btn" type="button" (click)="resetWorkerTemplate()">Reset default</button>
+                  <button class="btn" type="button" (click)="addBidTemplateRow()">+ Add folder</button>
+                  <button class="btn" type="button" (click)="resetBidTemplate()">Reset default</button>
                 </div>
               </div>
-
-              <ng-template #workerLoadingTpl>
-                <div class="muted">Loading worker folder settings…</div>
-              </ng-template>
-            </div>
-            <div class="drive-actions">
-              <button class="btn primary" type="button" (click)="saveDriveSettings()" [disabled]="driveSaving || driveLoading">
-                {{ driveSaving ? 'Saving…' : 'Save HR configuration' }}
-              </button>
-            </div>
+            } @else {
+              <div class="muted">Loading bid settings…</div>
+            }
+            @if (bidsError) {
+              <div class="msg error">{{ bidsError }}</div>
+            }
+            @if (bidsInfoMsg && !bidsError) {
+              <div class="msg">{{ bidsInfoMsg }}</div>
+            }
+            @if (bidsSavedMsg) {
+              <div class="msg ok">{{ bidsSavedMsg }}</div>
+            }
           </div>
+        </section>
+        <section class="wtv-grid wtv-grid--2">
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body">
+              <div class="settings-mini-title">What this controls</div>
+              <ul class="settings-list">
+                <li>Default bid workspace folders</li>
+                <li>Independent Google Drive root for bids</li>
+                <li>Consistent estimating package structure</li>
+                <li>Cleaner handoff to PM and accounting</li>
+              </ul>
+            </div>
+          </article>
+          <article class="wtv-card settings-card">
+            <div class="wtv-card__body settings-card__body--tight">
+              <div class="settings-mini-title">Save</div>
+              <p class="settings-copy settings-copy--small">
+                This action stores only the bid root and bid folder template in Firestore.
+              </p>
+              <div class="settings-save-box">
+                <button class="btn primary" type="button" (click)="saveBidSettings()" [disabled]="bidsSaving || bidsLoading">
+                  {{ bidsSaving ? 'Saving…' : 'Save bid configuration' }}
+                </button>
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+    }
 
-          <div class="msg error" *ngIf="driveError">{{ driveError }}</div>
-          <div class="msg ok" *ngIf="driveSavedMsg">{{ driveSavedMsg }}</div>
-        </div>
-      </section>
-    </div>
+    @if (activeTab==='hr-configuration') {
+      <div class="settings-stack">
+        <section class="wtv-card settings-hero">
+          <div class="wtv-card__body settings-hero__body">
+            <div>
+              <p class="wtv-eyebrow">Workers document architecture</p>
+              <h2 class="wtv-title">Human resources configuration</h2>
+              <p class="settings-copy">
+                Configure the Google Drive root, the fixed path for worker files, the worker folder naming rule, and the default subfolders created for every employee record.
+              </p>
+            </div>
+            <span class="wtv-chip wtv-chip--warning">Drive dependent</span>
+          </div>
+        </section>
+        <section class="wtv-card settings-card">
+          <div class="wtv-card__body settings-card__body--tight">
+            <div class="drive-row">
+              <div class="drive-k">Status</div>
+              <div class="drive-v">
+                <span class="pill" [class.ok]="driveEnabled" [class.off]="!driveEnabled">{{ driveEnabled ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+              <div class="drive-actions">
+                <label class="toggle">
+                  <input type="checkbox" [(ngModel)]="driveEnabled" />
+                  <span>Enable Google Drive for workers</span>
+                </label>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="drive-row">
+              <div class="drive-k">Root folder</div>
+              <div class="drive-v">
+                <div class="muted" style="margin-bottom:8px">
+                  Paste the Google Drive folder ID that will act as the main root for workers and other HR files.
+                </div>
+                <input class="template-input" type="text" [(ngModel)]="driveRootFolderId" placeholder="Google Drive Folder ID (e.g. 1Ewqtg...)" />
+                @if (driveRootFolderId) {
+                  <div style="margin-top:10px">
+                    <div><b>{{ driveRootFolderName || 'Not validated yet' }}</b></div>
+                    <div class="muted">ID: {{ driveRootFolderId }}</div>
+                    @if (driveRootFolderUrl) {
+                      <div class="muted">
+                        <a [href]="driveRootFolderUrl" target="_blank" rel="noopener">Open in Drive</a>
+                      </div>
+                    }
+                  </div>
+                }
+                @if (driveValidateMsg) {
+                  <div class="msg ok">{{ driveValidateMsg }}</div>
+                }
+              </div>
+              <div class="drive-actions">
+                <button class="btn" type="button" (click)="validateHrRootFolder()" [disabled]="driveValidating || driveLoading">
+                  {{ driveValidating ? 'Validating…' : 'Validate' }}
+                </button>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="drive-row" style="align-items:flex-start">
+              <div class="drive-k">Fixed path</div>
+              <div class="drive-v">
+                <div class="muted" style="margin-bottom:10px">
+                  WorkTrace will create or reuse this path before creating the worker-specific folder.
+                </div>
+                <div class="template-list template-list--2">
+                  <div class="template-item">
+                    <input class="template-input" type="text" [(ngModel)]="driveHumanResourcesFolderName" placeholder="07-HUMAN RESOURCES" />
+                  </div>
+                  <div class="template-item">
+                    <input class="template-input" type="text" [(ngModel)]="driveWorkersFolderName" placeholder="WORKERS" />
+                  </div>
+                </div>
+                <div class="preview-box">
+                  <div class="preview-box__label">Path preview</div>
+                  <div class="preview-box__value">{{ driveHumanResourcesFolderName || '07-HUMAN RESOURCES' }} / {{ driveWorkersFolderName || 'WORKERS' }} / {{ workerFolderPreview() }}</div>
+                </div>
+              </div>
+              <div class="drive-actions"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="drive-row" style="align-items:flex-start">
+              <div class="drive-k">Worker folder naming</div>
+              <div class="drive-v">
+                <div class="muted" style="margin-bottom:10px">
+                  Decide whether each worker folder should use the first name, the last name, or both.
+                </div>
+                <div class="option-grid option-grid--naming">
+                  @for (option of workerNamingOptions; track option) {
+                    <button
+                      type="button"
+                      class="option-card option-card--naming"
+                      [class.active]="workerFolderNamingMode === option.id"
+                      (click)="workerFolderNamingMode = option.id"
+                      >
+                      <span class="option-card__title">{{ option.label }}</span>
+                      <span class="option-card__desc">{{ option.description }}</span>
+                    </button>
+                  }
+                </div>
+              </div>
+              <div class="drive-actions"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="drive-row" style="align-items:flex-start">
+              <div class="drive-k">Default worker subfolders</div>
+              <div class="drive-v">
+                <div class="muted" style="margin-bottom:10px">
+                  These are the default folders created inside each worker record. Keep photo and documents here, then add only the folders your operation really needs.
+                </div>
+                @if (!driveLoading) {
+                  <div class="template-list">
+                    @for (name of workerSubfolderTemplate; track name; let i = $index) {
+                      <div class="template-item">
+                        <input class="template-input" type="text" [(ngModel)]="workerSubfolderTemplate[i]" placeholder="Folder name" />
+                        <button class="icon-btn" type="button" (click)="removeWorkerTemplateRow(i)" [disabled]="workerSubfolderTemplate.length<=1">×</button>
+                      </div>
+                    }
+                    <div class="template-actions">
+                      <button class="btn" type="button" (click)="addWorkerTemplateRow()">+ Add folder</button>
+                      <button class="btn" type="button" (click)="resetWorkerTemplate()">Reset default</button>
+                    </div>
+                  </div>
+                } @else {
+                  <div class="muted">Loading worker folder settings…</div>
+                }
+              </div>
+              <div class="drive-actions">
+                <button class="btn primary" type="button" (click)="saveDriveSettings()" [disabled]="driveSaving || driveLoading">
+                  {{ driveSaving ? 'Saving…' : 'Save HR configuration' }}
+                </button>
+              </div>
+            </div>
+            @if (driveError) {
+              <div class="msg error">{{ driveError }}</div>
+            }
+            @if (driveSavedMsg) {
+              <div class="msg ok">{{ driveSavedMsg }}</div>
+            }
+          </div>
+        </section>
+      </div>
+    }
   </div>
 </div>

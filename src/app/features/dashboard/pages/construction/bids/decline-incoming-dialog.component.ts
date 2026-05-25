@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-decline-incoming-dialog',
-    imports: [CommonModule, MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+    imports: [MatDialogModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
     template: `
     <div class="wt-modal">
       <div class="wt-modal-header">
@@ -21,33 +21,43 @@ import { MatButtonModule } from '@angular/material/button';
           </div>
         </div>
       </div>
-
+    
       <div class="wt-modal-body">
         <div class="wt-danger-box">
           <div class="wt-danger-title">You are removing:</div>
           <div class="wt-danger-text">{{ data?.title || '(no title)' }}</div>
-          <div class="wt-danger-meta" *ngIf="data?.projectName || data?.clientName">
-            <span *ngIf="data?.clientName">{{ data.clientName }}</span>
-            <span *ngIf="data?.clientName && data?.projectName"> • </span>
-            <span *ngIf="data?.projectName">{{ data.projectName }}</span>
-          </div>
+          @if (data?.projectName || data?.clientName) {
+            <div class="wt-danger-meta">
+              @if (data?.clientName) {
+                <span>{{ data.clientName }}</span>
+              }
+              @if (data?.clientName && data?.projectName) {
+                <span> • </span>
+              }
+              @if (data?.projectName) {
+                <span>{{ data.projectName }}</span>
+              }
+            </div>
+          }
         </div>
-
+    
         <form [formGroup]="form" autocomplete="off">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Justification (required)</mat-label>
             <textarea matInput rows="4" formControlName="reason" placeholder="Why are you declining/removing this opportunity?"></textarea>
-            <mat-error *ngIf="form.controls.reason.invalid && form.controls.reason.touched">Justification is required</mat-error>
+            @if (form.controls.reason.invalid && form.controls.reason.touched) {
+              <mat-error>Justification is required</mat-error>
+            }
           </mat-form-field>
         </form>
       </div>
-
+    
       <div class="wt-modal-actions">
         <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
         <button mat-flat-button color="warn" type="button" [disabled]="form.invalid" (click)="confirm()">Remove</button>
       </div>
     </div>
-  `,
+    `,
     styles: [`
     .w-100 { width: 100%; }
     .wt-danger-box{

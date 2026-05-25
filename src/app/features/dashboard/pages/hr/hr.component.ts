@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Firestore, addDoc, collection, doc, getCountFromServer, getDoc, getDocs, limit, orderBy, query, serverTimestamp, startAfter, updateDoc } from '@angular/fire/firestore';
@@ -145,7 +145,7 @@ type PaginationItem = number | 'ellipsis';
 
 @Component({
     selector: 'app-hr-page',
-    imports: [CommonModule, FormsModule, CreateCandidateComponent, CandidatesListComponent],
+    imports: [FormsModule, CreateCandidateComponent, CandidatesListComponent],
     templateUrl: './hr.component.html',
     styleUrl: './hr.component.scss'
 })

@@ -15,960 +15,1073 @@
   </div>
 
   <div class="panel">
-    <div *ngIf="activeTab==='candidate-records'" class="hr-stack">
-          <div class="subnav subnav--inner" aria-label="Candidate Records navigation">
-              <button class="subnav-item" type="button" [class.active]="candidateRecordsView==='create'" (click)="setCandidateRecordsView('create')">Create Candidate</button>
-              <button class="subnav-item" type="button" [class.active]="candidateRecordsView==='manage'" (click)="setCandidateRecordsView('manage')">Manage Candidates</button>
-          </div>
-
-            <section class="hr-grid" *ngIf="candidateRecordsView==='create'">
-              <app-create-candidate></app-create-candidate>
-            </section>
-
-            <section class="hr-grid hr-grid--main" *ngIf="candidateRecordsView==='manage'">
-              <app-candidates-list></app-candidates-list>
-            </section>
+    @if (activeTab==='candidate-records') {
+      <div class="hr-stack">
+        <div class="subnav subnav--inner" aria-label="Candidate Records navigation">
+          <button class="subnav-item" type="button" [class.active]="candidateRecordsView==='create'" (click)="setCandidateRecordsView('create')">Create Candidate</button>
+          <button class="subnav-item" type="button" [class.active]="candidateRecordsView==='manage'" (click)="setCandidateRecordsView('manage')">Manage Candidates</button>
+        </div>
+        @if (candidateRecordsView==='create') {
+          <section class="hr-grid">
+            <app-create-candidate></app-create-candidate>
+          </section>
+        }
+        @if (candidateRecordsView==='manage') {
+          <section class="hr-grid hr-grid--main">
+            <app-candidates-list></app-candidates-list>
+          </section>
+        }
       </div>
+    }
 
-    <div *ngIf="activeTab==='worker-records'" class="hr-stack">
-      <div class="subnav subnav--inner" aria-label="Worker Records navigation">
-        <button class="subnav-item" type="button" [class.active]="workerRecordsView==='create'" (click)="setWorkerRecordsView('create')">Create Worker</button>
-        <button class="subnav-item" type="button" [class.active]="workerRecordsView==='manage'" (click)="setWorkerRecordsView('manage')">Manage Workers</button>
-      </div>
-
-      <section class="hr-grid" *ngIf="workerRecordsView==='create'">
-        <article class="hr-card">
-          <div class="hr-card__head">
-            <div>
-              <div class="eyebrow">Worker profile</div>
-              <h3>Create worker</h3>
-              <p>Store the worker file, pay setup, compliance, vacation policy, and required HR documents in one flow.</p>
-            </div>
-            <span class="pill pill--info">Worker-first model</span>
-          </div>
-
-          <div class="section-jumpbar" aria-label="Form sections">
-            <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='identity'" (click)="scrollToSection('identity')">Identity</button>
-            <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='employment'" (click)="scrollToSection('employment')">Employment</button>
-            <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='compensation'" (click)="scrollToSection('compensation')">Compensation</button>
-            <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='documents'" (click)="scrollToSection('documents')">Documents</button>
-            <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='notes'" (click)="scrollToSection('notes')">Notes</button>
-          </div>
-
-          <div class="form-section preselect-candidate" (click)="$event.stopPropagation()">
-            <div class="section-title">Pre-select Candidate</div>
-            <div class="preselect-candidate__layout">
-              <label class="field field--full">
-                <span>Search existing candidates</span>
-                <div class="candidate-autocomplete">
-                  <input
-                    type="text"
-                    [(ngModel)]="candidateSearchTerm"
-                    (input)="onCandidateSearchInput()"
-                    (focus)="onCandidateSearchFocus()"
-                    placeholder="Name, email, phone, stage, source..."
-                    autocomplete="off"
-                    aria-autocomplete="list"
-                    [attr.aria-expanded]="isCandidateSearchOpen"
-                  />
-
-                  <div class="candidate-autocomplete__panel" *ngIf="isCandidateSearchOpen">
-                    <div class="candidate-autocomplete__state" *ngIf="isSearchingCandidates">Searching candidates...</div>
-
-                    <div class="candidate-autocomplete__state candidate-autocomplete__state--error" *ngIf="!isSearchingCandidates && candidateSearchError">
-                      {{ candidateSearchError }}
+    @if (activeTab==='worker-records') {
+      <div class="hr-stack">
+        <div class="subnav subnav--inner" aria-label="Worker Records navigation">
+          <button class="subnav-item" type="button" [class.active]="workerRecordsView==='create'" (click)="setWorkerRecordsView('create')">Create Worker</button>
+          <button class="subnav-item" type="button" [class.active]="workerRecordsView==='manage'" (click)="setWorkerRecordsView('manage')">Manage Workers</button>
+        </div>
+        @if (workerRecordsView==='create') {
+          <section class="hr-grid">
+            <article class="hr-card">
+              <div class="hr-card__head">
+                <div>
+                  <div class="eyebrow">Worker profile</div>
+                  <h3>Create worker</h3>
+                  <p>Store the worker file, pay setup, compliance, vacation policy, and required HR documents in one flow.</p>
+                </div>
+                <span class="pill pill--info">Worker-first model</span>
+              </div>
+              <div class="section-jumpbar" aria-label="Form sections">
+                <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='identity'" (click)="scrollToSection('identity')">Identity</button>
+                <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='employment'" (click)="scrollToSection('employment')">Employment</button>
+                <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='compensation'" (click)="scrollToSection('compensation')">Compensation</button>
+                <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='documents'" (click)="scrollToSection('documents')">Documents</button>
+                <button type="button" class="section-jumpbar__chip" [class.active]="activeSection==='notes'" (click)="scrollToSection('notes')">Notes</button>
+              </div>
+              <div class="form-section preselect-candidate" (click)="$event.stopPropagation()">
+                <div class="section-title">Pre-select Candidate</div>
+                <div class="preselect-candidate__layout">
+                  <label class="field field--full">
+                    <span>Search existing candidates</span>
+                    <div class="candidate-autocomplete">
+                      <input
+                        type="text"
+                        [(ngModel)]="candidateSearchTerm"
+                        (input)="onCandidateSearchInput()"
+                        (focus)="onCandidateSearchFocus()"
+                        placeholder="Name, email, phone, stage, source..."
+                        autocomplete="off"
+                        aria-autocomplete="list"
+                        [attr.aria-expanded]="isCandidateSearchOpen"
+                        />
+                        @if (isCandidateSearchOpen) {
+                          <div class="candidate-autocomplete__panel">
+                            @if (isSearchingCandidates) {
+                              <div class="candidate-autocomplete__state">Searching candidates...</div>
+                            }
+                            @if (!isSearchingCandidates && candidateSearchError) {
+                              <div class="candidate-autocomplete__state candidate-autocomplete__state--error">
+                                {{ candidateSearchError }}
+                              </div>
+                            }
+                            @if (showEmptyCandidateSearchState()) {
+                              <div class="candidate-autocomplete__state">
+                                No candidates match that search term.
+                              </div>
+                            }
+                            @for (candidate of candidateSearchResults; track candidate) {
+                              <button
+                                type="button"
+                                class="candidate-autocomplete__option"
+                                (click)="selectCandidateOption(candidate)"
+                                >
+                                <span class="candidate-autocomplete__name">{{ candidate.displayName }}</span>
+                                <span class="candidate-autocomplete__meta">{{ candidate.email || 'No email' }}</span>
+                                <span class="candidate-autocomplete__meta">{{ candidate.employmentType }} · {{ candidate.areaType }} · {{ candidate.stage || 'No stage' }}</span>
+                              </button>
+                            }
+                          </div>
+                        }
+                      </div>
+                    </label>
+                    @if (selectedCandidateOption) {
+                      <div class="preselect-candidate__summary">
+                        <div>
+                          <div class="preselect-candidate__summary-title">Selected candidate</div>
+                          <div class="preselect-candidate__summary-name">{{ selectedCandidateOption.displayName }}</div>
+                          <div class="preselect-candidate__summary-meta">{{ selectedCandidateOption.employmentType }} · {{ selectedCandidateOption.areaType }} · {{ selectedCandidateOption.stage || 'No stage' }}</div>
+                          @if (isLoadingSelectedCandidateDocuments) {
+                            <div class="preselect-candidate__summary-meta">Loading candidate documents...</div>
+                          }
+                          @if (!isLoadingSelectedCandidateDocuments && selectedCandidateDocuments.length) {
+                            <div class="preselect-candidate__summary-meta">{{ selectedCandidateDocuments.length }} candidate document(s) loaded into the worker draft.</div>
+                          }
+                        </div>
+                        <button type="button" class="btn btn--ghost btn--small" (click)="clearCandidateSelection()">Clear</button>
+                      </div>
+                    }
+                  </div>
+                  <div class="inline-hint">Selecting a candidate pre-fills the worker draft with the candidate profile and current employment details. You can still edit any field before saving the worker.</div>
+                </div>
+                <div class="create-worker-scroll" #createWorkerScroll (scroll)="onCreateWorkerScroll($event)">
+                  <div class="form-section" id="hr-section-identity" data-nav-section="identity">
+                    <div class="section-title">Identity</div>
+                    <div class="passport-photo-card">
+                      <div class="passport-photo-card__frame">
+                        <div class="passport-photo-card__image" [class.passport-photo-card__image--empty]="!getPhotoPreview(draftWorker.photoURL, draftPhoto)">
+                          @if (getPhotoPreview(draftWorker.photoURL, draftPhoto)) {
+                            <img [src]="getPhotoPreview(draftWorker.photoURL, draftPhoto)" alt="Worker passport photo preview" />
+                          } @else {
+                            <div class="passport-photo-card__fallback">{{ getWorkerInitials(draftWorker.firstName, draftWorker.lastName) }}</div>
+                          }
+                        </div>
+                        <div class="passport-photo-card__badge">Passport photo</div>
+                      </div>
+                      <div class="passport-photo-card__content">
+                        <div class="passport-photo-card__title">Worker photo</div>
+                        <div class="passport-photo-card__hint">Upload a portrait-style image framed like a passport photo. This becomes the main worker image across HR records.</div>
+                        <div class="passport-photo-card__actions">
+                          <label class="btn btn--ghost btn--small passport-photo-card__upload">
+                            <input type="file" accept="image/*" (change)="onDraftPhotoSelected($event)" hidden />
+                            Upload photo
+                          </label>
+                          <button type="button" class="btn btn--ghost btn--small" (click)="clearDraftPhoto()" [disabled]="!getPhotoPreview(draftWorker.photoURL, draftPhoto)">Remove</button>
+                        </div>
+                      </div>
                     </div>
-
-                    <div class="candidate-autocomplete__state" *ngIf="showEmptyCandidateSearchState()">
-                      No candidates match that search term.
+                    <div class="form-grid form-grid--3">
+                      <label class="field">
+                        <span>First name <em class="req-star">*</em></span>
+                        <input type="text" [(ngModel)]="draftWorker.firstName" placeholder="John" />
+                      </label>
+                      <label class="field">
+                        <span>Middle name</span>
+                        <input type="text" [(ngModel)]="draftWorker.middleName" placeholder="Michael" />
+                      </label>
+                      <label class="field">
+                        <span>Last name <em class="req-star">*</em></span>
+                        <input type="text" [(ngModel)]="draftWorker.lastName" placeholder="Doe" />
+                      </label>
+                      <label class="field">
+                        <span>Email</span>
+                        <input type="email" [(ngModel)]="draftWorker.email" placeholder="worker@worktrace.com" />
+                      </label>
+                      <label class="field">
+                        <span>Phone</span>
+                        <input type="text" [(ngModel)]="draftWorker.phone" placeholder="(555) 555-5555" />
+                      </label>
+                      <label class="field">
+                        <span>Alternate phone</span>
+                        <input type="text" [(ngModel)]="draftWorker.alternatePhone" placeholder="Optional" />
+                      </label>
+                      <label class="field">
+                        <span>Date of birth</span>
+                        <input type="date" [(ngModel)]="draftWorker.dateOfBirth" />
+                      </label>
+                      <label class="field">
+                        <span>Preferred language</span>
+                        <select [(ngModel)]="draftWorker.preferredLanguage">
+                          @for (item of languageOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>SSN</span>
+                        <input type="text" [(ngModel)]="draftWorker.ssnFull" placeholder="123-45-6789" />
+                      </label>
                     </div>
-
-                    <button
-                      type="button"
-                      class="candidate-autocomplete__option"
-                      *ngFor="let candidate of candidateSearchResults"
-                      (click)="selectCandidateOption(candidate)"
-                    >
-                      <span class="candidate-autocomplete__name">{{ candidate.displayName }}</span>
-                      <span class="candidate-autocomplete__meta">{{ candidate.email || 'No email' }}</span>
-                      <span class="candidate-autocomplete__meta">{{ candidate.employmentType }} · {{ candidate.areaType }} · {{ candidate.stage || 'No stage' }}</span>
+                  </div>
+                  <div class="form-section" id="hr-section-employment" data-nav-section="employment">
+                    <div class="section-title">Employment</div>
+                    <div class="form-grid form-grid--3">
+                      <label class="field">
+                        <span>Employment type <em class="req-star">*</em></span>
+                        <select [(ngModel)]="draftWorker.employmentType" (ngModelChange)="onDraftEmploymentTypeChange()">
+                          @for (item of employmentOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Area</span>
+                        <select [(ngModel)]="draftWorker.areaType" (ngModelChange)="onDraftAreaChange()">
+                          @for (item of areaOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Sub role</span>
+                        <select [(ngModel)]="draftWorker.subRole">
+                          @for (item of getSubRoleOptions(draftWorker.areaType); track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Supervisor</span>
+                        <input type="text" [(ngModel)]="draftWorker.supervisor" placeholder="Reports to" />
+                      </label>
+                      <label class="field">
+                        <span>Hire date</span>
+                        <input type="date" [(ngModel)]="draftWorker.hireDate" (ngModelChange)="refreshDraftVacation()" />
+                      </label>
+                      <label class="field">
+                        <span>Rehire date</span>
+                        <input type="date" [(ngModel)]="draftWorker.rehireDate" />
+                      </label>
+                      <label class="field">
+                        <span>Work authorization</span>
+                        <select [(ngModel)]="draftWorker.workAuthorizationStatus">
+                          @for (item of authorizationOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      @if (draftWorker.workAuthorizationStatus !== 'citizen') {
+                        <label class="field">
+                          <span>Authorization expiration</span>
+                          <input type="date" [(ngModel)]="draftWorker.workAuthorizationExpiration" />
+                        </label>
+                      }
+                      <label class="field">
+                        <span>Passport number</span>
+                        <input type="text" [(ngModel)]="draftWorker.passportNumber" placeholder="Passport number" />
+                      </label>
+                      @if (draftWorker.workAuthorizationStatus == 'resident') {
+                        <label class="field">
+                          <span>Residence number</span>
+                          <input type="text" [(ngModel)]="draftWorker.residenceNumber" placeholder="Residence number" />
+                        </label>
+                      }
+                      @if (draftWorker.workAuthorizationStatus == 'work_permit') {
+                        <label class="field">
+                          <span>Work permit number</span>
+                          <input type="text" [(ngModel)]="draftWorker.workPermitNumber" placeholder="Work permit number" />
+                        </label>
+                      }
+                    </div>
+                  </div>
+                  <div class="form-section" id="hr-section-compensation" data-nav-section="compensation">
+                    <div class="section-title">Compensation</div>
+                    <div class="form-grid form-grid--3">
+                      <label class="field">
+                        <span>Pay type <em class="req-star">*</em></span>
+                        <select [(ngModel)]="draftWorker.payType">
+                          @for (item of payTypeOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>{{ draftWorker.payType === 'salary' ? 'Salary / regular rate' : 'Regular rate' }} <em class="req-star">*</em></span>
+                        <input type="number" [(ngModel)]="draftWorker.hourlyRate" (ngModelChange)="updateDraftOvertimeRate()" placeholder="25" />
+                      </label>
+                      @if (draftWorker.employmentType === 'W2') {
+                        <label class="field">
+                          <span>Overtime rate (auto)</span>
+                          <input type="number" [ngModel]="draftWorker.overtimeRate" readonly placeholder="37.5" />
+                        </label>
+                      }
+                      <label class="field">
+                        <span>Payment method</span>
+                        <select [(ngModel)]="draftWorker.paymentMethod" (ngModelChange)="onDraftPaymentMethodChange()">
+                          @for (item of paymentMethodOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                    </div>
+                    @if (draftWorker.paymentMethod === 'direct_deposit') {
+                      <div class="form-grid form-grid--3">
+                        <label class="field">
+                          <span>Bank name @if (isDraftDirectDeposit()) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="text" [(ngModel)]="draftWorker.bankInfo.bankName" placeholder="Bank name" />
+                        </label>
+                        <label class="field">
+                          <span>Account holder name @if (isDraftDirectDeposit()) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="text" [(ngModel)]="draftWorker.bankInfo.accountHolderName" placeholder="Account holder" />
+                        </label>
+                        <label class="field">
+                          <span>Account type</span>
+                          <select [(ngModel)]="draftWorker.bankInfo.accountType">
+                            @for (item of bankAccountTypeOptions; track item) {
+                              <option [value]="item">{{ item }}</option>
+                            }
+                          </select>
+                        </label>
+                        <label class="field">
+                          <span>Routing number @if (isDraftDirectDeposit()) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="text" [(ngModel)]="draftWorker.bankInfo.routingNumber" placeholder="Routing number" />
+                        </label>
+                        <label class="field">
+                          <span>Account number @if (isDraftDirectDeposit()) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="text" [(ngModel)]="draftWorker.bankInfo.accountNumber" placeholder="Account number" />
+                        </label>
+                      </div>
+                    }
+                  </div>
+                  @if (draftWorker.employmentType === 'W2') {
+                    <div class="form-section" id="hr-section-w2">
+                      <div class="section-title">W2 onboarding + E-Verify</div>
+                      <div class="form-grid form-grid--3">
+                        <label class="field field--check">
+                          <span>Payroll setup <em class="req-star">*</em></span>
+                          <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.payrollSetup" />
+                        </label>
+                        <label class="field field--check">
+                          <span>W-4 / tax form completed <em class="req-star">*</em></span>
+                          <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.taxFormCompleted" />
+                        </label>
+                        <label class="field field--check">
+                          <span>I-9 completed <em class="req-star">*</em></span>
+                          <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.i9Completed" />
+                        </label>
+                        <label class="field field--check">
+                          <span>E-Verify completed <em class="req-star">*</em></span>
+                          <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.eVerifyCompleted" />
+                        </label>
+                        <label class="field">
+                          <span>E-Verify case number <em class="req-star">*</em></span>
+                          <input type="text" [(ngModel)]="draftWorker.w2Compliance.eVerifyCaseNumber" placeholder="Case number" />
+                        </label>
+                        <label class="field">
+                          <span>E-Verify date <em class="req-star">*</em></span>
+                          <input type="date" [(ngModel)]="draftWorker.w2Compliance.eVerifyDate" />
+                        </label>
+                      </div>
+                    </div>
+                  }
+                  @if (draftWorker.employmentType === '1099') {
+                    <div class="form-section" id="hr-section-1099">
+                      <div class="section-title">1099 insurance + exemption</div>
+                      <div class="form-grid form-grid--3">
+                        <label class="field">
+                          <span>1099 company name <em class="req-star">*</em></span>
+                          <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.companyName" placeholder="Company or DBA" />
+                        </label>
+                        <label class="field">
+                          <span>EIN @if (isDraft1099()) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.ein" placeholder="XX-XXXXXXX" />
+                        </label>
+                        <label class="field field--check">
+                          <span>Workers Comp on file @if (isDraft1099()) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="checkbox" [(ngModel)]="draftWorker.insuranceCompliance.hasWorkersComp" />
+                        </label>
+                        <label class="field">
+                          <span>Workers Comp policy # @if (draftWorker.insuranceCompliance.hasWorkersComp) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.workersCompPolicyNumber" placeholder="Policy number" />
+                        </label>
+                        <label class="field">
+                          <span>Workers Comp expiration @if (draftWorker.insuranceCompliance.hasWorkersComp) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="date" [(ngModel)]="draftWorker.insuranceCompliance.workersCompExpiration" />
+                        </label>
+                        <label class="field field--check">
+                          <span>Exemption provided @if (isDraft1099()) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="checkbox" [(ngModel)]="draftWorker.insuranceCompliance.exemptionProvided" />
+                        </label>
+                        <label class="field">
+                          <span>Exemption type @if (draftWorker.insuranceCompliance.exemptionProvided) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <select [(ngModel)]="draftWorker.insuranceCompliance.exemptionType">
+                            @for (item of exemptionOptions; track item) {
+                              <option [value]="item">{{ item }}</option>
+                            }
+                          </select>
+                        </label>
+                        <label class="field">
+                          <span>Exemption expiration @if (draftWorker.insuranceCompliance.exemptionProvided) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="date" [(ngModel)]="draftWorker.insuranceCompliance.exemptionExpiration" />
+                        </label>
+                        <label class="field field--check">
+                          <span>Liability insurance on file</span>
+                          <input type="checkbox" [(ngModel)]="draftWorker.insuranceCompliance.hasLiabilityInsurance" />
+                        </label>
+                        <label class="field">
+                          <span>Liability policy # @if (draftWorker.insuranceCompliance.hasLiabilityInsurance) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.liabilityPolicyNumber" placeholder="Policy number" />
+                        </label>
+                        <label class="field">
+                          <span>Liability expiration @if (draftWorker.insuranceCompliance.hasLiabilityInsurance) {
+                            <em class="req-star">*</em>
+                          }</span>
+                          <input type="date" [(ngModel)]="draftWorker.insuranceCompliance.liabilityExpiration" />
+                        </label>
+                      </div>
+                    </div>
+                  }
+                  <div class="form-section" id="hr-section-vacation">
+                    <div class="section-title">Vacation / PTO policy</div>
+                    <div class="form-grid form-grid--3">
+                      <label class="field field--check">
+                        <span>Vacation enabled</span>
+                        <input type="checkbox" [(ngModel)]="draftWorker.vacation.policy.enabled" (ngModelChange)="refreshDraftVacation()" />
+                      </label>
+                      <label class="field field--check">
+                        <span>Eligible for PTO</span>
+                        <input type="checkbox" [(ngModel)]="draftWorker.vacation.policy.ptoEligible" (ngModelChange)="refreshDraftVacation()" />
+                      </label>
+                      <label class="field">
+                        <span>Policy type</span>
+                        <select [(ngModel)]="draftWorker.vacation.policy.accrualMethod" (ngModelChange)="refreshDraftVacation()">
+                          @for (item of vacationAccrualOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Days per year</span>
+                        <input type="number" [(ngModel)]="draftWorker.vacation.policy.annualDays" (ngModelChange)="refreshDraftVacation()" placeholder="5" />
+                      </label>
+                      <label class="field">
+                        <span>Eligible after months</span>
+                        <input type="number" [(ngModel)]="draftWorker.vacation.policy.eligibilityMonths" (ngModelChange)="refreshDraftVacation()" placeholder="12" />
+                      </label>
+                      <label class="field field--check">
+                        <span>Allow carryover</span>
+                        <input type="checkbox" [(ngModel)]="draftWorker.vacation.policy.allowCarryover" (ngModelChange)="refreshDraftVacation()" />
+                      </label>
+                    </div>
+                    <div class="inline-hint">Vacation balances and history are calculated automatically from the policy and worker record.</div>
+                  </div>
+                  <div class="form-section" id="hr-section-address">
+                    <div class="section-title">Address</div>
+                    <div class="form-grid form-grid--3">
+                      <label class="field field--full">
+                        <span>Address line 1</span>
+                        <input type="text" [(ngModel)]="draftWorker.addressLine1" placeholder="123 Main St" />
+                      </label>
+                      <label class="field field--full">
+                        <span>Address line 2</span>
+                        <input type="text" [(ngModel)]="draftWorker.addressLine2" placeholder="Apt, suite, unit..." />
+                      </label>
+                      <label class="field">
+                        <span>City</span>
+                        <input type="text" [(ngModel)]="draftWorker.city" placeholder="Orlando" />
+                      </label>
+                      <label class="field">
+                        <span>State</span>
+                        <input type="text" [(ngModel)]="draftWorker.state" placeholder="FL" />
+                      </label>
+                      <label class="field">
+                        <span>ZIP</span>
+                        <input type="text" [(ngModel)]="draftWorker.zip" placeholder="32801" />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-section" id="hr-section-emergency">
+                    <div class="section-title">Emergency contact</div>
+                    <div class="form-grid form-grid--3">
+                      <label class="field">
+                        <span>Contact name</span>
+                        <input type="text" [(ngModel)]="draftWorker.emergencyContact.name" placeholder="Emergency contact" />
+                      </label>
+                      <label class="field">
+                        <span>Relationship</span>
+                        <input type="text" [(ngModel)]="draftWorker.emergencyContact.relationship" placeholder="Spouse, parent, sibling..." />
+                      </label>
+                      <label class="field">
+                        <span>Contact phone</span>
+                        <input type="text" [(ngModel)]="draftWorker.emergencyContact.phone" placeholder="(555) 555-5555" />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-section" id="hr-section-documents" data-nav-section="documents">
+                    <div class="section-title">Documents archive</div>
+                    <div class="inline-hint">Files upload directly to the worker folder in Google Drive and are linked to the worker record. Required at creation: W2 → I-9, W-4, E-Verify; Direct Deposit → Direct Deposit Form; 1099 → Workers Comp or Exemption, plus the related support file.</div>
+                    <div class="form-grid form-grid--3">
+                      @for (item of draftDocuments; track item) {
+                        <label class="field">
+                          <span>{{ item.label }}</span>
+                          <input #draftDocumentInput type="file" multiple [attr.data-document-type]="item.type" (change)="onDraftFilesSelected(item.type, $event)" />
+                          @if (item.files.length) {
+                            <div class="field__hint">{{ item.files.length }} file(s) ready for upload.</div>
+                          }
+                          @if (item.files.length) {
+                            <div class="field__files">
+                              @for (file of item.files; track file) {
+                                <div class="field__file">{{ file.name }}</div>
+                              }
+                            </div>
+                          }
+                        </label>
+                      }
+                    </div>
+                  </div>
+                  <div class="form-section" id="hr-section-notes" data-nav-section="notes">
+                    <div class="section-title">HR notes</div>
+                    <label class="field">
+                      <span>Notes</span>
+                      <textarea rows="3" [(ngModel)]="draftWorker.notes" placeholder="Special notes, reminders, missing documents, onboarding comments..."></textarea>
+                    </label>
+                  </div>
+                </div>
+                <div class="actions-row">
+                  <div class="feedback-wrap">
+                    @if (createMessage) {
+                      <div class="form-feedback form-feedback--success">{{ createMessage }}</div>
+                    }
+                    @if (createError) {
+                      <div class="form-feedback form-feedback--error">{{ createError }}</div>
+                    }
+                  </div>
+                  <div class="actions-row__buttons">
+                    <button type="button" class="btn btn--ghost" (click)="resetDraft()" [disabled]="isSaving">Reset</button>
+                    <button type="button" class="btn btn--primary" (click)="createWorker()" [disabled]="isSaving">
+                      {{ isSaving ? 'Saving...' : 'Create worker' }}
                     </button>
                   </div>
                 </div>
-              </label>
-
-              <div class="preselect-candidate__summary" *ngIf="selectedCandidateOption">
-                <div>
-                  <div class="preselect-candidate__summary-title">Selected candidate</div>
-                  <div class="preselect-candidate__summary-name">{{ selectedCandidateOption.displayName }}</div>
-                  <div class="preselect-candidate__summary-meta">{{ selectedCandidateOption.employmentType }} · {{ selectedCandidateOption.areaType }} · {{ selectedCandidateOption.stage || 'No stage' }}</div>
-                  <div class="preselect-candidate__summary-meta" *ngIf="isLoadingSelectedCandidateDocuments">Loading candidate documents...</div>
-                  <div class="preselect-candidate__summary-meta" *ngIf="!isLoadingSelectedCandidateDocuments && selectedCandidateDocuments.length">{{ selectedCandidateDocuments.length }} candidate document(s) loaded into the worker draft.</div>
+              </article>
+            </section>
+          }
+          @if (workerRecordsView==='manage') {
+            <section class="hr-grid hr-grid--main">
+              <article class="hr-card">
+                <div class="hr-card__head hr-card__head--stack">
+                  <div>
+                    <div class="eyebrow">Manage workers</div>
+                    <h3>Search and edit workers</h3>
+                    <p>Use this list to update worker data, compliance, vacation, and linked system access.</p>
+                  </div>
+                  <div class="manage-actions">
+                    <button type="button" class="btn btn--ghost btn--small" (click)="loadWorkers()" [disabled]="isLoadingWorkers">{{ isLoadingWorkers ? 'Refreshing...' : 'Refresh list' }}</button>
+                  </div>
                 </div>
-                <button type="button" class="btn btn--ghost btn--small" (click)="clearCandidateSelection()">Clear</button>
-              </div>
-            </div>
-            <div class="inline-hint">Selecting a candidate pre-fills the worker draft with the candidate profile and current employment details. You can still edit any field before saving the worker.</div>
-          </div>
-
-          <div class="create-worker-scroll" #createWorkerScroll (scroll)="onCreateWorkerScroll($event)">
-          <div class="form-section" id="hr-section-identity" data-nav-section="identity">
-            <div class="section-title">Identity</div>
-            <div class="passport-photo-card">
-              <div class="passport-photo-card__frame">
-                <div class="passport-photo-card__image" [class.passport-photo-card__image--empty]="!getPhotoPreview(draftWorker.photoURL, draftPhoto)">
-                  <img *ngIf="getPhotoPreview(draftWorker.photoURL, draftPhoto); else draftPhotoFallback" [src]="getPhotoPreview(draftWorker.photoURL, draftPhoto)" alt="Worker passport photo preview" />
-                  <ng-template #draftPhotoFallback>
-                    <div class="passport-photo-card__fallback">{{ getWorkerInitials(draftWorker.firstName, draftWorker.lastName) }}</div>
-                  </ng-template>
-                </div>
-                <div class="passport-photo-card__badge">Passport photo</div>
-              </div>
-              <div class="passport-photo-card__content">
-                <div class="passport-photo-card__title">Worker photo</div>
-                <div class="passport-photo-card__hint">Upload a portrait-style image framed like a passport photo. This becomes the main worker image across HR records.</div>
-                <div class="passport-photo-card__actions">
-                  <label class="btn btn--ghost btn--small passport-photo-card__upload">
-                    <input type="file" accept="image/*" (change)="onDraftPhotoSelected($event)" hidden />
-                    Upload photo
+                <div class="toolbar">
+                  <label class="field field--search">
+                    <span>Search workers</span>
+                    <input type="text" [(ngModel)]="searchTerm" (input)="filterWorkers(true)" placeholder="Name, email, phone, role, employment type..." />
                   </label>
-                  <button type="button" class="btn btn--ghost btn--small" (click)="clearDraftPhoto()" [disabled]="!getPhotoPreview(draftWorker.photoURL, draftPhoto)">Remove</button>
+                  <div class="toolbar__meta">
+                    <label class="field field--page-size">
+                      <span>Rows per page</span>
+                      <select [ngModel]="pageSize" (ngModelChange)="updatePageSize($event)">
+                        @for (option of pageSizeOptions; track option) {
+                          <option [ngValue]="option">{{ option }}</option>
+                        }
+                      </select>
+                    </label>
+                    <div class="toolbar__count">{{ totalVisibleWorkers }} workers</div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="form-grid form-grid--3">
-              <label class="field">
-                <span>First name <em class="req-star">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.firstName" placeholder="John" />
-              </label>
-              <label class="field">
-                <span>Middle name</span>
-                <input type="text" [(ngModel)]="draftWorker.middleName" placeholder="Michael" />
-              </label>
-              <label class="field">
-                <span>Last name <em class="req-star">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.lastName" placeholder="Doe" />
-              </label>
-              <label class="field">
-                <span>Email</span>
-                <input type="email" [(ngModel)]="draftWorker.email" placeholder="worker@worktrace.com" />
-              </label>
-              <label class="field">
-                <span>Phone</span>
-                <input type="text" [(ngModel)]="draftWorker.phone" placeholder="(555) 555-5555" />
-              </label>
-              <label class="field">
-                <span>Alternate phone</span>
-                <input type="text" [(ngModel)]="draftWorker.alternatePhone" placeholder="Optional" />
-              </label>
-              <label class="field">
-                <span>Date of birth</span>
-                <input type="date" [(ngModel)]="draftWorker.dateOfBirth" />
-              </label>
-              <label class="field">
-                <span>Preferred language</span>
-                <select [(ngModel)]="draftWorker.preferredLanguage">
-                  <option *ngFor="let item of languageOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>SSN</span>
-                <input type="text" [(ngModel)]="draftWorker.ssnFull" placeholder="123-45-6789" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section" id="hr-section-employment" data-nav-section="employment">
-            <div class="section-title">Employment</div>
-            <div class="form-grid form-grid--3">
-              <label class="field">
-                <span>Employment type <em class="req-star">*</em></span>
-                <select [(ngModel)]="draftWorker.employmentType" (ngModelChange)="onDraftEmploymentTypeChange()">
-                  <option *ngFor="let item of employmentOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Area</span>
-                <select [(ngModel)]="draftWorker.areaType" (ngModelChange)="onDraftAreaChange()">
-                  <option *ngFor="let item of areaOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Sub role</span>
-                <select [(ngModel)]="draftWorker.subRole">
-                  <option *ngFor="let item of getSubRoleOptions(draftWorker.areaType)" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-
-              <label class="field">
-                <span>Supervisor</span>
-                <input type="text" [(ngModel)]="draftWorker.supervisor" placeholder="Reports to" />
-              </label>
-              <label class="field">
-                <span>Hire date</span>
-                <input type="date" [(ngModel)]="draftWorker.hireDate" (ngModelChange)="refreshDraftVacation()" />
-              </label>
-              <label class="field">
-                <span>Rehire date</span>
-                <input type="date" [(ngModel)]="draftWorker.rehireDate" />
-              </label>
-
-              <label class="field">
-                <span>Work authorization</span>
-                <select [(ngModel)]="draftWorker.workAuthorizationStatus">
-                  <option *ngFor="let item of authorizationOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field" *ngIf="draftWorker.workAuthorizationStatus !== 'citizen'">
-                <span>Authorization expiration</span>
-                <input type="date" [(ngModel)]="draftWorker.workAuthorizationExpiration" />
-              </label>
-              <label class="field">
-                <span>Passport number</span>
-                <input type="text" [(ngModel)]="draftWorker.passportNumber" placeholder="Passport number" />
-              </label>
-              <label class="field" *ngIf="draftWorker.workAuthorizationStatus == 'resident'">
-                <span>Residence number</span>
-                <input type="text" [(ngModel)]="draftWorker.residenceNumber" placeholder="Residence number" />
-              </label>
-              <label class="field" *ngIf="draftWorker.workAuthorizationStatus == 'work_permit'">
-                <span>Work permit number</span>
-                <input type="text" [(ngModel)]="draftWorker.workPermitNumber" placeholder="Work permit number" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section" id="hr-section-compensation" data-nav-section="compensation">
-            <div class="section-title">Compensation</div>
-            <div class="form-grid form-grid--3">
-              <label class="field">
-                <span>Pay type <em class="req-star">*</em></span>
-                <select [(ngModel)]="draftWorker.payType">
-                  <option *ngFor="let item of payTypeOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>{{ draftWorker.payType === 'salary' ? 'Salary / regular rate' : 'Regular rate' }} <em class="req-star">*</em></span>
-                <input type="number" [(ngModel)]="draftWorker.hourlyRate" (ngModelChange)="updateDraftOvertimeRate()" placeholder="25" />
-              </label>
-              <label class="field" *ngIf="draftWorker.employmentType === 'W2'">
-                <span>Overtime rate (auto)</span>
-                <input type="number" [ngModel]="draftWorker.overtimeRate" readonly placeholder="37.5" />
-              </label>
-              <label class="field">
-                <span>Payment method</span>
-                <select [(ngModel)]="draftWorker.paymentMethod" (ngModelChange)="onDraftPaymentMethodChange()">
-                  <option *ngFor="let item of paymentMethodOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-            </div>
-            <div class="form-grid form-grid--3" *ngIf="draftWorker.paymentMethod === 'direct_deposit'">
-              <label class="field">
-                <span>Bank name <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.bankInfo.bankName" placeholder="Bank name" />
-              </label>
-              <label class="field">
-                <span>Account holder name <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.bankInfo.accountHolderName" placeholder="Account holder" />
-              </label>
-              <label class="field">
-                <span>Account type</span>
-                <select [(ngModel)]="draftWorker.bankInfo.accountType">
-                  <option *ngFor="let item of bankAccountTypeOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Routing number <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.bankInfo.routingNumber" placeholder="Routing number" />
-              </label>
-              <label class="field">
-                <span>Account number <em class="req-star" *ngIf="isDraftDirectDeposit()">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.bankInfo.accountNumber" placeholder="Account number" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section" *ngIf="draftWorker.employmentType === 'W2'" id="hr-section-w2">
-            <div class="section-title">W2 onboarding + E-Verify</div>
-            <div class="form-grid form-grid--3">
-              <label class="field field--check">
-                <span>Payroll setup <em class="req-star">*</em></span>
-                <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.payrollSetup" />
-              </label>
-              <label class="field field--check">
-                <span>W-4 / tax form completed <em class="req-star">*</em></span>
-                <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.taxFormCompleted" />
-              </label>
-              <label class="field field--check">
-                <span>I-9 completed <em class="req-star">*</em></span>
-                <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.i9Completed" />
-              </label>
-              <label class="field field--check">
-                <span>E-Verify completed <em class="req-star">*</em></span>
-                <input type="checkbox" [(ngModel)]="draftWorker.w2Compliance.eVerifyCompleted" />
-              </label>
-              <label class="field">
-                <span>E-Verify case number <em class="req-star">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.w2Compliance.eVerifyCaseNumber" placeholder="Case number" />
-              </label>
-              <label class="field">
-                <span>E-Verify date <em class="req-star">*</em></span>
-                <input type="date" [(ngModel)]="draftWorker.w2Compliance.eVerifyDate" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section" *ngIf="draftWorker.employmentType === '1099'" id="hr-section-1099">
-            <div class="section-title">1099 insurance + exemption</div>
-            <div class="form-grid form-grid--3">
-              <label class="field">
-                <span>1099 company name <em class="req-star">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.companyName" placeholder="Company or DBA" />
-              </label>
-              <label class="field">
-                <span>EIN <em class="req-star" *ngIf="isDraft1099()">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.ein" placeholder="XX-XXXXXXX" />
-              </label>
-              <label class="field field--check">
-                <span>Workers Comp on file <em class="req-star" *ngIf="isDraft1099()">*</em></span>
-                <input type="checkbox" [(ngModel)]="draftWorker.insuranceCompliance.hasWorkersComp" />
-              </label>
-              <label class="field">
-                <span>Workers Comp policy # <em class="req-star" *ngIf="draftWorker.insuranceCompliance.hasWorkersComp">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.workersCompPolicyNumber" placeholder="Policy number" />
-              </label>
-              <label class="field">
-                <span>Workers Comp expiration <em class="req-star" *ngIf="draftWorker.insuranceCompliance.hasWorkersComp">*</em></span>
-                <input type="date" [(ngModel)]="draftWorker.insuranceCompliance.workersCompExpiration" />
-              </label>
-              <label class="field field--check">
-                <span>Exemption provided <em class="req-star" *ngIf="isDraft1099()">*</em></span>
-                <input type="checkbox" [(ngModel)]="draftWorker.insuranceCompliance.exemptionProvided" />
-              </label>
-              <label class="field">
-                <span>Exemption type <em class="req-star" *ngIf="draftWorker.insuranceCompliance.exemptionProvided">*</em></span>
-                <select [(ngModel)]="draftWorker.insuranceCompliance.exemptionType">
-                  <option *ngFor="let item of exemptionOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Exemption expiration <em class="req-star" *ngIf="draftWorker.insuranceCompliance.exemptionProvided">*</em></span>
-                <input type="date" [(ngModel)]="draftWorker.insuranceCompliance.exemptionExpiration" />
-              </label>
-              <label class="field field--check">
-                <span>Liability insurance on file</span>
-                <input type="checkbox" [(ngModel)]="draftWorker.insuranceCompliance.hasLiabilityInsurance" />
-              </label>
-              <label class="field">
-                <span>Liability policy # <em class="req-star" *ngIf="draftWorker.insuranceCompliance.hasLiabilityInsurance">*</em></span>
-                <input type="text" [(ngModel)]="draftWorker.insuranceCompliance.liabilityPolicyNumber" placeholder="Policy number" />
-              </label>
-              <label class="field">
-                <span>Liability expiration <em class="req-star" *ngIf="draftWorker.insuranceCompliance.hasLiabilityInsurance">*</em></span>
-                <input type="date" [(ngModel)]="draftWorker.insuranceCompliance.liabilityExpiration" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section" id="hr-section-vacation">
-            <div class="section-title">Vacation / PTO policy</div>
-            <div class="form-grid form-grid--3">
-              <label class="field field--check">
-                <span>Vacation enabled</span>
-                <input type="checkbox" [(ngModel)]="draftWorker.vacation.policy.enabled" (ngModelChange)="refreshDraftVacation()" />
-              </label>
-              <label class="field field--check">
-                <span>Eligible for PTO</span>
-                <input type="checkbox" [(ngModel)]="draftWorker.vacation.policy.ptoEligible" (ngModelChange)="refreshDraftVacation()" />
-              </label>
-              <label class="field">
-                <span>Policy type</span>
-                <select [(ngModel)]="draftWorker.vacation.policy.accrualMethod" (ngModelChange)="refreshDraftVacation()">
-                  <option *ngFor="let item of vacationAccrualOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Days per year</span>
-                <input type="number" [(ngModel)]="draftWorker.vacation.policy.annualDays" (ngModelChange)="refreshDraftVacation()" placeholder="5" />
-              </label>
-              <label class="field">
-                <span>Eligible after months</span>
-                <input type="number" [(ngModel)]="draftWorker.vacation.policy.eligibilityMonths" (ngModelChange)="refreshDraftVacation()" placeholder="12" />
-              </label>
-              <label class="field field--check">
-                <span>Allow carryover</span>
-                <input type="checkbox" [(ngModel)]="draftWorker.vacation.policy.allowCarryover" (ngModelChange)="refreshDraftVacation()" />
-              </label>
-            </div>
-            <div class="inline-hint">Vacation balances and history are calculated automatically from the policy and worker record.</div>
-          </div>
-
-          <div class="form-section" id="hr-section-address">
-            <div class="section-title">Address</div>
-            <div class="form-grid form-grid--3">
-              <label class="field field--full">
-                <span>Address line 1</span>
-                <input type="text" [(ngModel)]="draftWorker.addressLine1" placeholder="123 Main St" />
-              </label>
-              <label class="field field--full">
-                <span>Address line 2</span>
-                <input type="text" [(ngModel)]="draftWorker.addressLine2" placeholder="Apt, suite, unit..." />
-              </label>
-              <label class="field">
-                <span>City</span>
-                <input type="text" [(ngModel)]="draftWorker.city" placeholder="Orlando" />
-              </label>
-              <label class="field">
-                <span>State</span>
-                <input type="text" [(ngModel)]="draftWorker.state" placeholder="FL" />
-              </label>
-              <label class="field">
-                <span>ZIP</span>
-                <input type="text" [(ngModel)]="draftWorker.zip" placeholder="32801" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section" id="hr-section-emergency">
-            <div class="section-title">Emergency contact</div>
-            <div class="form-grid form-grid--3">
-              <label class="field">
-                <span>Contact name</span>
-                <input type="text" [(ngModel)]="draftWorker.emergencyContact.name" placeholder="Emergency contact" />
-              </label>
-              <label class="field">
-                <span>Relationship</span>
-                <input type="text" [(ngModel)]="draftWorker.emergencyContact.relationship" placeholder="Spouse, parent, sibling..." />
-              </label>
-              <label class="field">
-                <span>Contact phone</span>
-                <input type="text" [(ngModel)]="draftWorker.emergencyContact.phone" placeholder="(555) 555-5555" />
-              </label>
-            </div>
-          </div>
-
-
-          <div class="form-section" id="hr-section-documents" data-nav-section="documents">
-            <div class="section-title">Documents archive</div>
-            <div class="inline-hint">Files upload directly to the worker folder in Google Drive and are linked to the worker record. Required at creation: W2 → I-9, W-4, E-Verify; Direct Deposit → Direct Deposit Form; 1099 → Workers Comp or Exemption, plus the related support file.</div>
-            <div class="form-grid form-grid--3">
-              <label class="field" *ngFor="let item of draftDocuments">
-                <span>{{ item.label }}</span>
-                <input #draftDocumentInput type="file" multiple [attr.data-document-type]="item.type" (change)="onDraftFilesSelected(item.type, $event)" />
-                <div class="field__hint" *ngIf="item.files.length">{{ item.files.length }} file(s) ready for upload.</div>
-                <div class="field__files" *ngIf="item.files.length">
-                  <div class="field__file" *ngFor="let file of item.files">{{ file.name }}</div>
+                @if (workersError) {
+                  <div class="form-feedback form-feedback--error">{{ workersError }}</div>
+                }
+                <div class="users-table-wrap">
+                  <table class="users-table">
+                    <thead>
+                      <tr>
+                        <th>Worker</th>
+                        <th>Employment</th>
+                        <th>Compliance</th>
+                        <th>Access</th>
+                        <th class="ta-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if (!paginatedWorkers.length) {
+                        <tr>
+                          <td class="table-empty" colspan="5">No workers match the current search.</td>
+                        </tr>
+                      }
+                      @for (worker of paginatedWorkers; track worker) {
+                        <tr>
+                          <td>
+                            <div class="user-cell">
+                              <div class="user-cell__name">{{ worker.displayName }}</div>
+                              <div class="user-cell__meta">{{ worker.email || 'No email' }}</div>
+                              <div class="user-cell__meta">{{ worker.phone || 'No phone' }}</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="user-cell">
+                              <div class="user-cell__name">{{ worker.employmentType }} · {{ worker.areaType }}</div>
+                              <div class="user-cell__meta">{{ worker.subRole }}</div>
+                              <div class="user-cell__meta">{{ worker.active ? 'Active' : 'Inactive' }}</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="user-cell">
+                              <div class="user-cell__name">{{ getComplianceSummary(worker) }}</div>
+                              <div class="user-cell__meta">Vacation: {{ worker.vacation.balance.availableDays ?? 0 }} days available</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="user-cell">
+                              <div class="user-cell__name">{{ worker.canLogin ? (worker.role || 'worker') : 'Profile only' }}</div>
+                              @if (worker.canLogin) {
+                                <div class="mini-chips">
+                                  <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.overview">OV</span>
+                                  <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.construction">CN</span>
+                                  <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.workers">WK</span>
+                                  <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.humanResources">HR</span>
+                                  <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.companies">CO</span>
+                                  <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.settings">ST</span>
+                                </div>
+                              }
+                            </div>
+                          </td>
+                          <td class="ta-right">
+                            <button type="button" class="btn btn--primary btn--small" (click)="editWorker(worker)">Edit</button>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
                 </div>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section" id="hr-section-notes" data-nav-section="notes">
-            <div class="section-title">HR notes</div>
-            <label class="field">
-              <span>Notes</span>
-              <textarea rows="3" [(ngModel)]="draftWorker.notes" placeholder="Special notes, reminders, missing documents, onboarding comments..."></textarea>
-            </label>
-          </div>
-
-          </div>
-
-          <div class="actions-row">
-            <div class="feedback-wrap">
-              <div class="form-feedback form-feedback--success" *ngIf="createMessage">{{ createMessage }}</div>
-              <div class="form-feedback form-feedback--error" *ngIf="createError">{{ createError }}</div>
-            </div>
-            <div class="actions-row__buttons">
-              <button type="button" class="btn btn--ghost" (click)="resetDraft()" [disabled]="isSaving">Reset</button>
-              <button type="button" class="btn btn--primary" (click)="createWorker()" [disabled]="isSaving">
-                {{ isSaving ? 'Saving...' : 'Create worker' }}
-              </button>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section class="hr-grid hr-grid--main" *ngIf="workerRecordsView==='manage'">
-        <article class="hr-card">
-          <div class="hr-card__head hr-card__head--stack">
-            <div>
-              <div class="eyebrow">Manage workers</div>
-              <h3>Search and edit workers</h3>
-              <p>Use this list to update worker data, compliance, vacation, and linked system access.</p>
-            </div>
-            <div class="manage-actions">
-              <button type="button" class="btn btn--ghost btn--small" (click)="loadWorkers()" [disabled]="isLoadingWorkers">{{ isLoadingWorkers ? 'Refreshing...' : 'Refresh list' }}</button>
-            </div>
-          </div>
-
-          <div class="toolbar">
-            <label class="field field--search">
-              <span>Search workers</span>
-              <input type="text" [(ngModel)]="searchTerm" (input)="filterWorkers(true)" placeholder="Name, email, phone, role, employment type..." />
-            </label>
-            <div class="toolbar__meta">
-              <label class="field field--page-size">
-                <span>Rows per page</span>
-                <select [ngModel]="pageSize" (ngModelChange)="updatePageSize($event)">
-                  <option *ngFor="let option of pageSizeOptions" [ngValue]="option">{{ option }}</option>
-                </select>
-              </label>
-              <div class="toolbar__count">{{ totalVisibleWorkers }} workers</div>
-            </div>
-          </div>
-
-          <div class="form-feedback form-feedback--error" *ngIf="workersError">{{ workersError }}</div>
-
-          <div class="users-table-wrap">
-            <table class="users-table">
-              <thead>
-                <tr>
-                  <th>Worker</th>
-                  <th>Employment</th>
-                  <th>Compliance</th>
-                  <th>Access</th>
-                  <th class="ta-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngIf="!paginatedWorkers.length">
-                  <td class="table-empty" colspan="5">No workers match the current search.</td>
-                </tr>
-                <tr *ngFor="let worker of paginatedWorkers">
-                  <td>
-                    <div class="user-cell">
-                      <div class="user-cell__name">{{ worker.displayName }}</div>
-                      <div class="user-cell__meta">{{ worker.email || 'No email' }}</div>
-                      <div class="user-cell__meta">{{ worker.phone || 'No phone' }}</div>
+                @if (totalVisibleWorkers) {
+                  <div class="pagination">
+                    <div class="pagination__summary">
+                      Showing {{ pageStart }}-{{ pageEnd }} of {{ totalVisibleWorkers }} workers
                     </div>
-                  </td>
-                  <td>
-                    <div class="user-cell">
-                      <div class="user-cell__name">{{ worker.employmentType }} · {{ worker.areaType }}</div>
-                      <div class="user-cell__meta">{{ worker.subRole }}</div>
-                      <div class="user-cell__meta">{{ worker.active ? 'Active' : 'Inactive' }}</div>
+                    <div class="pagination__controls" aria-label="Workers pagination">
+                      <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(1)" [disabled]="currentPage === 1" aria-label="First page" title="First page">
+                        <span class="pagination__icon" aria-hidden="true">&laquo;</span>
+                      </button>
+                      <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" aria-label="Previous page" title="Previous page">
+                        <span class="pagination__icon" aria-hidden="true">&lsaquo;</span>
+                      </button>
+                      @for (item of paginationItems; track item) {
+                        @if (item === 'ellipsis') {
+                          <span class="pagination__ellipsis" aria-hidden="true">...</span>
+                        } @else {
+                          <button
+                            type="button"
+                            class="pagination__page"
+                            [class.pagination__page--active]="item === currentPage"
+                            (click)="goToPaginationItem(item)"
+                            [attr.aria-current]="item === currentPage ? 'page' : null"
+                            >
+                            {{ item }}
+                          </button>
+                        }
+                      }
+                      <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" aria-label="Next page" title="Next page">
+                        <span class="pagination__icon" aria-hidden="true">&rsaquo;</span>
+                      </button>
+                      <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages" aria-label="Last page" title="Last page">
+                        <span class="pagination__icon" aria-hidden="true">&raquo;</span>
+                      </button>
                     </div>
-                  </td>
-                  <td>
-                    <div class="user-cell">
-                      <div class="user-cell__name">{{ getComplianceSummary(worker) }}</div>
-                      <div class="user-cell__meta">Vacation: {{ worker.vacation.balance.availableDays ?? 0 }} days available</div>
+                  </div>
+                }
+              </article>
+              @if (selectedWorker) {
+                <article class="hr-card editor-card">
+                  <div class="hr-card__head">
+                    <div>
+                      <div class="eyebrow">Worker editor</div>
+                      <h3>{{ selectedWorker.displayName || 'Worker' }}</h3>
+                      <p>Edit worker data first. If the worker has login access, changes also update the linked user document.</p>
                     </div>
-                  </td>
-                  <td>
-                    <div class="user-cell">
-                      <div class="user-cell__name">{{ worker.canLogin ? (worker.role || 'worker') : 'Profile only' }}</div>
-                      <div class="mini-chips" *ngIf="worker.canLogin">
-                        <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.overview">OV</span>
-                        <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.construction">CN</span>
-                        <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.workers">WK</span>
-                        <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.humanResources">HR</span>
-                        <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.companies">CO</span>
-                        <span class="mini-chip" [class.mini-chip--on]="worker.screenAccess.settings">ST</span>
+                    <span class="pill" [class.pill--success]="selectedWorker.canLogin" [class.pill--muted]="!selectedWorker.canLogin">
+                      {{ selectedWorker.canLogin ? 'Login linked' : 'Profile only' }}
+                    </span>
+                  </div>
+                  <div class="form-section">
+                    <div class="section-title">Identity</div>
+                    <div class="passport-photo-card passport-photo-card--editor">
+                      <div class="passport-photo-card__frame">
+                        <div class="passport-photo-card__image" [class.passport-photo-card__image--empty]="!getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto)">
+                          @if (getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto)) {
+                            <img [src]="getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto)" alt="Selected worker passport photo preview" />
+                          } @else {
+                            <div class="passport-photo-card__fallback">{{ getWorkerInitials(selectedWorker.firstName, selectedWorker.lastName) }}</div>
+                          }
+                        </div>
+                        <div class="passport-photo-card__badge">Passport photo</div>
+                      </div>
+                      <div class="passport-photo-card__content">
+                        <div class="passport-photo-card__title">Worker photo</div>
+                        <div class="passport-photo-card__hint">Update the main worker photo here. It should stay centered and cropped like an ID or passport image.</div>
+                        <div class="passport-photo-card__actions">
+                          <label class="btn btn--ghost btn--small passport-photo-card__upload">
+                            <input type="file" accept="image/*" (change)="onSelectedWorkerPhotoSelected($event)" hidden />
+                            Change photo
+                          </label>
+                          <button type="button" class="btn btn--ghost btn--small" (click)="clearSelectedWorkerPhoto()" [disabled]="!getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto)">Remove</button>
+                        </div>
                       </div>
                     </div>
-                  </td>
-                  <td class="ta-right">
-                    <button type="button" class="btn btn--primary btn--small" (click)="editWorker(worker)">Edit</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="pagination" *ngIf="totalVisibleWorkers">
-            <div class="pagination__summary">
-              Showing {{ pageStart }}-{{ pageEnd }} of {{ totalVisibleWorkers }} workers
-            </div>
-            <div class="pagination__controls" aria-label="Workers pagination">
-              <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(1)" [disabled]="currentPage === 1" aria-label="First page" title="First page">
-                <span class="pagination__icon" aria-hidden="true">&laquo;</span>
-              </button>
-              <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" aria-label="Previous page" title="Previous page">
-                <span class="pagination__icon" aria-hidden="true">&lsaquo;</span>
-              </button>
-              <ng-container *ngFor="let item of paginationItems">
-                <span *ngIf="item === 'ellipsis'; else manageWorkersPageButton" class="pagination__ellipsis" aria-hidden="true">...</span>
-                <ng-template #manageWorkersPageButton>
-                  <button
-                    type="button"
-                    class="pagination__page"
-                    [class.pagination__page--active]="item === currentPage"
-                    (click)="goToPaginationItem(item)"
-                    [attr.aria-current]="item === currentPage ? 'page' : null"
-                  >
-                    {{ item }}
-                  </button>
-                </ng-template>
-              </ng-container>
-              <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" aria-label="Next page" title="Next page">
-                <span class="pagination__icon" aria-hidden="true">&rsaquo;</span>
-              </button>
-              <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages" aria-label="Last page" title="Last page">
-                <span class="pagination__icon" aria-hidden="true">&raquo;</span>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <article class="hr-card editor-card" *ngIf="selectedWorker; else noWorkerSelected">
-          <div class="hr-card__head">
-            <div>
-              <div class="eyebrow">Worker editor</div>
-              <h3>{{ selectedWorker.displayName || 'Worker' }}</h3>
-              <p>Edit worker data first. If the worker has login access, changes also update the linked user document.</p>
-            </div>
-            <span class="pill" [class.pill--success]="selectedWorker.canLogin" [class.pill--muted]="!selectedWorker.canLogin">
-              {{ selectedWorker.canLogin ? 'Login linked' : 'Profile only' }}
-            </span>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">Identity</div>
-            <div class="passport-photo-card passport-photo-card--editor">
-              <div class="passport-photo-card__frame">
-                <div class="passport-photo-card__image" [class.passport-photo-card__image--empty]="!getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto)">
-                  <img *ngIf="getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto); else selectedPhotoFallback" [src]="getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto)" alt="Selected worker passport photo preview" />
-                  <ng-template #selectedPhotoFallback>
-                    <div class="passport-photo-card__fallback">{{ getWorkerInitials(selectedWorker.firstName, selectedWorker.lastName) }}</div>
-                  </ng-template>
+                    <div class="form-grid form-grid--2 form-grid--editor">
+                      <label class="field">
+                        <span>First name</span>
+                        <input type="text" [(ngModel)]="selectedWorker.firstName" />
+                      </label>
+                      <label class="field">
+                        <span>Middle name</span>
+                        <input type="text" [(ngModel)]="selectedWorker.middleName" />
+                      </label>
+                      <label class="field">
+                        <span>Last name</span>
+                        <input type="text" [(ngModel)]="selectedWorker.lastName" />
+                      </label>
+                      <label class="field">
+                        <span>Email</span>
+                        <input type="email" [(ngModel)]="selectedWorker.email" />
+                      </label>
+                      <label class="field">
+                        <span>Phone</span>
+                        <input type="text" [(ngModel)]="selectedWorker.phone" />
+                      </label>
+                      <label class="field">
+                        <span>Alternate phone</span>
+                        <input type="text" [(ngModel)]="selectedWorker.alternatePhone" />
+                      </label>
+                      <label class="field">
+                        <span>Date of birth</span>
+                        <input type="date" [(ngModel)]="selectedWorker.dateOfBirth" />
+                      </label>
+                      <label class="field">
+                        <span>Preferred language</span>
+                        <select [(ngModel)]="selectedWorker.preferredLanguage">
+                          @for (item of languageOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>SSN</span>
+                        <input type="text" [(ngModel)]="selectedWorker.ssnFull" />
+                      </label>
+                      <label class="field">
+                        <span>Worker status</span>
+                        <select [(ngModel)]="selectedWorker.workerStatus">
+                          @for (item of workerStatusOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-section">
+                    <div class="section-title">Employment</div>
+                    <div class="form-grid form-grid--2 form-grid--editor">
+                      <label class="field">
+                        <span>Employment type</span>
+                        <select [(ngModel)]="selectedWorker.employmentType" (ngModelChange)="onSelectedEmploymentTypeChange()">
+                          @for (item of employmentOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Area</span>
+                        <select [(ngModel)]="selectedWorker.areaType" (ngModelChange)="onSelectedAreaChange()">
+                          @for (item of areaOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Sub role</span>
+                        <select [(ngModel)]="selectedWorker.subRole">
+                          @for (item of getSubRoleOptions(selectedWorker.areaType); track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Supervisor</span>
+                        <input type="text" [(ngModel)]="selectedWorker.supervisor" />
+                      </label>
+                      <label class="field">
+                        <span>Hire date</span>
+                        <input type="date" [(ngModel)]="selectedWorker.hireDate" />
+                      </label>
+                      <label class="field">
+                        <span>Rehire date</span>
+                        <input type="date" [(ngModel)]="selectedWorker.rehireDate" />
+                      </label>
+                      <label class="field">
+                        <span>Work authorization</span>
+                        <select [(ngModel)]="selectedWorker.workAuthorizationStatus">
+                          @for (item of authorizationOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      @if (selectedWorker.workAuthorizationStatus !== 'citizen') {
+                        <label class="field">
+                          <span>Authorization expiration</span>
+                          <input type="date" [(ngModel)]="selectedWorker.workAuthorizationExpiration" />
+                        </label>
+                      }
+                      <label class="field">
+                        <span>Passport number</span>
+                        <input type="text" [(ngModel)]="selectedWorker.passportNumber" />
+                      </label>
+                      <label class="field">
+                        <span>Residence number</span>
+                        <input type="text" [(ngModel)]="selectedWorker.residenceNumber" />
+                      </label>
+                      <label class="field">
+                        <span>Work permit number</span>
+                        <input type="text" [(ngModel)]="selectedWorker.workPermitNumber" />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-section">
+                    <div class="section-title">Compensation</div>
+                    <div class="form-grid form-grid--2 form-grid--editor">
+                      <label class="field">
+                        <span>Pay type</span>
+                        <select [(ngModel)]="selectedWorker.payType">
+                          @for (item of payTypeOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                      <label class="field">
+                        <span>Regular rate</span>
+                        <input type="number" [(ngModel)]="selectedWorker.hourlyRate" (ngModelChange)="updateSelectedOvertimeRate()" />
+                      </label>
+                      @if (selectedWorker.employmentType === 'W2') {
+                        <label class="field">
+                          <span>Overtime rate (auto)</span>
+                          <input type="number" [ngModel]="selectedWorker.overtimeRate" readonly />
+                        </label>
+                      }
+                      <label class="field">
+                        <span>Payment method</span>
+                        <select [(ngModel)]="selectedWorker.paymentMethod" (ngModelChange)="onSelectedPaymentMethodChange()">
+                          @for (item of paymentMethodOptions; track item) {
+                            <option [value]="item">{{ item }}</option>
+                          }
+                        </select>
+                      </label>
+                    </div>
+                    @if (selectedWorker.paymentMethod === 'direct_deposit') {
+                      <div class="form-grid form-grid--2 form-grid--editor">
+                        <label class="field"><span>Bank name</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.bankName" /></label>
+                        <label class="field"><span>Account holder name</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.accountHolderName" /></label>
+                        <label class="field"><span>Account type</span><select [(ngModel)]="selectedWorker.bankInfo.accountType">@for (item of bankAccountTypeOptions; track item) {
+                        <option [value]="item">{{ item }}</option>
+                      }</select></label>
+                      <label class="field"><span>Routing number</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.routingNumber" /></label>
+                      <label class="field"><span>Account number</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.accountNumber" /></label>
+                    </div>
+                  }
                 </div>
-                <div class="passport-photo-card__badge">Passport photo</div>
+                @if (selectedWorker.employmentType === 'W2') {
+                  <div class="form-section">
+                    <div class="section-title">W2 onboarding + E-Verify</div>
+                    <div class="form-grid form-grid--2 form-grid--editor">
+                      <label class="field field--check"><span>Payroll setup</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.payrollSetup" /></label>
+                      <label class="field field--check"><span>W-4 / tax form completed</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.taxFormCompleted" /></label>
+                      <label class="field field--check"><span>I-9 completed</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.i9Completed" /></label>
+                      <label class="field field--check"><span>E-Verify completed</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.eVerifyCompleted" /></label>
+                      <label class="field"><span>E-Verify case number</span><input type="text" [(ngModel)]="selectedWorker.w2Compliance.eVerifyCaseNumber" /></label>
+                      <label class="field"><span>E-Verify date</span><input type="date" [(ngModel)]="selectedWorker.w2Compliance.eVerifyDate" /></label>
+                    </div>
+                  </div>
+                }
+                @if (selectedWorker.employmentType === '1099') {
+                  <div class="form-section">
+                    <div class="section-title">1099 insurance + exemption</div>
+                    <div class="form-grid form-grid--2 form-grid--editor">
+                      <label class="field"><span>1099 company name</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.companyName" /></label>
+                      <label class="field"><span>EIN</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.ein" /></label>
+                      <label class="field field--check"><span>Workers Comp on file</span><input type="checkbox" [(ngModel)]="selectedWorker.insuranceCompliance.hasWorkersComp" /></label>
+                      <label class="field"><span>Workers Comp policy #</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.workersCompPolicyNumber" /></label>
+                      <label class="field"><span>Workers Comp expiration</span><input type="date" [(ngModel)]="selectedWorker.insuranceCompliance.workersCompExpiration" /></label>
+                      <label class="field field--check"><span>Exemption provided</span><input type="checkbox" [(ngModel)]="selectedWorker.insuranceCompliance.exemptionProvided" /></label>
+                      <label class="field"><span>Exemption type</span><select [(ngModel)]="selectedWorker.insuranceCompliance.exemptionType">@for (item of exemptionOptions; track item) {
+                      <option [value]="item">{{ item }}</option>
+                    }</select></label>
+                    <label class="field"><span>Exemption expiration</span><input type="date" [(ngModel)]="selectedWorker.insuranceCompliance.exemptionExpiration" /></label>
+                    <label class="field field--check"><span>Liability insurance on file</span><input type="checkbox" [(ngModel)]="selectedWorker.insuranceCompliance.hasLiabilityInsurance" /></label>
+                    <label class="field"><span>Liability policy #</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.liabilityPolicyNumber" /></label>
+                    <label class="field"><span>Liability expiration</span><input type="date" [(ngModel)]="selectedWorker.insuranceCompliance.liabilityExpiration" /></label>
+                  </div>
+                </div>
+              }
+              <div class="form-section">
+                <div class="section-title">Vacation / PTO policy</div>
+                <div class="form-grid form-grid--2 form-grid--editor">
+                  <label class="field field--check"><span>Vacation enabled</span><input type="checkbox" [(ngModel)]="selectedWorker.vacation.policy.enabled" (ngModelChange)="refreshSelectedVacation()" /></label>
+                  <label class="field field--check"><span>Eligible for PTO</span><input type="checkbox" [(ngModel)]="selectedWorker.vacation.policy.ptoEligible" (ngModelChange)="refreshSelectedVacation()" /></label>
+                  <label class="field"><span>Policy type</span><select [(ngModel)]="selectedWorker.vacation.policy.accrualMethod" (ngModelChange)="refreshSelectedVacation()">@for (item of vacationAccrualOptions; track item) {
+                  <option [value]="item">{{ item }}</option>
+                }</select></label>
+                <label class="field"><span>Days per year</span><input type="number" [(ngModel)]="selectedWorker.vacation.policy.annualDays" (ngModelChange)="refreshSelectedVacation()" /></label>
+                <label class="field"><span>Eligible after months</span><input type="number" [(ngModel)]="selectedWorker.vacation.policy.eligibilityMonths" (ngModelChange)="refreshSelectedVacation()" /></label>
+                <label class="field field--check"><span>Allow carryover</span><input type="checkbox" [(ngModel)]="selectedWorker.vacation.policy.allowCarryover" (ngModelChange)="refreshSelectedVacation()" /></label>
               </div>
-              <div class="passport-photo-card__content">
-                <div class="passport-photo-card__title">Worker photo</div>
-                <div class="passport-photo-card__hint">Update the main worker photo here. It should stay centered and cropped like an ID or passport image.</div>
-                <div class="passport-photo-card__actions">
-                  <label class="btn btn--ghost btn--small passport-photo-card__upload">
-                    <input type="file" accept="image/*" (change)="onSelectedWorkerPhotoSelected($event)" hidden />
-                    Change photo
+              <div class="inline-hint">Vacation balances and history are calculated automatically from the policy and worker record.</div>
+            </div>
+            <div class="form-section">
+              <div class="section-title">Address</div>
+              <div class="form-grid form-grid--2 form-grid--editor">
+                <label class="field field--full"><span>Address line 1</span><input type="text" [(ngModel)]="selectedWorker.addressLine1" /></label>
+                <label class="field field--full"><span>Address line 2</span><input type="text" [(ngModel)]="selectedWorker.addressLine2" /></label>
+                <label class="field"><span>City</span><input type="text" [(ngModel)]="selectedWorker.city" /></label>
+                <label class="field"><span>State</span><input type="text" [(ngModel)]="selectedWorker.state" /></label>
+                <label class="field"><span>ZIP</span><input type="text" [(ngModel)]="selectedWorker.zip" /></label>
+              </div>
+            </div>
+            <div class="form-section">
+              <div class="section-title">Emergency contact</div>
+              <div class="form-grid form-grid--2 form-grid--editor">
+                <label class="field"><span>Contact name</span><input type="text" [(ngModel)]="selectedWorker.emergencyContact.name" /></label>
+                <label class="field"><span>Relationship</span><input type="text" [(ngModel)]="selectedWorker.emergencyContact.relationship" /></label>
+                <label class="field"><span>Contact phone</span><input type="text" [(ngModel)]="selectedWorker.emergencyContact.phone" /></label>
+              </div>
+            </div>
+            <div class="form-section">
+              <div class="section-title">Documents archive</div>
+              <div class="inline-hint">Upload worker documents to the HR archive folder and keep them linked to this worker record.</div>
+              <div class="form-grid form-grid--3">
+                @for (item of selectedWorkerDocuments; track item) {
+                  <label class="field">
+                    <span>{{ item.label }}</span>
+                    <input type="file" multiple (change)="onSelectedFilesSelected(item.type, $event)" />
                   </label>
-                  <button type="button" class="btn btn--ghost btn--small" (click)="clearSelectedWorkerPhoto()" [disabled]="!getPhotoPreview(selectedWorker.photoURL, selectedWorkerPhoto)">Remove</button>
+                }
+              </div>
+            </div>
+            <div class="form-section">
+              <div class="section-title">HR notes</div>
+              <label class="field">
+                <span>Notes</span>
+                <textarea rows="3" [(ngModel)]="selectedWorker.notes"></textarea>
+              </label>
+            </div>
+            <div class="form-section">
+              <div class="section-title">User access</div>
+              <div class="split-callout">
+                <div>
+                  <div class="split-callout__title">Managed separately</div>
+                  <div class="split-callout__text">Worker profile data is edited here. Login, role, and screen permissions now live in the dedicated <strong>User Access</strong> workspace.</div>
                 </div>
+                <button type="button" class="btn btn--ghost btn--small" (click)="setTab('user-access')">Go to User Access</button>
               </div>
             </div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field">
-                <span>First name</span>
-                <input type="text" [(ngModel)]="selectedWorker.firstName" />
-              </label>
-              <label class="field">
-                <span>Middle name</span>
-                <input type="text" [(ngModel)]="selectedWorker.middleName" />
-              </label>
-              <label class="field">
-                <span>Last name</span>
-                <input type="text" [(ngModel)]="selectedWorker.lastName" />
-              </label>
-              <label class="field">
-                <span>Email</span>
-                <input type="email" [(ngModel)]="selectedWorker.email" />
-              </label>
-              <label class="field">
-                <span>Phone</span>
-                <input type="text" [(ngModel)]="selectedWorker.phone" />
-              </label>
-              <label class="field">
-                <span>Alternate phone</span>
-                <input type="text" [(ngModel)]="selectedWorker.alternatePhone" />
-              </label>
-              <label class="field">
-                <span>Date of birth</span>
-                <input type="date" [(ngModel)]="selectedWorker.dateOfBirth" />
-              </label>
-              <label class="field">
-                <span>Preferred language</span>
-                <select [(ngModel)]="selectedWorker.preferredLanguage">
-                  <option *ngFor="let item of languageOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>SSN</span>
-                <input type="text" [(ngModel)]="selectedWorker.ssnFull" />
-              </label>
-              <label class="field">
-                <span>Worker status</span>
-                <select [(ngModel)]="selectedWorker.workerStatus">
-                  <option *ngFor="let item of workerStatusOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">Employment</div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field">
-                <span>Employment type</span>
-                <select [(ngModel)]="selectedWorker.employmentType" (ngModelChange)="onSelectedEmploymentTypeChange()">
-                  <option *ngFor="let item of employmentOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Area</span>
-                <select [(ngModel)]="selectedWorker.areaType" (ngModelChange)="onSelectedAreaChange()">
-                  <option *ngFor="let item of areaOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Sub role</span>
-                <select [(ngModel)]="selectedWorker.subRole">
-                  <option *ngFor="let item of getSubRoleOptions(selectedWorker.areaType)" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Supervisor</span>
-                <input type="text" [(ngModel)]="selectedWorker.supervisor" />
-              </label>
-              <label class="field">
-                <span>Hire date</span>
-                <input type="date" [(ngModel)]="selectedWorker.hireDate" />
-              </label>
-              <label class="field">
-                <span>Rehire date</span>
-                <input type="date" [(ngModel)]="selectedWorker.rehireDate" />
-              </label>
-              <label class="field">
-                <span>Work authorization</span>
-                <select [(ngModel)]="selectedWorker.workAuthorizationStatus">
-                  <option *ngFor="let item of authorizationOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field" *ngIf="selectedWorker.workAuthorizationStatus !== 'citizen'">
-                <span>Authorization expiration</span>
-                <input type="date" [(ngModel)]="selectedWorker.workAuthorizationExpiration" />
-              </label>
-              <label class="field">
-                <span>Passport number</span>
-                <input type="text" [(ngModel)]="selectedWorker.passportNumber" />
-              </label>
-              <label class="field">
-                <span>Residence number</span>
-                <input type="text" [(ngModel)]="selectedWorker.residenceNumber" />
-              </label>
-              <label class="field">
-                <span>Work permit number</span>
-                <input type="text" [(ngModel)]="selectedWorker.workPermitNumber" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">Compensation</div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field">
-                <span>Pay type</span>
-                <select [(ngModel)]="selectedWorker.payType">
-                  <option *ngFor="let item of payTypeOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Regular rate</span>
-                <input type="number" [(ngModel)]="selectedWorker.hourlyRate" (ngModelChange)="updateSelectedOvertimeRate()" />
-              </label>
-              <label class="field" *ngIf="selectedWorker.employmentType === 'W2'">
-                <span>Overtime rate (auto)</span>
-                <input type="number" [ngModel]="selectedWorker.overtimeRate" readonly />
-              </label>
-              <label class="field">
-                <span>Payment method</span>
-                <select [(ngModel)]="selectedWorker.paymentMethod" (ngModelChange)="onSelectedPaymentMethodChange()">
-                  <option *ngFor="let item of paymentMethodOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
-            </div>
-            <div class="form-grid form-grid--2 form-grid--editor" *ngIf="selectedWorker.paymentMethod === 'direct_deposit'">
-              <label class="field"><span>Bank name</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.bankName" /></label>
-              <label class="field"><span>Account holder name</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.accountHolderName" /></label>
-              <label class="field"><span>Account type</span><select [(ngModel)]="selectedWorker.bankInfo.accountType"><option *ngFor="let item of bankAccountTypeOptions" [value]="item">{{ item }}</option></select></label>
-              <label class="field"><span>Routing number</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.routingNumber" /></label>
-              <label class="field"><span>Account number</span><input type="text" [(ngModel)]="selectedWorker.bankInfo.accountNumber" /></label>
-            </div>
-          </div>
-
-          <div class="form-section" *ngIf="selectedWorker.employmentType === 'W2'">
-            <div class="section-title">W2 onboarding + E-Verify</div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field field--check"><span>Payroll setup</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.payrollSetup" /></label>
-              <label class="field field--check"><span>W-4 / tax form completed</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.taxFormCompleted" /></label>
-              <label class="field field--check"><span>I-9 completed</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.i9Completed" /></label>
-              <label class="field field--check"><span>E-Verify completed</span><input type="checkbox" [(ngModel)]="selectedWorker.w2Compliance.eVerifyCompleted" /></label>
-              <label class="field"><span>E-Verify case number</span><input type="text" [(ngModel)]="selectedWorker.w2Compliance.eVerifyCaseNumber" /></label>
-              <label class="field"><span>E-Verify date</span><input type="date" [(ngModel)]="selectedWorker.w2Compliance.eVerifyDate" /></label>
-            </div>
-          </div>
-
-          <div class="form-section" *ngIf="selectedWorker.employmentType === '1099'">
-            <div class="section-title">1099 insurance + exemption</div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field"><span>1099 company name</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.companyName" /></label>
-              <label class="field"><span>EIN</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.ein" /></label>
-              <label class="field field--check"><span>Workers Comp on file</span><input type="checkbox" [(ngModel)]="selectedWorker.insuranceCompliance.hasWorkersComp" /></label>
-              <label class="field"><span>Workers Comp policy #</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.workersCompPolicyNumber" /></label>
-              <label class="field"><span>Workers Comp expiration</span><input type="date" [(ngModel)]="selectedWorker.insuranceCompliance.workersCompExpiration" /></label>
-              <label class="field field--check"><span>Exemption provided</span><input type="checkbox" [(ngModel)]="selectedWorker.insuranceCompliance.exemptionProvided" /></label>
-              <label class="field"><span>Exemption type</span><select [(ngModel)]="selectedWorker.insuranceCompliance.exemptionType"><option *ngFor="let item of exemptionOptions" [value]="item">{{ item }}</option></select></label>
-              <label class="field"><span>Exemption expiration</span><input type="date" [(ngModel)]="selectedWorker.insuranceCompliance.exemptionExpiration" /></label>
-              <label class="field field--check"><span>Liability insurance on file</span><input type="checkbox" [(ngModel)]="selectedWorker.insuranceCompliance.hasLiabilityInsurance" /></label>
-              <label class="field"><span>Liability policy #</span><input type="text" [(ngModel)]="selectedWorker.insuranceCompliance.liabilityPolicyNumber" /></label>
-              <label class="field"><span>Liability expiration</span><input type="date" [(ngModel)]="selectedWorker.insuranceCompliance.liabilityExpiration" /></label>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">Vacation / PTO policy</div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field field--check"><span>Vacation enabled</span><input type="checkbox" [(ngModel)]="selectedWorker.vacation.policy.enabled" (ngModelChange)="refreshSelectedVacation()" /></label>
-              <label class="field field--check"><span>Eligible for PTO</span><input type="checkbox" [(ngModel)]="selectedWorker.vacation.policy.ptoEligible" (ngModelChange)="refreshSelectedVacation()" /></label>
-              <label class="field"><span>Policy type</span><select [(ngModel)]="selectedWorker.vacation.policy.accrualMethod" (ngModelChange)="refreshSelectedVacation()"><option *ngFor="let item of vacationAccrualOptions" [value]="item">{{ item }}</option></select></label>
-              <label class="field"><span>Days per year</span><input type="number" [(ngModel)]="selectedWorker.vacation.policy.annualDays" (ngModelChange)="refreshSelectedVacation()" /></label>
-              <label class="field"><span>Eligible after months</span><input type="number" [(ngModel)]="selectedWorker.vacation.policy.eligibilityMonths" (ngModelChange)="refreshSelectedVacation()" /></label>
-              <label class="field field--check"><span>Allow carryover</span><input type="checkbox" [(ngModel)]="selectedWorker.vacation.policy.allowCarryover" (ngModelChange)="refreshSelectedVacation()" /></label>
-            </div>
-            <div class="inline-hint">Vacation balances and history are calculated automatically from the policy and worker record.</div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">Address</div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field field--full"><span>Address line 1</span><input type="text" [(ngModel)]="selectedWorker.addressLine1" /></label>
-              <label class="field field--full"><span>Address line 2</span><input type="text" [(ngModel)]="selectedWorker.addressLine2" /></label>
-              <label class="field"><span>City</span><input type="text" [(ngModel)]="selectedWorker.city" /></label>
-              <label class="field"><span>State</span><input type="text" [(ngModel)]="selectedWorker.state" /></label>
-              <label class="field"><span>ZIP</span><input type="text" [(ngModel)]="selectedWorker.zip" /></label>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">Emergency contact</div>
-            <div class="form-grid form-grid--2 form-grid--editor">
-              <label class="field"><span>Contact name</span><input type="text" [(ngModel)]="selectedWorker.emergencyContact.name" /></label>
-              <label class="field"><span>Relationship</span><input type="text" [(ngModel)]="selectedWorker.emergencyContact.relationship" /></label>
-              <label class="field"><span>Contact phone</span><input type="text" [(ngModel)]="selectedWorker.emergencyContact.phone" /></label>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">Documents archive</div>
-            <div class="inline-hint">Upload worker documents to the HR archive folder and keep them linked to this worker record.</div>
-            <div class="form-grid form-grid--3">
-              <label class="field" *ngFor="let item of selectedWorkerDocuments">
-                <span>{{ item.label }}</span>
-                <input type="file" multiple (change)="onSelectedFilesSelected(item.type, $event)" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">HR notes</div>
-            <label class="field">
-              <span>Notes</span>
-              <textarea rows="3" [(ngModel)]="selectedWorker.notes"></textarea>
-            </label>
-          </div>
-
-          <div class="form-section">
-            <div class="section-title">User access</div>
-            <div class="split-callout">
-              <div>
-                <div class="split-callout__title">Managed separately</div>
-                <div class="split-callout__text">Worker profile data is edited here. Login, role, and screen permissions now live in the dedicated <strong>User Access</strong> workspace.</div>
+            <div class="actions-row actions-row--editor">
+              <div class="feedback-wrap">
+                @if (saveWorkerMessage) {
+                  <div class="form-feedback form-feedback--success">{{ saveWorkerMessage }}</div>
+                }
+                @if (saveWorkerError) {
+                  <div class="form-feedback form-feedback--error">{{ saveWorkerError }}</div>
+                }
               </div>
-              <button type="button" class="btn btn--ghost btn--small" (click)="setTab('user-access')">Go to User Access</button>
+              <div class="actions-row__buttons">
+                <button type="button" class="btn btn--ghost" (click)="closeEditor()" [disabled]="isUpdatingWorker">Cancel</button>
+                <button type="button" class="btn btn--primary" (click)="saveWorkerChanges()" [disabled]="isUpdatingWorker">
+                  {{ isUpdatingWorker ? 'Saving...' : 'Save changes' }}
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="actions-row actions-row--editor">
-            <div class="feedback-wrap">
-              <div class="form-feedback form-feedback--success" *ngIf="saveWorkerMessage">{{ saveWorkerMessage }}</div>
-              <div class="form-feedback form-feedback--error" *ngIf="saveWorkerError">{{ saveWorkerError }}</div>
-            </div>
-            <div class="actions-row__buttons">
-              <button type="button" class="btn btn--ghost" (click)="closeEditor()" [disabled]="isUpdatingWorker">Cancel</button>
-              <button type="button" class="btn btn--primary" (click)="saveWorkerChanges()" [disabled]="isUpdatingWorker">
-                {{ isUpdatingWorker ? 'Saving...' : 'Save changes' }}
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <ng-template #noWorkerSelected>
+          </article>
+        } @else {
           <article class="hr-card editor-card editor-card--empty">
             <div class="tab-placeholder tab-placeholder--editor">
               <div class="title">Select a worker to edit</div>
               <div class="hint">Choose any row from the list to load worker details here and update employment data, compliance, vacation, or linked access.</div>
             </div>
           </article>
-        </ng-template>
+        }
       </section>
-    </div>
+    }
+  </div>
+}
 
-    <div *ngIf="activeTab==='user-access'" class="hr-stack">
-      <section class="hr-grid hr-grid--2">
-        <article class="hr-card">
-          <div class="hr-card__head">
-            <div>
-              <div class="eyebrow">Worker-first access model</div>
-              <h3>User access</h3>
-              <p>Keep worker records and system users connected, but not mixed. First create the worker profile, then enable login and permissions from this workspace.</p>
-            </div>
-            <span class="pill pill--info">Separate but linked</span>
+@if (activeTab==='user-access') {
+  <div class="hr-stack">
+    <section class="hr-grid hr-grid--2">
+      <article class="hr-card">
+        <div class="hr-card__head">
+          <div>
+            <div class="eyebrow">Worker-first access model</div>
+            <h3>User access</h3>
+            <p>Keep worker records and system users connected, but not mixed. First create the worker profile, then enable login and permissions from this workspace.</p>
           </div>
-
-          <div class="info-grid">
-            <div class="info-box">
-              <div class="info-box__title">Recommended flow</div>
-              <ol class="rule-list rule-list--tight">
-                <li>Create the worker record in <strong>Worker Records</strong>.</li>
-                <li>Select that worker here.</li>
-                <li>Enable login only if the person needs app access.</li>
-                <li>Assign role and module visibility separately from HR profile data.</li>
-              </ol>
-            </div>
-            <div class="info-box">
-              <div class="info-box__title">This workspace controls</div>
-              <div class="chips-wrap">
-                <span class="pill">Login status</span>
-                <span class="pill">System role</span>
-                <span class="pill">Screen visibility</span>
-                <span class="pill">Linked user reference</span>
-              </div>
+          <span class="pill pill--info">Separate but linked</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-box">
+            <div class="info-box__title">Recommended flow</div>
+            <ol class="rule-list rule-list--tight">
+              <li>Create the worker record in <strong>Worker Records</strong>.</li>
+              <li>Select that worker here.</li>
+              <li>Enable login only if the person needs app access.</li>
+              <li>Assign role and module visibility separately from HR profile data.</li>
+            </ol>
+          </div>
+          <div class="info-box">
+            <div class="info-box__title">This workspace controls</div>
+            <div class="chips-wrap">
+              <span class="pill">Login status</span>
+              <span class="pill">System role</span>
+              <span class="pill">Screen visibility</span>
+              <span class="pill">Linked user reference</span>
             </div>
           </div>
-
-          <div class="toolbar">
-            <label class="field field--search">
-              <span>Find worker for access setup</span>
-              <input type="text" [(ngModel)]="searchTerm" (input)="filterWorkers(true)" placeholder="Name, email, phone, role, employment type..." />
+        </div>
+        <div class="toolbar">
+          <label class="field field--search">
+            <span>Find worker for access setup</span>
+            <input type="text" [(ngModel)]="searchTerm" (input)="filterWorkers(true)" placeholder="Name, email, phone, role, employment type..." />
+          </label>
+          <div class="toolbar__meta">
+            <label class="field field--page-size">
+              <span>Rows per page</span>
+              <select [ngModel]="pageSize" (ngModelChange)="updatePageSize($event)">
+                @for (option of pageSizeOptions; track option) {
+                  <option [ngValue]="option">{{ option }}</option>
+                }
+              </select>
             </label>
-            <div class="toolbar__meta">
-              <label class="field field--page-size">
-                <span>Rows per page</span>
-                <select [ngModel]="pageSize" (ngModelChange)="updatePageSize($event)">
-                  <option *ngFor="let option of pageSizeOptions" [ngValue]="option">{{ option }}</option>
-                </select>
-              </label>
-              <div class="toolbar__count">{{ totalVisibleWorkers }} workers</div>
-            </div>
+            <div class="toolbar__count">{{ totalVisibleWorkers }} workers</div>
           </div>
-
-          <div class="form-feedback form-feedback--error" *ngIf="workersError">{{ workersError }}</div>
-
-          <div class="users-table-wrap">
-            <table class="users-table">
-              <thead>
+        </div>
+        @if (workersError) {
+          <div class="form-feedback form-feedback--error">{{ workersError }}</div>
+        }
+        <div class="users-table-wrap">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>Worker</th>
+                <th>Status</th>
+                <th>Current access</th>
+                <th class="ta-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (!paginatedWorkers.length) {
                 <tr>
-                  <th>Worker</th>
-                  <th>Status</th>
-                  <th>Current access</th>
-                  <th class="ta-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngIf="!paginatedWorkers.length">
                   <td class="table-empty" colspan="4">No workers match the current search.</td>
                 </tr>
-                <tr *ngFor="let worker of paginatedWorkers">
+              }
+              @for (worker of paginatedWorkers; track worker) {
+                <tr>
                   <td>
                     <div class="user-cell">
                       <div class="user-cell__name">{{ worker.displayName }}</div>
@@ -989,11 +1102,12 @@
                     <button type="button" class="btn btn--primary btn--small" (click)="editWorker(worker)">Manage access</button>
                   </td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="pagination" *ngIf="totalVisibleWorkers">
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (totalVisibleWorkers) {
+          <div class="pagination">
             <div class="pagination__summary">
               Showing {{ pageStart }}-{{ pageEnd }} of {{ totalVisibleWorkers }} workers
             </div>
@@ -1004,20 +1118,21 @@
               <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" aria-label="Previous page" title="Previous page">
                 <span class="pagination__icon" aria-hidden="true">&lsaquo;</span>
               </button>
-              <ng-container *ngFor="let item of paginationItems">
-                <span *ngIf="item === 'ellipsis'; else accessWorkersPageButton" class="pagination__ellipsis" aria-hidden="true">...</span>
-                <ng-template #accessWorkersPageButton>
+              @for (item of paginationItems; track item) {
+                @if (item === 'ellipsis') {
+                  <span class="pagination__ellipsis" aria-hidden="true">...</span>
+                } @else {
                   <button
                     type="button"
                     class="pagination__page"
                     [class.pagination__page--active]="item === currentPage"
                     (click)="goToPaginationItem(item)"
                     [attr.aria-current]="item === currentPage ? 'page' : null"
-                  >
+                    >
                     {{ item }}
                   </button>
-                </ng-template>
-              </ng-container>
+                }
+              }
               <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" aria-label="Next page" title="Next page">
                 <span class="pagination__icon" aria-hidden="true">&rsaquo;</span>
               </button>
@@ -1026,9 +1141,10 @@
               </button>
             </div>
           </div>
-        </article>
-
-        <article class="hr-card editor-card" *ngIf="selectedWorker; else noAccessSelected">
+        }
+      </article>
+      @if (selectedWorker) {
+        <article class="hr-card editor-card">
           <div class="hr-card__head">
             <div>
               <div class="eyebrow">Access editor</div>
@@ -1039,7 +1155,6 @@
               {{ selectedWorker.canLogin ? 'Login linked' : 'Profile only' }}
             </span>
           </div>
-
           <div class="form-section">
             <div class="section-title">Linked worker</div>
             <div class="info-grid">
@@ -1051,7 +1166,6 @@
               </div>
             </div>
           </div>
-
           <div class="form-section">
             <div class="section-title">System access</div>
             <div class="form-grid form-grid--2 form-grid--editor">
@@ -1061,37 +1175,47 @@
                   {{ selectedWorker.canLogin ? 'Login linked' : 'No linked login' }}
                 </button>
               </label>
-              <label class="field" *ngIf="selectedWorker.canLogin">
-                <span>System role</span>
-                <select [(ngModel)]="selectedWorker.role">
-                  <option *ngFor="let item of roleOptions" [value]="item">{{ item }}</option>
-                </select>
-              </label>
+              @if (selectedWorker.canLogin) {
+                <label class="field">
+                  <span>System role</span>
+                  <select [(ngModel)]="selectedWorker.role">
+                    @for (item of roleOptions; track item) {
+                      <option [value]="item">{{ item }}</option>
+                    }
+                  </select>
+                </label>
+              }
             </div>
-
-            <div class="editor-section" *ngIf="selectedWorker.canLogin">
-              <div class="editor-section__head">
-                <div class="eyebrow">Screen access</div>
-                <p>These values update <code>users/&#123;uid&#125;.screenAccess</code> for the linked login.</p>
+            @if (selectedWorker.canLogin) {
+              <div class="editor-section">
+                <div class="editor-section__head">
+                  <div class="eyebrow">Screen access</div>
+                  <p>These values update <code>users/&#123;uid&#125;.screenAccess</code> for the linked login.</p>
+                </div>
+                <div class="access-list">
+                  @for (item of screenOptions; track item) {
+                    <button type="button" class="access-row" (click)="toggleSelectedScreen(item.key)">
+                      <div>
+                        <div class="access-row__title">{{ item.label }}</div>
+                        <div class="access-row__hint">{{ item.hint }}</div>
+                      </div>
+                      <span class="pill" [class.pill--success]="selectedWorker.screenAccess[item.key]" [class.pill--muted]="!selectedWorker.screenAccess[item.key]">
+                        {{ selectedWorker.screenAccess[item.key] ? 'Allowed' : 'Hidden' }}
+                      </span>
+                    </button>
+                  }
+                </div>
               </div>
-              <div class="access-list">
-                <button type="button" class="access-row" *ngFor="let item of screenOptions" (click)="toggleSelectedScreen(item.key)">
-                  <div>
-                    <div class="access-row__title">{{ item.label }}</div>
-                    <div class="access-row__hint">{{ item.hint }}</div>
-                  </div>
-                  <span class="pill" [class.pill--success]="selectedWorker.screenAccess[item.key]" [class.pill--muted]="!selectedWorker.screenAccess[item.key]">
-                    {{ selectedWorker.screenAccess[item.key] ? 'Allowed' : 'Hidden' }}
-                  </span>
-                </button>
-              </div>
-            </div>
+            }
           </div>
-
           <div class="actions-row actions-row--editor">
             <div class="feedback-wrap">
-              <div class="form-feedback form-feedback--success" *ngIf="saveWorkerMessage">{{ saveWorkerMessage }}</div>
-              <div class="form-feedback form-feedback--error" *ngIf="saveWorkerError">{{ saveWorkerError }}</div>
+              @if (saveWorkerMessage) {
+                <div class="form-feedback form-feedback--success">{{ saveWorkerMessage }}</div>
+              }
+              @if (saveWorkerError) {
+                <div class="form-feedback form-feedback--error">{{ saveWorkerError }}</div>
+              }
             </div>
             <div class="actions-row__buttons">
               <button type="button" class="btn btn--ghost" [disabled]="!selectedWorker.canLogin" title="Password reset flow can be connected here next.">Reset password</button>
@@ -1102,30 +1226,34 @@
             </div>
           </div>
         </article>
+      } @else {
+        <article class="hr-card editor-card editor-card--empty">
+          <div class="tab-placeholder tab-placeholder--editor">
+            <div class="title">Select a worker or user to manage</div>
+            <div class="hint">Choose any worker from the left list to review login linkage, permissions, and prepare actions like password reset from this panel.</div>
+          </div>
+        </article>
+      }
+    </section>
+  </div>
+}
 
-        <ng-template #noAccessSelected>
-          <article class="hr-card editor-card editor-card--empty">
-            <div class="tab-placeholder tab-placeholder--editor">
-              <div class="title">Select a worker or user to manage</div>
-              <div class="hint">Choose any worker from the left list to review login linkage, permissions, and prepare actions like password reset from this panel.</div>
-            </div>
-          </article>
-        </ng-template>
-      </section>
-    </div>
-
-    <div *ngIf="activeTab==='overview'">
-      <div class="tab-placeholder">
-        <div class="title">Department Overview</div>
-        <div class="hint">Ready for worker counts, W2 vs 1099 summaries, vacation balance tracking, and onboarding metrics.</div>
-      </div>
-    </div>
-
-    <div *ngIf="activeTab==='reports'">
-      <div class="tab-placeholder">
-        <div class="title">Reports</div>
-        <div class="hint">Ready for worker compliance, E-Verify, vacation, hiring pipeline, and permission audit reports.</div>
-      </div>
+@if (activeTab==='overview') {
+  <div>
+    <div class="tab-placeholder">
+      <div class="title">Department Overview</div>
+      <div class="hint">Ready for worker counts, W2 vs 1099 summaries, vacation balance tracking, and onboarding metrics.</div>
     </div>
   </div>
+}
+
+@if (activeTab==='reports') {
+  <div>
+    <div class="tab-placeholder">
+      <div class="title">Reports</div>
+      <div class="hint">Ready for worker compliance, E-Verify, vacation, hiring pipeline, and permission audit reports.</div>
+    </div>
+  </div>
+}
+</div>
 </div>

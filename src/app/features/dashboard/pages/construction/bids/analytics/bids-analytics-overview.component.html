@@ -1,8 +1,10 @@
 <div class="analytics-wrapper">
 
-  <div class="error-banner" *ngIf="errorMsg">
-    {{ errorMsg }}
-  </div>
+  @if (errorMsg) {
+    <div class="error-banner">
+      {{ errorMsg }}
+    </div>
+  }
 
   <!-- KPI CARDS -->
   <div class="kpi-grid">
@@ -39,14 +41,16 @@
       <div class="panel-title">Estimated Amount by Month ({{ year }})</div>
 
       <div class="bars">
-        <div class="bar-row" *ngFor="let m of monthly.months">
-          <div class="bar-label">{{ monthLabel(m.monthIndex) }}</div>
-          <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="barWidth(m.amount, monthly.maxAmount)"></div>
+        @for (m of monthly.months; track m) {
+          <div class="bar-row">
+            <div class="bar-label">{{ monthLabel(m.monthIndex) }}</div>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width.%]="barWidth(m.amount, monthly.maxAmount)"></div>
+            </div>
+            <div class="bar-value">{{ formatMoney(m.amount) }}</div>
+            <div class="bar-count">{{ m.count }}</div>
           </div>
-          <div class="bar-value">{{ formatMoney(m.amount) }}</div>
-          <div class="bar-count">{{ m.count }}</div>
-        </div>
+        }
       </div>
     </mat-card>
 
@@ -61,19 +65,19 @@
       <div class="panel-title">Estimators Ranking ({{ year }})</div>
 
       <div class="rank">
-        <div class="rank-row" *ngFor="let r of ranking.rows; let idx = index">
-          <div class="rank-left">
-            <div class="rank-index">{{ idx + 1 }}</div>
-            <div class="rank-email">{{ r.email }}</div>
+        @for (r of ranking.rows; track r; let idx = $index) {
+          <div class="rank-row">
+            <div class="rank-left">
+              <div class="rank-index">{{ idx + 1 }}</div>
+              <div class="rank-email">{{ r.email }}</div>
+            </div>
+            <div class="rank-track">
+              <div class="rank-fill" [style.width.%]="barWidth(r.amount, ranking.maxAmount)"></div>
+            </div>
+            <div class="rank-amount">{{ formatMoney(r.amount) }}</div>
+            <div class="rank-count">{{ r.count }}</div>
           </div>
-
-          <div class="rank-track">
-            <div class="rank-fill" [style.width.%]="barWidth(r.amount, ranking.maxAmount)"></div>
-          </div>
-
-          <div class="rank-amount">{{ formatMoney(r.amount) }}</div>
-          <div class="rank-count">{{ r.count }}</div>
-        </div>
+        }
       </div>
     </mat-card>
 
