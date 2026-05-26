@@ -42,6 +42,11 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Cypress
+/cypress/videos
+/cypress/screenshots
+/cypress/downloads
+
 # Environment files with secrets
 /environments/environment.*.ts
 !/environments/environment.ts
