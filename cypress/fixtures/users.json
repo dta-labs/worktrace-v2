@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "email": "ygonzalez@smetaltechnology.com",
+    "password": "123456",
+    "role": "admin"
+  },
+  "invalid": {
+    "email": "invalid@test.com",
+    "password": "invalid_password",
+    "role": "user"
+  }
+}

@@ -6,20 +6,22 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="form-control" [class.error]="email?.invalid && (email?.touched || email?.dirty)">
         <label>Email</label>
-        <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="username" data-cy="login-email" />
+        <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="username"
+          data-cy="login-email" />
         @if (email?.hasError('required')) {
-          <small>Email is required</small>
+        <small data-cy="login-email-required-error">Email is required</small>
         }
         @if (email?.hasError('email')) {
-          <small>Invalid email</small>
+        <small>Invalid email</small>
         }
       </div>
 
       <div class="form-control" [class.error]="password?.invalid && (password?.touched || password?.dirty)">
         <label>Password</label>
-        <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password" data-cy="login-password" />
+        <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password"
+          data-cy="login-password" />
         @if (password?.hasError('required')) {
-          <small>Password is required</small>
+        <small data-cy="login-password-required-error">Password is required</small>
         }
       </div>
 
@@ -36,9 +38,9 @@
       </button>
 
       @if (errorMsg) {
-        <div class="error-box" data-cy="login-error">
-          {{ errorMsg }}
-        </div>
+      <div class="error-box" data-cy="login-error">
+        {{ errorMsg }}
+      </div>
       }
     </form>
   </div>
