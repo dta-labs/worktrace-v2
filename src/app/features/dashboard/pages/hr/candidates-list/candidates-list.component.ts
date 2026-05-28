@@ -1,14 +1,14 @@
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {collection, deleteDoc, doc, Firestore, getDocs} from '@angular/fire/firestore';
-import {deleteObject, ref, Storage} from '@angular/fire/storage';
-import {CandidateSearchService} from 'src/app/services/candidate-search.service';
-import {CandidateService} from 'src/app/services/candidate.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { collection, deleteDoc, doc, Firestore, getDocs } from '@angular/fire/firestore';
+import { deleteObject, ref, Storage } from '@angular/fire/storage';
+import { CandidateSearchService } from '@app/services/candidate-search.service';
+import { CandidateService } from '@app/services/candidate.service';
 import {
     CreateCandidateComponent
-} from 'src/app/features/dashboard/pages/hr/create-candidate/create-candidate.component';
-import type {DocumentData, QueryDocumentSnapshot} from 'firebase/firestore';
+} from '@app/features/dashboard/pages/hr/create-candidate/create-candidate.component';
+import type { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
 interface InsuranceComplianceView {
     hasWorkersComp: boolean;
@@ -629,7 +629,7 @@ export class CandidatesListComponent implements OnInit {
             workAuthorizationExpiration: String(workAuthorization['expirationDate'] ?? '').trim(),
             passportNumber,
             residenceNumber,
-            workPermitNumber,   
+            workPermitNumber,
             hireDate: String(data['hireDate'] ?? '').trim(),
             rehireDate: String(data['rehireDate'] ?? '').trim(),
             supervisor: String(data['supervisor'] ?? '').trim(),

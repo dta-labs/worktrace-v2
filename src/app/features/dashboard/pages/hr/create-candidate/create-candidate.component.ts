@@ -14,10 +14,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Firestore, addDoc, collection, doc, getDocs, limit, query, serverTimestamp, updateDoc } from '@angular/fire/firestore';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
-import { CandidateSearchDocument, CandidateSearchService } from 'src/app/services/candidate-search.service';
-import { CandidateService } from 'src/app/services/candidate.service';
-import { UserAccessService, ScreenAccessMap } from 'src/app/core/services/user-access.service';
-import { CandidateSearchField } from 'src/app/models/candidateSearchField';
+import { CandidateSearchDocument, CandidateSearchService } from '@app/services/candidate-search.service';
+import { CandidateService } from '@app/services/candidate.service';
+import { UserAccessService, ScreenAccessMap } from '@app/core/services/user-access.service';
+import { CandidateSearchField } from '@app/models/candidateSearchField';
 
 interface InsuranceComplianceView {
     hasWorkersComp: boolean;
@@ -161,8 +161,8 @@ type DraftCandidateView = Omit<ManagedCandidateView, 'hourlyRate' | 'overtimeRat
 @Component({
     selector: 'app-create-candidate',
     imports: [
-    FormsModule
-],
+        FormsModule
+    ],
     templateUrl: './create-candidate.component.html',
     styleUrl: './create-candidate.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -919,7 +919,7 @@ export class CreateCandidateComponent {
         this.draftDocuments = this.createDefaultDocumentDrafts();
     }
 
-    closeMenus() {}
+    closeMenus() { }
 
     getComplianceSummary(candidate: ManagedCandidateView | DraftCandidateView | null | undefined): string {
         if (!candidate) return 'Not set';

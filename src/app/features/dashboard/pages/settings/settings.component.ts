@@ -6,7 +6,7 @@ import { DriveSettingsService } from '../../../../core/services/drive-settings.s
 import { BidsSettingsService } from '../../../../core/services/bids-settings.service';
 import { DriveFunctionsService } from '../../../../core/services/drive-functions.service';
 
-import {ThemeService} from "src/app/core/theme/theme.service";
+import { ThemeService } from "@app/core/theme/theme.service";
 
 type SettingsTab = 'general' | 'appearance' | 'user-permissions' | 'bids-configuration' | 'hr-configuration';
 type ThemeId = 'dark' | 'midnight' | 'light' | 'aurora';
@@ -14,10 +14,10 @@ type DensityId = 'compact' | 'comfortable' | 'spacious';
 type WorkerFolderNamingMode = 'last_first' | 'first_last' | 'last_only' | 'first_only';
 
 @Component({
-    selector: 'app-settings-page',
-    imports: [CommonModule, FormsModule],
-    templateUrl: './settings.component.html',
-    styleUrl: './settings.component.scss'
+  selector: 'app-settings-page',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './settings.component.html',
+  styleUrl: './settings.component.scss'
 })
 export class SettingsPageComponent implements OnInit, OnDestroy {
   activeTab: SettingsTab = 'general';
@@ -159,7 +159,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     this.activeTab = tab;
   }
 
-  closeMenus() {}
+  closeMenus() { }
 
   resetAppearanceDraft() {
     this.selectedTheme = 'dark';
@@ -380,7 +380,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     ];
   }
 
-  changeTheme(){
+  changeTheme() {
 
     this.themeService.apply(this.selectedTheme);
   }

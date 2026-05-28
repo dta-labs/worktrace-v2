@@ -1,7 +1,7 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
 
-import {ThemeService} from "src/app/core/theme/theme.service";
+import { ThemeService } from "@app/core/theme/theme.service";
 
 @Component({
     selector: 'app-root',
@@ -10,7 +10,7 @@ import {ThemeService} from "src/app/core/theme/theme.service";
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private themeService: ThemeService = inject(ThemeService)
+    private themeService: ThemeService = inject(ThemeService)
 
     ngOnInit(): void {
         this.themeService.initFromStorage();
