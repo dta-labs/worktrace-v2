@@ -1,12 +1,32 @@
 {
+  "invalid": {
+    "email": "invalid@worktrace.com",
+    "password": "123456",
+    "role": "user"
+  },
   "admin": {
     "email": "ygonzalez@smetaltechnology.com",
     "password": "123456",
     "role": "admin"
   },
-  "invalid": {
-    "email": "invalid@test.com",
-    "password": "invalid_password",
-    "role": "user"
+  "president": {
+    "email": "president@worktrace.com",
+    "password": "123456",
+    "role": "president"
+  },
+  "pm": {
+    "email": "pm@worktrace.com",
+    "password": "123456",
+    "role": "pm"
+  },
+  "bidder": {
+    "email": "bidder@worktrace.com",
+    "password": "123456",
+    "role": "bidder"
+  },
+  "accounting": {
+    "email": "accounting@worktrace.com",
+    "password": "123456",
+    "role": "accounting"
   }
 }
