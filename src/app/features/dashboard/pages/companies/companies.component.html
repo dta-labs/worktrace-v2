@@ -6,36 +6,29 @@
   </div>
 
   <div class="subnav" aria-label="Companies sub navigation">
-    <button
-      class="subnav-item"
-      type="button"
-      [class.active]="activeTab==='create'"
-      (click)="setTab('create')"
-      >
+    <button class="subnav-item" type="button" [class.active]="activeTab==='create'" (click)="setTab('create')"
+      data-cy="tab-create-company">
       Create Company
     </button>
 
-    <button
-      class="subnav-item"
-      type="button"
-      [class.active]="activeTab==='companies'"
-      (click)="setTab('companies')"
-      >
+    <button class="subnav-item" type="button" [class.active]="activeTab==='companies'" (click)="setTab('companies')"
+      data-cy="tab-companies-list">
       Lista de compañías
     </button>
   </div>
 
   <div class="panel">
     @if (activeTab==='create') {
-      <div class="panel-inner">
-        <app-create-company [editClient]="selectedForEdit" (saved)="selectedForEdit=null; setTab('companies')"></app-create-company>
-      </div>
+    <div class="panel-inner">
+      <app-create-company [editClient]="selectedForEdit"
+        (saved)="selectedForEdit=null; setTab('companies')"></app-create-company>
+    </div>
     }
 
     @if (activeTab==='companies') {
-      <div class="panel-inner">
-        <app-companies-list (edit)="onEditFromList($event)"></app-companies-list>
-      </div>
+    <div class="panel-inner">
+      <app-companies-list (edit)="onEditFromList($event)"></app-companies-list>
+    </div>
     }
   </div>
 </div>
