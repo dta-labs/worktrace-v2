@@ -52,3 +52,6 @@ Thumbs.db
 !/environments/environment.ts
 !/environments/environment.development.ts
 
+# Local agent skills
+/.agents/skills
+
