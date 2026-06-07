@@ -1,13 +1,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyD7JdmoZEtIl66Oe-Aegq4h0duiBrb26Sk",
-    authDomain: "worktrace-9a501.firebaseapp.com",
-    projectId: "worktrace-9a501",
-    storageBucket: "worktrace-9a501.firebasestorage.app",
-    messagingSenderId: "197745568574",
-    appId: "1:197745568574:web:af113543ece8dec2d89a6f",
-    measurementId: "G-660LEGKXFQ",
-    database: 'development'
+    apiKey: typeof window !== 'undefined' ? (window as any)['env']?.firebaseApiKey || import.meta.env['NG_APP_FIREBASE_API_KEY'] : undefined,
+    authDomain: typeof window !== 'undefined' ? (window as any)['env']?.firebaseAuthDomain || import.meta.env['NG_APP_FIREBASE_AUTH_DOMAIN'] : undefined,
+    projectId: typeof window !== 'undefined' ? (window as any)['env']?.firebaseProjectId || import.meta.env['NG_APP_FIREBASE_PROJECT_ID'] : undefined,
+    storageBucket: typeof window !== 'undefined' ? (window as any)['env']?.firebaseStorageBucket || import.meta.env['NG_APP_FIREBASE_STORAGE_BUCKET'] : undefined,
+    messagingSenderId: typeof window !== 'undefined' ? (window as any)['env']?.firebaseMessagingSenderId || import.meta.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID'] : undefined,
+    appId: typeof window !== 'undefined' ? (window as any)['env']?.firebaseAppId || import.meta.env['NG_APP_FIREBASE_APP_ID'] : undefined,
+    measurementId: typeof window !== 'undefined' ? (window as any)['env']?.firebaseMeasurementId || import.meta.env['NG_APP_FIREBASE_MEASUREMENT_ID'] : undefined,
+    database: typeof window !== 'undefined' ? (window as any)['env']?.firestoreDatabase || import.meta.env['NG_APP_FIRESTORE_DATABASE'] || 'development' : 'development'
   }
 };
