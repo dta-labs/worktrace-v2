@@ -4,8 +4,7 @@
 /out-tsc
 
 # Node
-/node_modules
-package-lock.json
+node_modules/
 
 # IDEs and editors
 /.idea
@@ -22,8 +21,8 @@ package-lock.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 *.code-workspace
+.history/*
 
 # Angular cache
 /.angular/cache
@@ -47,11 +46,16 @@ Thumbs.db
 /cypress/screenshots
 /cypress/downloads
 
-# Environment files with secrets
-/environments/environment.*.ts
-!/environments/environment.ts
-!/environments/environment.development.ts
-
 # Local agent skills
 /.agents/skills
 
+# Environment variables
+.env*
+!.env.example
+
+# Cloud Functions
+functions/lib/
+functions/dist/
+functions/.runtimeconfig.json
+firebase-debug.log
+*.log
