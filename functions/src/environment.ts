@@ -1,7 +1,7 @@
 export const environment = {
-    production: false,
+    production: process.env.NODE_ENV === 'production',
     firebase: {
-        database: '(default)',
-        projectId: 'worktrace-9a501',
+        projectId: process.env.GCLOUD_PROJECT || 'worktrace-9a501',
+        database: process.env.FIRESTORE_EMULATOR_HOST ? 'development' : (process.env.FIRESTORE_DATABASE || '(default)'),
     },
 };

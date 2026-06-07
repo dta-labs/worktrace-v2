@@ -122,7 +122,6 @@ async function findOrCreateFolder(
   return create.data.id;
 }
 
-
 async function getFolderName(
   drive: any,
   folderId: string
@@ -200,7 +199,6 @@ async function readHrDriveSettings() {
     workerSubfolderTemplate: workerSubfolderTemplate.length ? workerSubfolderTemplate : DEFAULT_WORKER_SUBFOLDERS,
   };
 }
-
 
 async function readProjectDriveSettings() {
   const db = getFirestore(environment.firebase.database);
@@ -574,5 +572,3 @@ export const createBidFolder = onCall(async (request) => {
     throw new HttpsError('internal', `Error creating folder structure: ${e?.message || 'unknown error'}`);
   }
 });
-
-
