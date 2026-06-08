@@ -160,7 +160,7 @@ function serializeError(e: any) {
 }
 
 async function readHrDriveSettings() {
-  const db = getFirestore(environment.firebase.database);
+  const db = getFirestore(environment.database);
   const driveSnap = await db.doc('settings/drive').get();
   const hrSnap = await db.doc('settings/hr').get();
   const driveData = driveSnap.exists ? driveSnap.data() || {} : {};
@@ -203,7 +203,7 @@ async function readHrDriveSettings() {
 
 
 async function readProjectDriveSettings() {
-  const db = getFirestore(environment.firebase.database);
+  const db = getFirestore(environment.database);
   const bidsSnap = await db.doc('settings/bids').get();
   const driveSnap = await db.doc('settings/drive').get();
 
