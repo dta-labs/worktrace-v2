@@ -52,3 +52,17 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+## Cypress E2E Test Conventions
+
+- Use modern Cypress 15 patterns and architecture.
+- Prefer `cy.session()` for authenticated state reuse and to isolate login state between specs.
+- Keep tests isolated: reset state between tests, avoid cross-test dependencies, and clear side effects.
+- Use stable selectors and prefer `data-cy` attributes for element queries.
+- Avoid brittle selectors based on CSS classes or text content alone.
+- Avoid fragile selectors; for example, in generic Angular Material selectors like simple-snack-bar, use text-based validation.
+- When preparing random resource names for users, companies, or other test data, always use the prefix `CyTest `.
+- Append timestamps or other unique suffixes to keep names unique across runs.
+- Use `cypress.config.ts` values for timeouts and baseUrl rather than duplicating those settings in tests.
+- Run tests with `npm test` for headless execution and `npm run test:open` for the Cypress Test Runner.
+- For dashboard recording, use `npx cypress run --record --key <record-key>` as documented in `cypress/README.md`.

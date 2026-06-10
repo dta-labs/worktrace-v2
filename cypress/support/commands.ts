@@ -11,24 +11,26 @@ Cypress.Commands.add('loginByRole', (role: string) => {
 
     cy.visit('/login');
     cy.login(user.email, user.password);
-    cy.url().should('include', '/dashboard'); // wait for post-login redirection
+    cy.url().should('include', '/dashboard');
+    // cy.get('[data-cy="logout-button"]', { timeout: 10000 }).should('be.visible');
   });
 });
 
 Cypress.Commands.add('logout', () => {
-  cy.get('[data-cy="logout-button"]').click();
+  cy.clearCookies();
+  cy.clearAllLocalStorage();
+  cy.clearAllSessionStorage();
+  cy.clearIndexedDB();
+  if (Cypress.session && typeof Cypress.session.clearAllSavedSessions === 'function') {
+    Cypress.session.clearAllSavedSessions();
+  }
 });
 
-Cypress.Commands.add('clearAllStorage', () => {
-  cy.clearCookies();
-  cy.clearAllSessionStorage();
-  cy.clearAllLocalStorage();
-
-  // Limpiar IndexedDB (Crucial para Firebase Auth)
+Cypress.Commands.add('clearIndexedDB', () => {
   cy.window().then((win) => {
     return win.indexedDB.databases().then((dbs) => {
       dbs.forEach((db) => {
-        win.indexedDB.deleteDatabase(db.name);
+        if (db.name) win.indexedDB.deleteDatabase(db.name);
       });
     });
   });

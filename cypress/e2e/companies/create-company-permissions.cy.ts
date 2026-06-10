@@ -24,44 +24,25 @@ describe('UC-COMP-001 - Creation Permissions by Role', () => {
     it(`${description} ${shouldSucceed ? 'should' : 'should not'} create a company`, () => {
       cy.session(`${role}-session`, () => cy.loginByRole(role));
       cy.visit('/dashboard/companies');
-      if (shouldSucceed) {
-        cy.get('[data-cy="tab-create-company"]').should('be.visible');
-        cy.get('[data-cy="tab-create-company"]').click();
 
-        const companyName = `Permiso ${role} ${Date.now()}`;
-        cy.get('[data-cy="input-company-name"]').should('be.visible').type(companyName);
+      if (shouldSucceed) {
+        cy.get('[data-cy="tab-create-company"]').should('be.visible').click();
+
+        const companyName = `CyTest Company ${Date.now()}`;
+        cy.get('[data-cy="input-company-name"]').type(companyName);
         cy.get('[data-cy="btn-save-company"]').click();
-        cy.get('simple-snack-bar', { timeout: 10000 }).should('be.visible');
 
         cy.get('[data-cy="tab-companies-list"]').click();
         cy.contains(companyName).should('be.visible');
       } else {
         cy.get('[data-cy="tab-create-company"]').should('not.exist');
-
-        // cy.visit('/dashboard/companies/create');
-        // cy.url().should('include', '/unauthorized');
       }
     });
   });
 
-  // Additional: Unauthenticated user
-  it('An unauthenticated user should not be able to access company module', () => {
-    // 1. Visitar raíz
-    cy.visit('/');
-    cy.get('app-root').should('be.visible');
-
-    // 2. Asegurar que todo el almacenamiento (incluido IndexedDB) esté vacío
-    cy.clearAllStorage();
-
-    // 3. Recargar para que AngularFire se reinicie sin tokens
-    cy.reload();
-    cy.get('app-root').should('be.visible');
-
-    // 4. Visitar ruta protegida
-    cy.visit('/dashboard/companies');
-
-    // 5. Verificar redirección
-    // cy.location('pathname').should('eq', '/login');
+  it('An unauthenticated user should not access companies module', () => {
+    cy.logout();
+    cy.visit('/dashboard/companies', { failOnStatusCode: false });
     cy.url().should('include', '/login');
   });
 });

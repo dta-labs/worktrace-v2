@@ -1,5 +1,4 @@
-// cypress/support/e2e.ts
-import './commands';   // importa tus comandos personalizados
+import './commands';
 
 // Oculta peticiones XHR/fetch del log de comandos
 // const app = window.top;
@@ -10,17 +9,16 @@ import './commands';   // importa tus comandos personalizados
 //     app?.document.head.appendChild(style);
 // }
 
-// Declaración de tipos globales (también puedes moverla a commands.ts)
 declare global {
-    namespace Cypress {
-        interface Chainable {
-            login(email: string, password: string): Chainable<void>;
-            logout(): Chainable<void>;
-            loginByRole(role: string): Chainable<void>;
-            clearAllStorage(): Chainable<void>;
-            createProject(projectData: any): Chainable<any>;
-            createCompany(companyData: any): Chainable<any>;
-            createCandidate(candidateData: any): Chainable<any>;
-        }
+  namespace Cypress {
+    interface Chainable {
+      login(email: string, password: string): Chainable<void>;
+      logout(): Chainable<void>;
+      loginByRole(role: string): Chainable<void>;
+      clearIndexedDB(): Chainable<void>;
+      createProject(projectData: any): Chainable<any>;
+      createCompany(companyData: any): Chainable<any>;
+      createCandidate(candidateData: any): Chainable<any>;
     }
-}
+  }
+};

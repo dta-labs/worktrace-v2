@@ -20,14 +20,14 @@
   <div class="panel">
     @if (activeTab==='create') {
     <div class="panel-inner">
-      <app-create-company [editClient]="selectedForEdit"
-        (saved)="selectedForEdit=null; setTab('companies')"></app-create-company>
+      <app-create-company [editClient]="selectedForEdit" (saved)="selectedForEdit=null; setTab('companies')"
+        data-cy="app-create-company"></app-create-company>
     </div>
     }
 
     @if (activeTab==='companies') {
     <div class="panel-inner">
-      <app-companies-list (edit)="onEditFromList($event)"></app-companies-list>
+      <app-companies-list (edit)="onEditFromList($event)" data-cy="app-companies-list"></app-companies-list>
     </div>
     }
   </div>
