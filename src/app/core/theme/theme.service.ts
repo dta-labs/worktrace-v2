@@ -22,16 +22,11 @@ export class ThemeService {
 
   apply(mode: ThemeMode): void {
     const body = this.doc.body;
-    // body.classList.remove('light-theme', 'dark-theme');
-    //
-    // if (mode === 'light') body.classList.add('light-theme');
-    // else body.classList.add('dark-theme');
     body.setAttribute('data-theme', mode);
     localStorage.setItem('wt-theme', mode);
   }
 
   current(): ThemeMode {
-    //return this.doc.body.classList.contains('light-theme') ? 'light' : 'dark';
     return this.doc.body.getAttribute('data-theme') as ThemeMode;
   }
 }
