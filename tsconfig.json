@@ -21,13 +21,12 @@
       "ES2022",
       "dom"
     ],
-    "baseUrl": "./",
     "paths": {
       "src/*": [
-        "src/*"
+        "./src/*"
       ],
       "@app/*": [
-        "src/app/*"
+        "./src/app/*"
       ]
     }
   },
