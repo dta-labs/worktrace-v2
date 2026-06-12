@@ -1,13 +1,7 @@
 import './commands';
+import { slowCypressDown } from 'cypress-slow-down';
 
-// Oculta peticiones XHR/fetch del log de comandos
-// const app = window.top;
-// if (!app?.document.head.querySelector('[data-hide-command-log-request]')) {
-//     const style = app.document.createElement('style');
-//     style.setAttribute('data-hide-command-log-request', '');
-//     style.innerHTML = '.command-name-request, .command-name-xhr { display: none }';
-//     app?.document.head.appendChild(style);
-// }
+slowCypressDown(500);
 
 declare global {
   namespace Cypress {
