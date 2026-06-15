@@ -1,11 +1,6 @@
 /// <reference types="cypress" />
 
-/**
- * Admin company workflows.
- * 
- */
-
-describe('Admin Company workflows', () => {
+describe('Admin Create Company workflows', () => {
   beforeEach(() => {
     cy.session('admin-session', () => cy.loginByRole('admin'));
     cy.visit('/dashboard/companies');
@@ -16,9 +11,6 @@ describe('Admin Company workflows', () => {
     cy.get('[data-cy="tab-companies-list"]').should('be.visible');
     cy.get('[data-cy="app-create-company"]').should('be.visible');
   });
-
-  //
-  // UC-COMP-001 Create Company
 
   it('should display the Create Company form', () => {
     cy.get('[data-cy="input-company-name"]').should('be.visible');
@@ -209,49 +201,5 @@ describe('Admin Company workflows', () => {
     cy.get('[data-cy="tab-companies-list"]').click();
     cy.get('[data-cy="input-search-list"]').type(companyName);
     cy.contains(location).should('be.visible');
-  });
-
-  //
-  // UC-COMP-002 Search and List Companies
-
-  it('should search companies by name from the list view', () => {
-    const companyName = `CyTest Admin Search ${Date.now()}`;
-
-    cy.get('[data-cy="input-company-name"]').type(companyName);
-    cy.get('[data-cy="btn-save-company"]').click();
-
-    cy.contains('Company saved').should('be.visible');
-    cy.get('[data-cy="tab-companies-list"]').click();
-
-    cy.get('[data-cy="input-search-list"]').type(companyName);
-    cy.contains(companyName).should('be.visible');
-  });
-
-  //
-  // UC-COMP-003 - Edit Company and Manage Contacts
-
-  it('should edit an existing company and preserve the updated values', () => {
-    const companyName = `CyTest Admin Edit ${Date.now()}`;
-    const updatedNotes = 'Updated notes by admin';
-
-    cy.get('[data-cy="input-company-name"]').type(companyName);
-    cy.get('[data-cy="btn-save-company"]').click();
-    cy.contains('Company saved').should('be.visible');
-
-    cy.get('[data-cy="tab-companies-list"]').click();
-    cy.get('[data-cy="input-search-list"]').type(companyName);
-    cy.contains(companyName).should('be.visible');
-    cy.get('[data-cy="btn-edit-company"]').click();
-
-    cy.get('[data-cy="textarea-notes"]').clear().type(updatedNotes);
-    cy.get('[data-cy="btn-save-company"]').click();
-    cy.contains('Company saved').should('be.visible');
-
-    cy.get('[data-cy="tab-companies-list"]').click();
-    cy.get('[data-cy="input-search-list"]').clear().type(companyName);
-    cy.contains(companyName).should('be.visible');
-
-    cy.get('[data-cy="btn-edit-company"]').click();
-    cy.get('[data-cy="textarea-notes"]').should('have.value', updatedNotes);
   });
 });
