@@ -20,7 +20,7 @@
 
     <mat-form-field appearance="outline" class="filters__type wt-dark-field">
       <mat-label>Type</mat-label>
-      <mat-select formControlName="type">
+      <mat-select formControlName="type" data-cy="select-type-filter">
         <mat-option value="ALL">All</mat-option>
         <mat-option value="GC">General Contractor</mat-option>
         <mat-option value="SUB">Subcontractor</mat-option>
@@ -31,7 +31,7 @@
 
     <mat-form-field appearance="outline" class="filters__status wt-dark-field">
       <mat-label>Status</mat-label>
-      <mat-select formControlName="status">
+      <mat-select formControlName="status" data-cy="select-status-filter">
         <mat-option value="ALL">All</mat-option>
         <mat-option value="ACTIVE">Active</mat-option>
         <mat-option value="INACTIVE">Inactive</mat-option>

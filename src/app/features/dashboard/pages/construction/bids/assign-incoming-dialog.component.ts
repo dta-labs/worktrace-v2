@@ -11,15 +11,15 @@ export interface AssignIncomingDialogData {
 }
 
 @Component({
-    selector: 'app-assign-incoming-dialog',
-    imports: [
+  selector: 'app-assign-incoming-dialog',
+  imports: [
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule
-],
-    template: `
+  ],
+  template: `
     <div class="wt-assign-wrap">
       <div class="wt-assign-header">
         <div class="wt-assign-title">Assign Incoming Bid</div>
@@ -32,9 +32,10 @@ export interface AssignIncomingDialogData {
         <mat-form-field appearance="outline" class="wt-assign-field">
           <input
             id="assignIncomingName"
+            data-cy="incoming-bid-assignee-input"
             matInput
             [formControl]="form.controls.name"
-            placeholder="e.g. Juan Perez"
+            placeholder="e.g. John Doe"
             autocomplete="off"
             />
             <mat-hint>Use the same display name your team recognizes.</mat-hint>
@@ -46,14 +47,14 @@ export interface AssignIncomingDialogData {
     
         <div class="wt-assign-actions">
           <button mat-stroked-button type="button" class="wt-btn-cancel" (click)="close()">Cancel</button>
-          <button mat-flat-button color="primary" type="button" class="wt-btn-assign" [disabled]="form.invalid" (click)="save()">
+          <button mat-flat-button color="primary" type="button" class="wt-btn-assign" [disabled]="form.invalid" (click)="save()" data-cy="incoming-bid-assignee-save">
             Assign
           </button>
         </div>
       </div>
     `,
-    styles: [
-        `
+  styles: [
+    `
       :host {
         display: block;
         width: 100%;
@@ -262,7 +263,7 @@ export interface AssignIncomingDialogData {
         opacity: 0.5;
       }
     `,
-    ]
+  ]
 })
 export class AssignIncomingDialogComponent {
   form = this.fb.group({

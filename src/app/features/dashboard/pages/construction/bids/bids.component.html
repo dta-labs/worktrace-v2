@@ -3,9 +3,11 @@
   <!-- 1) INCOMING BIDS (BID INBOX) -->
   <mat-tab>
     <ng-template mat-tab-label>
-      <span class="wt-tab-label"><mat-icon>inbox</mat-icon><span>Incoming Bids</span></span>
+      <span class="wt-tab-label" data-cy="tab-incoming-bids">
+        <mat-icon>inbox</mat-icon><span>Incoming Bids</span>
+      </span>
     </ng-template>
-    <div class="tab-content">
+    <div class="tab-content" data-cy="incoming-bids-content">
       <mat-card class="page">
         <div class="page__header">
           <div>
@@ -22,7 +24,8 @@
           </div>
 
           <div class="header-actions">
-            <button mat-flat-button color="primary" type="button" (click)="addIncomingBid()">
+            <button mat-flat-button color="primary" type="button" (click)="addIncomingBid()"
+              data-cy="btn-add-incoming-bid">
               Add Incoming Bid
             </button>
           </div>
@@ -39,46 +42,46 @@
             }
             @if (rows.length) {
             <table mat-table [dataSource]="rows" class="wt-table">
-              <!-- Date Received -->
               <ng-container matColumnDef="dateReceived">
-                <th mat-header-cell *matHeaderCellDef>Date Received</th>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-date-received">Date Received</th>
                 <td mat-cell *matCellDef="let r">{{ r.dateReceived | date:'MM/dd/yyyy' }}</td>
               </ng-container>
-              <!-- Client -->
+
               <ng-container matColumnDef="client">
-                <th mat-header-cell *matHeaderCellDef>Client</th>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-client">Client</th>
                 <td mat-cell *matCellDef="let r">{{ r.client }}</td>
               </ng-container>
-              <!-- Project -->
+
               <ng-container matColumnDef="projectName">
-                <th mat-header-cell *matHeaderCellDef>Project</th>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-project">Project</th>
                 <td mat-cell *matCellDef="let r">{{ r.projectName }}</td>
               </ng-container>
-              <!-- Location -->
+
               <ng-container matColumnDef="location">
-                <th mat-header-cell *matHeaderCellDef class="col-location">Location</th>
+                <th mat-header-cell *matHeaderCellDef class="col-location" data-cy="column-location">Location</th>
                 <td mat-cell *matCellDef="let r" class="col-location">
                   <button mat-icon-button type="button" class="loc-btn" [disabled]="!getJobsiteAddress(r)"
-                    [matTooltip]="getJobsiteAddress(r) || 'No location available'"
+                    [matTooltip]="getJobsiteAddress(r) || 'No location available'" data-cy="location-btn"
                     (click)="openJobsite(r); $event.stopPropagation()" aria-label="Open in Google Maps">
                     <mat-icon class="loc-icon" [class.is-disabled]="!getJobsiteAddress(r)">place</mat-icon>
                   </button>
                 </td>
               </ng-container>
-              <!-- Bid Due Date -->
+
               <ng-container matColumnDef="bidDueDate">
-                <th mat-header-cell *matHeaderCellDef>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-bid-due">
                   <button type="button" class="sort-header-btn" (click)="onIncomingBidDueHeaderClick()"
                     [attr.aria-label]="'Sort incoming bids by bid due date. Current: ' + incomingBidDueSortDirection">
                     {{ getIncomingBidDueSortLabel() }}
                   </button>
                 </th>
-                <td mat-cell *matCellDef="let r"><span [class.overdue-text]="r.isOverdue">{{ r.bidDueDate |
-                    date:'MM/dd/yyyy' }}</span></td>
+                <td mat-cell *matCellDef="let r">
+                  <span [class.overdue-text]="r.isOverdue">{{ r.bidDueDate | date:'MM/dd/yyyy' }}</span>
+                </td>
               </ng-container>
-              <!-- Days Pending (days left until bid due) -->
+
               <ng-container matColumnDef="daysPending">
-                <th mat-header-cell *matHeaderCellDef class="days-col">Days Left</th>
+                <th mat-header-cell *matHeaderCellDef class="days-col" data-cy="column-days-left">Days Left</th>
                 <td mat-cell *matCellDef="let r" class="days-col">
                   @if (r.daysPending === null || r.daysPending === undefined) {
                   <span class="days-badge days-badge--none">—</span>
@@ -91,14 +94,14 @@
                   }
                 </td>
               </ng-container>
-              <!-- Created By -->
+
               <ng-container matColumnDef="createdByLabel">
-                <th mat-header-cell *matHeaderCellDef>Created By</th>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-created-by">Created By</th>
                 <td mat-cell *matCellDef="let r">{{ r.createdByLabel }}</td>
               </ng-container>
-              <!-- Assigned To (TEMP: free-text name) -->
+
               <ng-container matColumnDef="assignedTo">
-                <th mat-header-cell *matHeaderCellDef>Assigned To</th>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-assigned-to">Assigned To</th>
                 <td mat-cell *matCellDef="let r">
                   <span class="assign-chip" [class.assigned]="!!r.assignedToName"
                     [class.unassigned]="!r.assignedToName">
@@ -116,9 +119,9 @@
                   }
                 </td>
               </ng-container>
-              <!-- Priority -->
+
               <ng-container matColumnDef="priority">
-                <th mat-header-cell *matHeaderCellDef>Priority</th>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-priority">Priority</th>
                 <td mat-cell *matCellDef="let r">
                   <span class="priority-chip" [ngClass]="'p-' + ((r.priority || 'normal'))">
                     {{ (r.priority || 'normal') | titlecase }}
@@ -129,9 +132,9 @@
                   </button>
                 </td>
               </ng-container>
-              <!-- Actions -->
+
               <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
+                <th mat-header-cell *matHeaderCellDef data-cy="column-actions"></th>
                 <td mat-cell *matCellDef="let r">
                   <div class="incoming-actions">
                     <button mat-stroked-button color="primary" type="button" class="create-bid-btn"
@@ -145,6 +148,7 @@
                   </div>
                 </td>
               </ng-container>
+
               <tr mat-header-row *matHeaderRowDef="incomingColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: incomingColumns"></tr>
             </table>
@@ -163,9 +167,11 @@
   <!-- 2) CREATE BID (existing form; later we will refactor to convert Inbox → Bid) -->
   <mat-tab>
     <ng-template mat-tab-label>
-      <span class="wt-tab-label"><mat-icon>description</mat-icon><span>Bids Created</span></span>
+      <span class="wt-tab-label" data-cy="tab-bids-created">
+        <mat-icon>description</mat-icon><span>Bids Created</span>
+      </span>
     </ng-template>
-    <div class="tab-content">
+    <div class="tab-content" data-cy="bids-created-content">
       <div class="section-header">
         <h2>Bids Created</h2>
         <p class="muted">Bids already converted from the Inbox. They no longer appear in Incoming Bids.</p>
@@ -181,18 +187,22 @@
   <!-- Placeholders: later wired to real charts & AI -->
   <mat-tab>
     <ng-template mat-tab-label>
-      <span class="wt-tab-label"><mat-icon>bar_chart</mat-icon><span>Analytics</span></span>
+      <span class="wt-tab-label" data-cy="tab-analytics">
+        <mat-icon>bar_chart</mat-icon><span>Analytics</span>
+      </span>
     </ng-template>
-    <div class="tab-content">
+    <div class="tab-content" data-cy="analytics-content">
       <app-bids-analytics-overview></app-bids-analytics-overview>
     </div>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label>
-      <span class="wt-tab-label"><mat-icon>psychology</mat-icon><span>AI Coach</span></span>
+      <span class="wt-tab-label" data-cy="tab-ai-coach">
+        <mat-icon>psychology</mat-icon><span>AI Coach</span>
+      </span>
     </ng-template>
-    <div class="tab-content">
+    <div class="tab-content" data-cy="ai-coach-content">
       <mat-card class="page">
         <div class="page__header">
           <div>
@@ -207,9 +217,11 @@
   @if (isAdmin) {
   <mat-tab>
     <ng-template mat-tab-label>
-      <span class="wt-tab-label"><mat-icon>delete</mat-icon><span>Incoming Bids Trash</span></span>
+      <span class="wt-tab-label" data-cy="tab-incoming-bids-trash">
+        <mat-icon>delete</mat-icon><span>Incoming Bids Trash</span>
+      </span>
     </ng-template>
-    <div class="tab-content">
+    <div class="tab-content" data-cy="incoming-bids-trash-content">
       <mat-card class="page trash-page">
         <div class="page__header">
           <div>
