@@ -8,19 +8,19 @@ describe('Admin Incoming Bids workflows', () => {
   const contactEmail = `cytest-${Date.now()}@example.com`;
   const contactPhone = '555-010-1234';
 
-  // before(() => {
-  //   cy.session('admin-session', () => cy.loginByRole('admin'));
-  //   cy.visit('/dashboard/companies');
+  before(() => {
+    cy.session('admin-session', () => cy.loginByRole('admin'));
+    cy.visit('/dashboard/companies');
 
-  //   cy.get('[data-cy="input-company-name"]').should('be.visible').type(companyName);
-  //   cy.get('[data-cy="btn-add-contact"]').click();
-  //   cy.get('[data-cy="input-full-name"]').first().type(contactName);
-  //   cy.get('[data-cy="input-email"]').first().type(contactEmail);
-  //   cy.get('[data-cy="input-phone"]').first().type(contactPhone);
-  //   cy.get('[data-cy="btn-save-company"]').click();
+    cy.get('[data-cy="input-company-name"]').should('be.visible').type(companyName);
+    cy.get('[data-cy="btn-add-contact"]').click();
+    cy.get('[data-cy="input-full-name"]').first().type(contactName);
+    cy.get('[data-cy="input-email"]').first().type(contactEmail);
+    cy.get('[data-cy="input-phone"]').first().type(contactPhone);
+    cy.get('[data-cy="btn-save-company"]').click();
 
-  //   cy.contains(companyName).should('exist')
-  // });
+    cy.contains(companyName).should('exist')
+  });
 
   beforeEach(() => {
     cy.session('admin-session', () => cy.loginByRole('admin'));
@@ -64,7 +64,7 @@ describe('Admin Incoming Bids workflows', () => {
     cy.get('[data-cy="incoming-bids-content"]').should('be.visible');
     cy.get('[data-cy="btn-add-incoming-bid"]')
       .should('be.visible')
-      .should('contain.text', 'Add Incoming Bid');;
+      .should('contain.text', 'Add Incoming Bid');
   });
 
   it('should display all required columns in the incoming bids list', () => {
@@ -134,6 +134,40 @@ describe('Admin Incoming Bids workflows', () => {
     cy.contains('td', projectName).closest('tr').should('contain.text', 'Unassigned');
   });
 
+  it('should edit incoming bid priority', () => {
+    const projectName = `CyTest Priority Bid ${Date.now()}`;
+
+    const { priority } = createIncomingBid(projectName);
+
+    cy.contains('td', projectName).closest('tr').within(() => {
+      cy.contains(priority).should('exist');
+      cy.contains('button', 'Edit').click();
+    });
+
+    cy.get('mat-dialog-container').within(() => {
+      cy.get('[data-cy="modal-header"]').should('contain.text', 'Edit Priority');
+      cy.contains('button', 'Urgent').as('urgentBtn');
+      cy.contains('button', 'High');
+      cy.contains('button', 'Normal');
+      cy.contains('button', 'Low');
+      cy.contains('button', 'Save').as('saveBtn');
+    });
+
+    cy.get('@urgentBtn').click();
+    cy.get('@saveBtn').click();
+
+    cy.get('mat-dialog-container').should('not.exist');
+
+    cy.contains('td', projectName)
+      .closest('tr')
+      .contains('Urgent')
+      .should('exist');
+  });
+
+  it.skip('should create a formal bid from incoming bid', () => {
+    // Tested in another suite
+  });
+
   it.only('should move an incoming bid to trash and display it in Incoming Bids Trash', () => {
     // const projectName = `CyTest Trash Bid ${Date.now()}`;
     // const deleteReason = 'Duplicate request for testing';
@@ -152,4 +186,6 @@ describe('Admin Incoming Bids workflows', () => {
     //   cy.contains(deleteReason).should('be.visible');
     // });
   });
+
+  // Ver casos adge
 });

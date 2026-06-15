@@ -12,11 +12,11 @@ const OPTIONS: Array<{ key: string; label: string; cls: string }> = [
 ];
 
 @Component({
-    selector: 'app-edit-priority-dialog',
-    imports: [CommonModule, ReactiveFormsModule, MatDialogModule],
-    template: `
+  selector: 'app-edit-priority-dialog',
+  imports: [CommonModule, ReactiveFormsModule, MatDialogModule],
+  template: `
     <div class="wt-modal" role="dialog" aria-modal="true">
-      <div class="wt-modal-head">
+      <div class="wt-modal-head" data-cy="modal-header">
         <div>
           <div class="wt-modal-title">Edit Priority</div>
           <div class="tiny">This controls the color in the Incoming Bids list.</div>
@@ -52,8 +52,8 @@ const OPTIONS: Array<{ key: string; label: string; cls: string }> = [
       </div>
     </div>
     `,
-    styles: [
-        `
+  styles: [
+    `
       :host {
         --ep-text: #e8eef8;
         --ep-muted: rgba(230, 236, 245, 0.78);
@@ -156,7 +156,7 @@ const OPTIONS: Array<{ key: string; label: string; cls: string }> = [
       .p-normal{background:rgba(106,163,255,.16);border-color:rgba(106,163,255,.45);color:#1d4ed8}
       .p-low{background:rgba(76,209,55,.12);border-color:rgba(76,209,55,.35);color:#166534}
     `,
-    ]
+  ]
 })
 export class EditPriorityDialogComponent {
   private fb = inject(FormBuilder);
