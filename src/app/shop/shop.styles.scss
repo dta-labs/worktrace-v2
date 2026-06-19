@@ -1,0 +1,18 @@
+// src/app/shop/shop.styles.scss
+
+* {
+  box-sizing: border-box;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important; // Forzamos fondo blanco al imprimir
+  }
+}

@@ -1,0 +1,154 @@
+<svg class="tech-svg" [class.compact]="compact" viewBox="0 0 420 270" role="img">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"></path>
+    </marker>
+    <linearGradient id="metal" x1="0" x2="1">
+      <stop offset="0%" stop-color="#eef2f7"/>
+      <stop offset="100%" stop-color="#c7ced8"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="418" height="268" rx="10" fill="#fff" stroke="#d8e1ed"/>
+
+  <!-- STRAIGHT DUCT / DAMPER -->
+  <g *ngIf="kind === 'straight' || kind === 'damper'">
+    <path d="M80 95 L235 50 L335 105 L180 155 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <path d="M180 155 L180 190 L335 138 L335 105" fill="#bcc5d1" stroke="#111" stroke-width="3"/>
+    <path d="M80 95 L80 130 L180 190 L180 155" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+    <g *ngIf="kind === 'damper'">
+      <line x1="125" y1="85" x2="125" y2="155" stroke="#111" stroke-width="4"/>
+      <circle cx="125" cy="120" r="8" fill="#fff" stroke="#111" stroke-width="3"/>
+      <text x="110" y="178" class="note">Damper</text>
+    </g>
+    <line x1="105" y1="35" x2="305" y2="35" class="dim"/>
+    <text x="196" y="28" class="dimtext">L {{ d('length', '') }}</text>
+    <line x1="55" y1="95" x2="55" y2="132" class="dim"/>
+    <text x="25" y="118" class="dimtext">B {{ d('height', '') }}</text>
+    <text x="190" y="215" class="dimtext">A {{ d('width', '') }}</text>
+  </g>
+
+  <!-- ELBOWS -->
+  <g *ngIf="kind === 'elbow90' || kind === 'radiusElbow'">
+    <path d="M95 65 H210 Q315 65 315 170 V210 H245 V170 Q245 135 210 135 H95 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <path d="M130 102 H210 Q278 102 278 170" fill="none" stroke="#dc2626" stroke-width="3" stroke-dasharray="9,7"/>
+    <path d="M95 65 v70" stroke="#111" stroke-width="5"/>
+    <path d="M245 210 h70" stroke="#111" stroke-width="5"/>
+    <text x="45" y="105" class="dimtext">B {{ d('height', '') }}</text>
+    <line x1="95" y1="42" x2="210" y2="42" class="dim"/>
+    <text x="132" y="34" class="dimtext">A {{ d('width', '') }}</text>
+    <text x="270" y="128" class="dimtext">R {{ d('radius', '') }}</text>
+    <text x="190" y="235" class="note">Angle {{ d('angle', 90) }}°</text>
+  </g>
+
+  <g *ngIf="kind === 'elbow45'">
+    <path d="M80 165 L230 80 L330 125 L180 210 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <path d="M105 160 L230 92" fill="none" stroke="#dc2626" stroke-width="3" stroke-dasharray="9,7"/>
+    <path d="M80 165 l45 -25" stroke="#111" stroke-width="5"/>
+    <path d="M285 150 l45 -25" stroke="#111" stroke-width="5"/>
+    <text x="188" y="72" class="dimtext">45°</text>
+    <text x="170" y="235" class="dimtext">A {{ d('width', '') }} / B {{ d('height', '') }}</text>
+    <text x="235" y="105" class="dimtext">R {{ d('radius', '') }}</text>
+  </g>
+
+  <!-- TRANSITION / REDUCER -->
+  <g *ngIf="kind === 'transition' || kind === 'reducer'">
+    <path d="M65 105 L165 70 L345 100 L245 155 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <path d="M65 105 L65 145 L245 210 L245 155" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+    <path d="M245 155 L245 210 L345 150 L345 100" fill="#c4ccd8" stroke="#111" stroke-width="3"/>
+    <path d="M165 70 L165 105 L285 125 L345 100" fill="#f1f5f9" stroke="#111" stroke-width="2"/>
+    <text x="65" y="82" class="dimtext">A1 {{ d('widthA','') }} x B1 {{ d('heightA','') }}</text>
+    <text x="235" y="232" class="dimtext">A2 {{ d('widthB','') }} x B2 {{ d('heightB','') }}</text>
+    <line x1="120" y1="45" x2="325" y2="45" class="dim"/>
+    <text x="208" y="37" class="dimtext">L {{ d('length', '') }}</text>
+  </g>
+
+  <!-- OFFSET -->
+  <g *ngIf="kind === 'offset'">
+    <path d="M55 155 L160 100 L345 130 L240 195 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <path d="M55 155 L55 185 L240 240 L240 195" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+    <path d="M240 195 L240 240 L345 168 L345 130" fill="#c4ccd8" stroke="#111" stroke-width="3"/>
+    <path d="M105 205 L310 120" stroke="#dc2626" stroke-width="3" stroke-dasharray="9,7"/>
+    <text x="77" y="130" class="dimtext">A {{ d('width','') }} x B {{ d('height','') }}</text>
+    <text x="255" y="88" class="dimtext">Offset {{ d('offset','') }}</text>
+    <text x="190" y="65" class="dimtext">L {{ d('length','') }}</text>
+  </g>
+
+  <!-- BRANCHES -->
+  <g *ngIf="kind === 'tee' || kind === 'wye' || kind === 'shoe'">
+    <path d="M60 160 L210 105 L345 155 L195 220 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <path d="M195 220 L345 155 L345 185 L195 248 Z" fill="#c4ccd8" stroke="#111" stroke-width="3"/>
+    <path d="M60 160 L60 190 L195 248 L195 220" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+
+    <g *ngIf="kind === 'tee'">
+      <path d="M170 80 L210 58 L250 80 L210 105 Z" fill="#eef2f7" stroke="#111" stroke-width="3"/>
+      <path d="M170 80 V135 L210 165 V105" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+      <path d="M210 105 L250 80 V132 L210 165" fill="#c4ccd8" stroke="#111" stroke-width="3"/>
+      <text x="160" y="50" class="dimtext">Branch {{ d('branchWidth','') }} x {{ d('branchHeight','') }}</text>
+    </g>
+
+    <g *ngIf="kind === 'wye'">
+      <path d="M170 95 L230 55 L285 82 L225 125 Z" fill="#eef2f7" stroke="#111" stroke-width="3"/>
+      <path d="M170 95 L142 138 L203 168 L225 125" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+      <path d="M225 125 L285 82 L260 125 L203 168" fill="#c4ccd8" stroke="#111" stroke-width="3"/>
+      <text x="205" y="45" class="dimtext">Branch {{ d('branchWidth','') }} x {{ d('branchHeight','') }}</text>
+      <text x="285" y="90" class="dimtext">{{ d('angle',45) }}°</text>
+    </g>
+
+    <g *ngIf="kind === 'shoe'">
+      <path d="M160 105 L210 78 L260 102 L210 130 Z" fill="#eef2f7" stroke="#111" stroke-width="3"/>
+      <path d="M160 105 V150 L210 178 V130" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+      <path d="M210 130 L260 102 V148 L210 178" fill="#c4ccd8" stroke="#111" stroke-width="3"/>
+      <text x="155" y="72" class="dimtext">Tap {{ d('tapWidth','') }} x {{ d('tapHeight','') }}</text>
+    </g>
+
+    <text x="80" y="245" class="dimtext">Main {{ d('mainWidth','') }} x {{ d('mainHeight','') }}</text>
+  </g>
+
+  <!-- SQUARE TO ROUND -->
+  <g *ngIf="kind === 'squareToRound'">
+    <path d="M65 165 L165 105 L230 135 L130 205 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <ellipse cx="285" cy="115" rx="58" ry="34" fill="#d9dee7" stroke="#111" stroke-width="3"/>
+    <path d="M165 105 C190 70 245 70 285 82" fill="none" stroke="#111" stroke-width="3"/>
+    <path d="M130 205 C170 165 230 145 285 149" fill="none" stroke="#111" stroke-width="3"/>
+    <text x="70" y="230" class="dimtext">Rect {{ d('width','') }} x {{ d('height','') }}</text>
+    <text x="260" y="70" class="dimtext">Ø {{ d('diameter','') }}</text>
+    <text x="180" y="55" class="dimtext">L {{ d('length','') }}</text>
+  </g>
+
+  <!-- END CAP -->
+  <g *ngIf="kind === 'endCap'">
+    <path d="M105 70 L235 40 L315 85 L185 125 Z" fill="#d9dee7" stroke="#111" stroke-width="3"/>
+    <path d="M185 125 V190 L315 145 V85" fill="#c4ccd8" stroke="#111" stroke-width="3"/>
+    <path d="M105 70 V135 L185 190 V125" fill="#aeb8c5" stroke="#111" stroke-width="3"/>
+    <path d="M105 70 V135 L185 190 V125 Z" fill="#9ca3af" stroke="#111" stroke-width="5"/>
+    <text x="165" y="225" class="dimtext">A {{ d('width','') }} x B {{ d('height','') }}</text>
+  </g>
+
+  <!-- PLENUM / ACCESS DOOR / BOOT -->
+  <g *ngIf="kind === 'plenum' || kind === 'accessDoor' || kind === 'boot'">
+    <path d="M95 60 H305 V200 H95 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+    <path d="M120 85 H280 V175 H120 Z" fill="#eef2f7" stroke="#111" stroke-width="2"/>
+    <g *ngIf="kind === 'accessDoor'">
+      <circle cx="268" cy="132" r="5" fill="#111"/>
+      <text x="137" y="220" class="dimtext">Door {{ d('width','') }} x {{ d('height','') }}</text>
+    </g>
+    <g *ngIf="kind === 'plenum'">
+      <path d="M145 60 L200 25 L255 60" fill="#d9dee7" stroke="#111" stroke-width="3"/>
+      <text x="135" y="225" class="dimtext">A {{ d('width','') }} x B {{ d('height','') }} x D {{ d('depth','') }}</text>
+    </g>
+    <g *ngIf="kind === 'boot'">
+      <ellipse cx="200" cy="55" rx="48" ry="23" fill="#d9dee7" stroke="#111" stroke-width="3"/>
+      <text x="164" y="33" class="dimtext">Ø {{ d('diameter','') }}</text>
+      <text x="125" y="225" class="dimtext">Box {{ d('width','') }} x {{ d('height','') }}</text>
+    </g>
+  </g>
+
+  <!-- CONNECTION LABELS -->
+  <g>
+    <rect x="15" y="235" width="125" height="22" rx="5" fill="#eef4ff" stroke="#bfdbfe"/>
+    <text x="23" y="251" class="conn">Inlet: {{ connectionLabel('inlet') }}</text>
+    <rect x="280" y="235" width="125" height="22" rx="5" fill="#eef4ff" stroke="#bfdbfe"/>
+    <text x="288" y="251" class="conn">Outlet: {{ connectionLabel('outlet') }}</text>
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
+<path d="M25 75 L110 35 L145 55 L60 98 Z" fill="#d9dde2" stroke="#111" stroke-width="2"/>
+<path d="M40 70 L110 38" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"/>
+<text x="93" y="30" font-size="10" fill="#2563eb">45°</text>
+<text x="70" y="108" font-size="10" fill="#2563eb">A</text>
+<text x="145" y="70" font-size="10" fill="#2563eb">B</text>
+</svg>
