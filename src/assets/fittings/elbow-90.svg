@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
-<path d="M40 25 H90 Q140 25 140 75 V95 H105 V75 Q105 60 90 60 H40 Z" fill="#d8dde5" stroke="#111" stroke-width="2"/>
-<path d="M60 48 H90 Q118 48 118 76" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"/>
-<path d="M35 25 v35" stroke="#2563eb"/><text x="22" y="47" font-size="10" fill="#2563eb">B</text>
-<path d="M50 18 h65" stroke="#2563eb"/><text x="78" y="14" font-size="10" fill="#2563eb">A</text>
-<text x="122" y="60" font-size="10" fill="#2563eb">R</text>
-</svg>

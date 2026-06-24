@@ -7,10 +7,10 @@ import { Subscription } from 'rxjs';
 import { UserAccessService, ScreenAccessMap } from '../../core/services/user-access.service';
 
 @Component({
-  selector: 'app-dashboard',
-  imports: [RouterModule, MatIconModule],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    imports: [RouterModule, MatIconModule],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   userEmail: string | null = null;
@@ -21,7 +21,6 @@ export class DashboardComponent {
     humanResources: true,
     companies: true,
     settings: true,
-    shop: true,
   };
 
   private sub?: Subscription;

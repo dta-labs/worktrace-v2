@@ -1008,7 +1008,6 @@ export class CreateCandidateComponent {
                 humanResources: false,
                 companies: false,
                 settings: false,
-                shop: false,
             },
         };
     }

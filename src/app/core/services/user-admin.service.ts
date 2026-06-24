@@ -348,7 +348,7 @@ export class UserAdminService {
       if (createdCredential?.user) {
         try {
           await deleteUser(createdCredential.user);
-        } catch { }
+        } catch {}
       }
 
       const code = String(error?.code ?? '');
@@ -366,7 +366,7 @@ export class UserAdminService {
       if (secondaryApp) {
         try {
           await deleteApp(secondaryApp);
-        } catch { }
+        } catch {}
       }
     }
   }
@@ -380,7 +380,6 @@ export class UserAdminService {
       humanResources: isAdmin ? true : raw?.humanResources === true,
       companies: isAdmin ? true : raw?.companies === true,
       settings: isAdmin ? true : raw?.settings === true,
-      shop: isAdmin ? true : raw?.shop === true,
     };
   }
 

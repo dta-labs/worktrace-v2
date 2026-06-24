@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
-<path d="M20 55 L75 25 L155 35 L100 72 Z" fill="#d9dde2" stroke="#111" stroke-width="2"/>
-<path d="M20 55 L20 78 L100 105 L100 72" fill="#b7bec9" stroke="#111" stroke-width="2"/>
-<path d="M100 72 L100 105 L155 68 L155 35" fill="#c9cfd8" stroke="#111" stroke-width="2"/>
-<path d="M40 88 L145 48" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"/>
-<text x="40" y="32" font-size="10" fill="#2563eb">Offset</text>
-<text x="96" y="20" font-size="10" fill="#2563eb">L</text>
-</svg>

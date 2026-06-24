@@ -209,7 +209,6 @@ export class HrPageComponent implements OnInit, AfterViewInit {
     { key: 'workers', label: 'Workers', hint: 'Field and office worker records' },
     { key: 'humanResources', label: 'Human Resources', hint: 'User creation and HR area' },
     { key: 'companies', label: 'Companies', hint: 'Company directory and setup' },
-    { key: 'shop', label: 'Shop', hint: 'Shop' },
     { key: 'settings', label: 'Settings', hint: 'System configuration and integrations' },
   ] as const;
 
@@ -1158,7 +1157,6 @@ export class HrPageComponent implements OnInit, AfterViewInit {
         humanResources: false,
         companies: false,
         settings: false,
-        shop: false,
       },
     };
   }
@@ -1945,7 +1943,6 @@ export class HrPageComponent implements OnInit, AfterViewInit {
       humanResources: isAdmin ? true : raw?.humanResources === true,
       companies: isAdmin ? true : raw?.companies === true,
       settings: isAdmin ? true : raw?.settings === true,
-      shop: isAdmin ? true : raw?.shop === true,
     };
   }
 

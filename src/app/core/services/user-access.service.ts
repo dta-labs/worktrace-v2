@@ -12,7 +12,6 @@ export interface ScreenAccessMap {
   humanResources: boolean;
   companies: boolean;
   settings: boolean;
-  shop: boolean;
 }
 
 export interface UserAccessState {
@@ -31,7 +30,6 @@ const EMPTY_ACCESS: ScreenAccessMap = {
   humanResources: false,
   companies: false,
   settings: false,
-  shop: false
 };
 
 const FULL_ACCESS: ScreenAccessMap = {
@@ -41,7 +39,6 @@ const FULL_ACCESS: ScreenAccessMap = {
   humanResources: true,
   companies: true,
   settings: true,
-  shop: true
 };
 
 @Injectable({ providedIn: 'root' })
@@ -143,7 +140,6 @@ export class UserAccessService {
       humanResources: this.bool(raw.humanResources ?? raw.hr),
       companies: this.bool(raw.companies),
       settings: this.bool(raw.settings),
-      shop: this.bool(raw.shop),
     };
 
     const hasAny = Object.values(access).some(Boolean);

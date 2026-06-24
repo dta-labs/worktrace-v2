@@ -125,7 +125,6 @@ interface CandidateListItem {
         humanResources: boolean;
         companies: boolean;
         settings: boolean;
-        shop: boolean;
     };
     w2Compliance: W2ComplianceView;
     insuranceCompliance: InsuranceComplianceView;
@@ -653,7 +652,6 @@ export class CandidatesListComponent implements OnInit {
                 humanResources: false,
                 companies: false,
                 settings: false,
-                shop: false,
             },
             w2Compliance: {
                 payrollSetup: w2['payrollSetup'] === true,
