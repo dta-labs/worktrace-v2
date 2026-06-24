@@ -1,0 +1,131 @@
+<div class="preview-wrap">
+  <div *ngIf="kind === 'transition'" class="multi-view">
+    <svg viewBox="0 0 620 420" class="generated-svg">
+      <defs>
+        <linearGradient id="metal" x1="0" x2="1">
+          <stop offset="0%" stop-color="#f4f7fb"/>
+          <stop offset="100%" stop-color="#aeb8c5"/>
+        </linearGradient>
+      </defs>
+
+      <rect x="1" y="1" width="618" height="418" rx="12" fill="#fff" stroke="#d8e1ed"/>
+
+      <text x="24" y="28" class="view-title">ISOMETRIC VIEW — {{ variant }}</text>
+
+      <path d="M75 120 L210 70 L455 110 L320 190 Z" fill="url(#metal)" stroke="#111" stroke-width="3"/>
+      <path d="M75 120 L75 180 L320 290 L320 190" fill="#a8b2c0" stroke="#111" stroke-width="3"/>
+      <path d="M320 190 L320 290 L455 205 L455 110" fill="#c1c8d2" stroke="#111" stroke-width="3"/>
+
+      <g *ngIf="variant === 'Flat Bottom'">
+        <path d="M75 180 L320 290" stroke="#dc2626" stroke-width="5"/>
+      </g>
+      <g *ngIf="variant === 'Flat Top'">
+        <path d="M75 120 L210 70 L455 110" stroke="#dc2626" stroke-width="5" fill="none"/>
+      </g>
+      <g *ngIf="variant === 'Flat Left'">
+        <path d="M75 120 L75 180" stroke="#dc2626" stroke-width="5"/>
+      </g>
+      <g *ngIf="variant === 'Flat Right'">
+        <path d="M455 110 L455 205" stroke="#dc2626" stroke-width="5"/>
+      </g>
+
+      <text x="82" y="98" class="dimtext">A1={{ d('widthA') }}" B1={{ d('heightA') }}"</text>
+      <text x="305" y="320" class="dimtext">A2={{ d('widthB') }}" B2={{ d('heightB') }}"</text>
+      <text x="250" y="52" class="dimtext">L={{ d('length') }}"</text>
+      <text x="80" y="350" class="conn">Inlet: {{ inletConnection }}</text>
+      <text x="350" y="350" class="conn">Outlet: {{ outletConnection }}</text>
+      <text x="215" y="380" class="conn">Offset: {{ directionDescription }}</text>
+    </svg>
+
+    <div class="orthographic">
+      <svg viewBox="0 0 300 170" class="small-view">
+        <rect x="1" y="1" width="298" height="168" rx="10" fill="#fff" stroke="#d8e1ed"/>
+        <text x="12" y="22" class="small-title">TOP VIEW</text>
+        <rect x="35" y="65" width="210" height="55" fill="#eef2f7" stroke="#111" stroke-width="2"/>
+        <rect [attr.x]="topSmallX + dx" y="78" width="52" height="28" fill="#dbeafe" stroke="#111" stroke-width="2"/>
+        <line x1="35" y1="65" [attr.x2]="topSmallX + dx" y2="78" stroke="#111" stroke-width="2"/>
+        <line x1="245" y1="65" [attr.x2]="topSmallX + dx + 52" y2="78" stroke="#111" stroke-width="2"/>
+        <line x1="35" y1="120" [attr.x2]="topSmallX + dx" y2="106" stroke="#111" stroke-width="2"/>
+        <line x1="245" y1="120" [attr.x2]="topSmallX + dx + 52" y2="106" stroke="#111" stroke-width="2"/>
+        <text x="42" y="145" class="mini-dim">A1 {{ d('widthA') }}" → A2 {{ d('widthB') }}" / X {{ d('offsetX',0) }} {{ horizontalDirection }}"</text>
+      </svg>
+
+      <svg viewBox="0 0 300 170" class="small-view">
+        <rect x="1" y="1" width="298" height="168" rx="10" fill="#fff" stroke="#d8e1ed"/>
+        <text x="12" y="22" class="small-title">FRONT VIEW</text>
+        <rect x="40" y="65" width="210" height="70" fill="#eef2f7" stroke="#111" stroke-width="2"/>
+        <rect x="120" [attr.y]="frontSmallY + dy" width="80" height="35" fill="#dbeafe" stroke="#111" stroke-width="2"/>
+        <line x1="40" y1="65" x2="120" [attr.y2]="frontSmallY + dy" stroke="#111" stroke-width="2"/>
+        <line x1="250" y1="65" x2="200" [attr.y2]="frontSmallY + dy" stroke="#111" stroke-width="2"/>
+        <line x1="40" y1="135" x2="120" [attr.y2]="frontSmallY + dy + 35" stroke="#111" stroke-width="2"/>
+        <line x1="250" y1="135" x2="200" [attr.y2]="frontSmallY + dy + 35" stroke="#111" stroke-width="2"/>
+        <text x="45" y="155" class="mini-dim">B1 {{ d('heightA') }}" → B2 {{ d('heightB') }}" / Y {{ d('offsetY',0) }} {{ verticalDirection }}"</text>
+      </svg>
+
+      <svg viewBox="0 0 300 170" class="small-view">
+        <rect x="1" y="1" width="298" height="168" rx="10" fill="#fff" stroke="#d8e1ed"/>
+        <text x="12" y="22" class="small-title">SIDE VIEW</text>
+        <path d="M45 115 L210 65 L250 85 L85 135 Z" fill="#eef2f7" stroke="#111" stroke-width="2"/>
+        <text x="85" y="150" class="mini-dim">L {{ d('length') }}"</text>
+        <text x="185" y="58" class="mini-dim">{{ variant }}</text>
+      </svg>
+    </div>
+  </div>
+
+  <svg *ngIf="kind !== 'generic' && kind !== 'transition'" viewBox="0 0 520 340" class="generated-svg">
+    <defs>
+      <linearGradient id="metal2" x1="0" x2="1">
+        <stop offset="0%" stop-color="#f4f7fb"/>
+        <stop offset="100%" stop-color="#aeb8c5"/>
+      </linearGradient>
+    </defs>
+
+    <rect x="1" y="1" width="518" height="338" rx="12" fill="#fff" stroke="#d8e1ed"/>
+
+    <g *ngIf="kind === 'straight'">
+      <path d="M90 120 L290 60 L430 130 L230 205 Z" fill="url(#metal2)" stroke="#111" stroke-width="3"/>
+      <path d="M230 205 L230 255 L430 180 L430 130" fill="#c1c8d2" stroke="#111" stroke-width="3"/>
+      <path d="M90 120 L90 170 L230 255 L230 205" fill="#a8b2c0" stroke="#111" stroke-width="3"/>
+      <text x="238" y="32" class="dimtext">L={{ d('length') }}"</text>
+      <text x="50" y="155" class="dimtext">B={{ d('height') }}"</text>
+      <text x="240" y="285" class="dimtext">A={{ d('width') }}"</text>
+    </g>
+
+    <g *ngIf="kind === 'elbow90'">
+      <path d="M110 80 H260 Q390 80 390 210 V265 H305 V210 Q305 165 260 165 H110 Z" fill="url(#metal2)" stroke="#111" stroke-width="3"/>
+      <path d="M150 123 H260 Q342 123 342 210" stroke="#dc2626" stroke-width="3" stroke-dasharray="9,7" fill="none"/>
+      <text x="55" y="132" class="dimtext">B={{ d('height') }}"</text>
+      <text x="157" y="58" class="dimtext">A={{ d('width') }}"</text>
+      <text x="355" y="155" class="dimtext">R={{ d('radius') }}"</text>
+      <text x="250" y="300" class="dimtext">Angle={{ d('angle',90) }}°</text>
+      <text x="118" y="98" class="dimtext">N1={{ d('inletNeck',6) }}&quot;</text>
+      <text x="310" y="248" class="dimtext">N2={{ d('outletNeck',6) }}&quot;</text>
+    </g>
+
+    <g *ngIf="kind === 'elbow45'">
+      <path d="M95 220 L295 95 L425 155 L225 285 Z" fill="url(#metal2)" stroke="#111" stroke-width="3"/>
+      <path d="M125 212 L295 115" stroke="#dc2626" stroke-width="3" stroke-dasharray="9,7" fill="none"/>
+      <text x="220" y="80" class="dimtext">Angle={{ d('angle',45) }}°</text>
+      <text x="180" y="310" class="dimtext">A={{ d('width') }}"/B={{ d('height') }}"</text>
+      <text x="310" y="125" class="dimtext">R={{ d('radius') }}"</text>
+    </g>
+
+    <g *ngIf="kind === 'offset'">
+      <path d="M75 190 L210 105 L440 145 L305 250 Z" fill="url(#metal2)" stroke="#111" stroke-width="3"/>
+      <path d="M75 190 L75 230 L305 305 L305 250" fill="#a8b2c0" stroke="#111" stroke-width="3"/>
+      <path d="M305 250 L305 305 L440 215 L440 145" fill="#c1c8d2" stroke="#111" stroke-width="3"/>
+      <path d="M130 255 L390 140" stroke="#dc2626" stroke-width="3" stroke-dasharray="9,7" fill="none"/>
+      <text x="95" y="165" class="dimtext">A/B={{ d('width') }}x{{ d('height') }}"</text>
+      <text x="320" y="105" class="dimtext">O={{ d('offset') }}"</text>
+      <text x="230" y="70" class="dimtext">L={{ d('length') }}"</text>
+    </g>
+
+    <text x="35" y="315" class="conn">Inlet: {{ inletConnection }}</text>
+    <text x="345" y="315" class="conn">Outlet: {{ outletConnection }}</text>
+  </svg>
+
+  <div *ngIf="kind === 'generic'" class="catalog-preview">
+    <img [src]="image" alt="Catalog fitting">
+    <div class="warning">Catalog preview only. Geometry builder will be added later for this fitting.</div>
+  </div>
+</div>

@@ -15,6 +15,12 @@
         <span>Construction Department</span>
       </a>
 
+
+      <a *ngIf="access.shop" routerLink="/dashboard/shop" routerLinkActive="active">
+        <mat-icon class="nav-ic">precision_manufacturing</mat-icon>
+        <span>Shop</span>
+      </a>
+
       <a *ngIf="access.workers" routerLink="/dashboard/workers" routerLinkActive="active">
         <mat-icon class="nav-ic">engineering</mat-icon>
         <span>Workers</span>

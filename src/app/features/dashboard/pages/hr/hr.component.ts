@@ -1158,7 +1158,7 @@ export class HrPageComponent implements OnInit, AfterViewInit {
         humanResources: false,
         companies: false,
         settings: false,
-      },
+      shop: false,},
     };
   }
 
@@ -1944,6 +1944,7 @@ export class HrPageComponent implements OnInit, AfterViewInit {
       humanResources: isAdmin ? true : raw?.humanResources === true,
       companies: isAdmin ? true : raw?.companies === true,
       settings: isAdmin ? true : raw?.settings === true,
+      shop: isAdmin ? true : raw?.shop === true,
     };
   }
 

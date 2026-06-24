@@ -21,6 +21,7 @@ export class DashboardComponent {
     workers: true,
     humanResources: true,
     companies: true,
+    shop: true,
     settings: true,
   };
 

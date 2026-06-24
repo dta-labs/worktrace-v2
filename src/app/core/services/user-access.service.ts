@@ -3,7 +3,7 @@ import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { AuthService } from '../auth/auth.service';
 import { combineLatest, map, of, shareReplay, switchMap } from 'rxjs';
 
-export type ScreenKey = 'overview' | 'construction' | 'workers' | 'humanResources' | 'companies' | 'settings';
+export type ScreenKey = 'overview' | 'construction' | 'workers' | 'humanResources' | 'companies' | 'shop' | 'settings';
 
 export interface ScreenAccessMap {
   overview: boolean;
@@ -11,6 +11,7 @@ export interface ScreenAccessMap {
   workers: boolean;
   humanResources: boolean;
   companies: boolean;
+  shop: boolean;
   settings: boolean;
 }
 
@@ -30,6 +31,7 @@ const EMPTY_ACCESS: ScreenAccessMap = {
   humanResources: false,
   companies: false,
   settings: false,
+  shop: false,
 };
 
 const FULL_ACCESS: ScreenAccessMap = {
@@ -38,6 +40,7 @@ const FULL_ACCESS: ScreenAccessMap = {
   workers: true,
   humanResources: true,
   companies: true,
+  shop: true,
   settings: true,
 };
 
@@ -139,6 +142,7 @@ export class UserAccessService {
       workers: this.bool(raw.workers),
       humanResources: this.bool(raw.humanResources ?? raw.hr),
       companies: this.bool(raw.companies),
+      shop: this.bool(raw.shop),
       settings: this.bool(raw.settings),
     };
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
+<path d="M20 45 L75 25 L155 40 L100 70 Z" fill="#d9dde2" stroke="#111" stroke-width="2"/>
+<path d="M20 45 L20 72 L100 100 L100 70" fill="#b7bec9" stroke="#111" stroke-width="2"/>
+<path d="M100 70 L100 100 L155 68 L155 40" fill="#c9cfd8" stroke="#111" stroke-width="2"/>
+<path d="M75 25 L75 48 L130 56 L155 40" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="32" y="35" font-size="10" fill="#2563eb">A1/B1</text>
+<text x="105" y="92" font-size="10" fill="#2563eb">A2/B2</text>
+<text x="88" y="20" font-size="10" fill="#2563eb">L</text>
+</svg>

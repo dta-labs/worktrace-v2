@@ -47,6 +47,13 @@ export const DASHBOARD_ROUTES: Routes = [
       .then(m => m.CompaniesPageComponent),
   },
   {
+    path: 'shop',
+    canActivate: [screenAccessGuard],
+    data: { screen: 'shop' },
+    loadComponent: () => import('../shop/order-builder/order-builder.component')
+      .then(m => m.OrderBuilderComponent),
+  },
+  {
     path: 'settings',
     canActivate: [screenAccessGuard],
     data: { screen: 'settings' },
