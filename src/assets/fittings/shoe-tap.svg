@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120">
+<path d="M25 70 L105 42 L150 63 L70 95 Z" fill="#d9dde2" stroke="#111" stroke-width="2"/>
+<path d="M70 95 L150 63 L150 78 L70 110 Z" fill="#c1c7d0" stroke="#111" stroke-width="2"/>
+<path d="M70 50 L95 35 L122 47 L97 62 Z" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<path d="M70 50 L70 72 L97 86 L97 62" fill="#b8bec8" stroke="#111" stroke-width="2"/>
+<path d="M97 62 L122 47 L122 70 L97 86" fill="#c9cfd8" stroke="#111" stroke-width="2"/>
+<text x="42" y="103" font-size="10" fill="#2563eb">Main</text>
+<text x="88" y="31" font-size="10" fill="#2563eb">Tap</text>
+</svg>

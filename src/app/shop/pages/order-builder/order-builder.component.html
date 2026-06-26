@@ -1,0 +1,480 @@
+<div class="app-shell">
+  <aside class="sidebar no-print">
+    <div class="brand">SHOP</div>
+    <div class="nav-title">FABRICATION</div>
+    <button class="nav active" routerLink="/dashboard/shop">New Order</button>
+    <button class="nav" routerLink="/dashboard/shop/orders">Fabrication Orders</button>
+    <button class="nav" routerLink="/dashboard/shop/orders" [queryParams]="{status: 'Pending Approval'}">Pending Approval</button>
+    <button class="nav" routerLink="/dashboard/shop/orders" [queryParams]="{status: 'In Production'}">Production</button>
+    <div class="nav-title">SETTINGS</div>
+    <button class="nav">Materials</button>
+    <button class="nav">Connections</button>
+    <button class="nav">Gauges</button>
+  </aside>
+
+  <main class="workspace">
+    <header class="topbar no-print">
+      <div>
+        <h1>{{ order.orderNumber || 'New Fabrication Order' }}</h1>
+        <p>SHOP V1: independent fabrication orders. Project is text-only until Projects module is ready.</p>
+      </div>
+      <div class="actions">
+        <input
+          #txtFileInput
+          class="hidden-file-input"
+          type="file"
+          accept=".txt,text/plain"
+          (change)="importTxt($event)">
+        <button class="secondary" (click)="txtFileInput.click()">Import TXT</button>
+        <button class="secondary" (click)="exportTxt()">Export TXT</button>
+        <button class="secondary" routerLink="/dashboard/shop/orders">Orders</button>
+        <button class="secondary" (click)="saveDraft()" [disabled]="isSaving">{{ isSaving ? 'Saving...' : 'Save Draft' }}</button>
+        <button class="secondary" (click)="submitForApproval()" [disabled]="!order.pieces.length || isSaving">Submit for Approval</button>
+        <button class="secondary" (click)="approveOrder()" [disabled]="!order.pieces.length || isSaving">Approve</button>
+        <button class="secondary" (click)="sendToProduction()" [disabled]="!order.pieces.length || isSaving">Send to Production</button>
+        <button class="secondary" (click)="clearOrder()">Clear</button>
+        <button class="primary" (click)="printApproval()">Approval Sheet / PDF</button>
+      </div>
+    </header>
+
+    <section class="order-info no-print">
+      <label class="field-group">
+        <span>Project</span>
+        <input
+          [(ngModel)]="order.projectName"
+          (ngModelChange)="saveDraft()"
+          placeholder="Project name">
+      </label>
+
+      <label class="field-group">
+        <span>Customer</span>
+        <select
+          [(ngModel)]="order.customerName"
+          (ngModelChange)="onCustomerChange()">
+          <option value="">Select Company</option>
+          <option
+            *ngFor="let company of companies"
+            [value]="company.name">
+            {{ company.name }}
+          </option>
+        </select>
+      </label>
+
+      <label class="field-group">
+        <span>Requested By</span>
+
+        <select
+          *ngIf="requestedByContacts.length; else requestedByText"
+          [(ngModel)]="order.requestedBy"
+          (ngModelChange)="saveDraft()">
+          <option value="">Select contact</option>
+          <option
+            *ngFor="let contact of requestedByContacts"
+            [value]="contact.fullName">
+            {{ contact.fullName }}{{ contact.role ? ' - ' + contact.role : '' }}
+          </option>
+        </select>
+
+        <ng-template #requestedByText>
+          <input
+            [(ngModel)]="order.requestedBy"
+            (ngModelChange)="saveDraft()"
+            placeholder="Person requesting approval">
+        </ng-template>
+      </label>
+
+      <label class="field-group">
+        <span>Date Required</span>
+        <input
+          type="date"
+          [(ngModel)]="order.dateRequired"
+          (ngModelChange)="saveDraft()">
+      </label>
+    </section>
+
+    <div *ngIf="saveMessage" class="shop-save-message no-print">{{ saveMessage }}</div>
+    <div *ngIf="saveError" class="shop-save-error no-print">{{ saveError }}</div>
+
+    <div *ngIf="txtImportMessage" class="txt-import-message no-print">
+      {{ txtImportMessage }}
+    </div>
+
+    <section class="txt-tools no-print">
+      <h3>TXT Duct List Format</h3>
+      <p>Accepted examples: <b>DUCT 30x12x59 26ga S&D qty 2</b>, <b>ELBOW 90 26x40 R25 N1=12 N2=18 24ga qty 1</b>, <b>TRANSITION 30x12 TO 20x10 L=36 22ga qty 1</b>.</p>
+    </section>
+
+    <section class="weight-summary no-print">
+      <div><b>Total Area</b><span>{{ totalAreaFt2 }} ft²</span></div>
+      <div><b>Total Weight</b><span>{{ totalWeightLb }} lb</span></div>
+      <div><b>Total Pieces</b><span>{{ order.pieces.length }}</span></div>
+      <button class="secondary" (click)="recalculateWeights()">Recalculate Weight</button>
+      <small class="weight-note">26ga = 1.00 lb/ft²</small>
+    </section>
+
+    <section class="builder no-print">
+      <div class="library-panel">
+        <div class="panel-header">
+          <h2>1. Select HVAC Fitting</h2>
+          <input class="search" [(ngModel)]="query" placeholder="Search fitting...">
+        </div>
+
+        <div class="library-layout">
+          <nav class="category-list">
+            <button *ngFor="let c of categories" [class.active]="category === c" (click)="category = c">{{ c }}</button>
+          </nav>
+
+          <div class="fitting-grid">
+            <button class="fitting-card" *ngFor="let fitting of fittings" [class.selected]="selected.id === fitting.id" (click)="selectFitting(fitting)">
+              <img [src]="fitting.image" [alt]="fitting.name">
+              <b>{{ fitting.name }}</b>
+              <small>{{ fitting.spanishAlias }}</small>
+              <span class="status" [class.generated]="fitting.buildStatus === 'Generated Preview'">{{ fitting.buildStatus }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="dimension-panel">
+        <h2>2. Build From Dimensions</h2>
+
+        <div class="selected-heading">
+          <img [src]="selected.image" [alt]="selected.name">
+          <div>
+            <h3>{{ selected.name }}</h3>
+            <p>{{ selected.description }}</p>
+          </div>
+        </div>
+
+        <label *ngIf="selected.id === 'rectangular-duct'">Piece Use
+          <select [(ngModel)]="selectedDuctUse">
+            <option *ngFor="let use of ductUses">{{ use }}</option>
+          </select>
+        </label>
+
+        <label *ngIf="selected.builderKind === 'transition'">Transition Variant
+          <select [(ngModel)]="selectedVariant" (ngModelChange)="onVariantChange()">
+            <option *ngFor="let v of transitionVariants">{{ v }}</option>
+          </select>
+        </label>
+
+        <div class="live-builder" [class.transition-preview]="selected.builderKind === 'transition'">
+          <app-generated-preview
+            [kind]="selected.builderKind"
+            [image]="selected.image"
+            [dimensions]="dimensions"
+            [variant]="selectedVariant"
+            [inletConnection]="inletConnection"
+            [outletConnection]="outletConnection"
+            [horizontalDirection]="horizontalDirection"
+            [verticalDirection]="verticalDirection">
+          </app-generated-preview>
+        </div>
+
+        <div class="form-grid">
+          <ng-container *ngFor="let field of selected.fields">
+            <label *ngIf="field.key !== 'offset' && field.key !== 'offset' && field.key !== 'offsetX' && field.key !== 'offsetY'">
+              {{ field.label }}
+              <div class="unit-input">
+                <input [(ngModel)]="dimensions[field.key]">
+                <span>{{ field.unit }}</span>
+              </div>
+            </label>
+          </ng-container>
+
+          <div *ngIf="isTransition" class="rule-note">
+            {{ transitionRuleNote() }}
+          </div>
+
+          <label *ngIf="showHorizontalOffset">
+            Horizontal Offset Direction
+            <select [(ngModel)]="horizontalDirection" [disabled]="horizontalOffsetLocked || selectedVariant === 'Offset Left' || selectedVariant === 'Offset Right'">
+              <option>Left</option>
+              <option>Right</option>
+            </select>
+          </label>
+
+          <label *ngIf="showHorizontalOffset">
+            {{ horizontalOffsetLabel }}
+            <div class="unit-input">
+              <input
+                type="number"
+                min="0"
+                [max]="maxHorizontalOffset"
+                [disabled]="horizontalOffsetLocked"
+                [(ngModel)]="dimensions['offsetX']"
+                (ngModelChange)="clampOffsets()">
+              <span>in</span>
+            </div>
+            <small class="offset-help" [class.locked]="horizontalOffsetLocked">
+              {{ horizontalLockMessage }}
+            </small>
+          </label>
+
+          <label *ngIf="showVerticalOffset">
+            Vertical Offset Direction
+            <select [(ngModel)]="verticalDirection" [disabled]="verticalOffsetLocked || selectedVariant === 'Offset Up' || selectedVariant === 'Offset Down'">
+              <option>Up</option>
+              <option>Down</option>
+            </select>
+          </label>
+
+          <label *ngIf="showVerticalOffset">
+            {{ verticalOffsetLabel }}
+            <div class="unit-input">
+              <input
+                type="number"
+                min="0"
+                [max]="maxVerticalOffset"
+                [disabled]="verticalOffsetLocked"
+                [(ngModel)]="dimensions['offsetY']"
+                (ngModelChange)="clampOffsets()">
+              <span>in</span>
+            </div>
+            <small class="offset-help" [class.locked]="verticalOffsetLocked">
+              {{ verticalLockMessage }}
+            </small>
+          </label>
+
+          <div *ngIf="hasTransitionError" class="validation-error">
+            {{ transitionValidationError() }}
+          </div>
+
+          <div *ngIf="offsetWarning" class="warning-box">
+            {{ offsetWarning }}
+          </div>
+
+          <label>Gauge
+            <select [(ngModel)]="gauge"><option *ngFor="let g of gauges">{{ g }}</option></select>
+          </label>
+
+          <label>Material
+            <select [(ngModel)]="material"><option *ngFor="let m of materials">{{ m }}</option></select>
+          </label>
+
+          <label>Quantity <input type="number" min="1" [(ngModel)]="quantity"></label>
+
+          <label>Inlet Connection
+            <select [(ngModel)]="inletConnection"><option *ngFor="let c of connectionTypes">{{ c }}</option></select>
+          </label>
+
+          <label>Outlet Connection
+            <select [(ngModel)]="outletConnection"><option *ngFor="let c of connectionTypes">{{ c }}</option></select>
+          </label>
+
+          <label>Connection Note <input [(ngModel)]="connectionNote" placeholder="Example: TDF inlet / S&D outlet"></label>
+          <label>Notes <textarea [(ngModel)]="notes" placeholder="Shop notes..."></textarea></label>
+        </div>
+
+        <button class="primary full" (click)="addPiece()">Add Piece to List</button>
+      </aside>
+    </section>
+
+    <section class="piece-review no-print">
+      <div class="added-list">
+        <div class="panel-header">
+          <h2>3. Added Pieces</h2>
+          <span>Total pieces: {{ order.pieces.length }}</span>
+        </div>
+
+        <table>
+          <thead>
+            <tr><th>#</th><th>Fitting</th><th>Variant</th><th>Dimensions</th><th>Connection</th><th>Gauge</th><th>Qty</th><th>Area</th><th>Weight</th>
+              <th>SMACNA</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let piece of order.pieces; let i = index" [class.active-row]="selectedPieceId === piece.id" (click)="selectPiece(piece)">
+              <td>{{ i + 1 }}</td>
+              <td class="fit-cell"><img [src]="piece.image"><b>{{ piece.fittingName }}</b></td>
+              <td>{{ piece.variant || '—' }}<br><small *ngIf="piece.variant">X: {{ piece.horizontalDirection || '—' }} / Y: {{ piece.verticalDirection || '—' }}</small></td>
+              <td>{{ formatDimensions(piece) }}</td>
+              <td><b>In:</b> {{ piece.inletConnection }}<br><b>Out:</b> {{ piece.outletConnection }}</td>
+              <td>{{ piece.gauge }}</td>
+              <td>{{ piece.quantity }}</td>
+              <td>{{ piece.estimatedAreaFt2 || 0 }} ft²</td>
+              <td>{{ piece.estimatedWeightLb || 0 }} lb<br><small *ngIf="piece.connectionWeightLb">Conn: +{{ piece.connectionWeightLb }} lb</small></td>
+              <td><span class="smacna-pill" [class.warn]="piece.smacnaStatus === 'warning' || piece.smacnaStatus === 'unverified'" [class.fail]="piece.smacnaStatus === 'nonCompliant'">{{ piece.smacnaStatus || 'unverified' }}</span></td>
+              <td>
+                <button (click)="duplicatePiece(piece); $event.stopPropagation()">Copy</button>
+                <button class="danger" (click)="removePiece(piece.id); $event.stopPropagation()">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <aside class="large-preview" *ngIf="selectedPiece as piece">
+        <h2>4. Approval Preview</h2>
+        <div class="large-drawing" [class.large-transition]="piece.builderKind === 'transition'">
+          <app-generated-preview
+            [kind]="piece.builderKind"
+            [image]="piece.image"
+            [dimensions]="piece.dimensions"
+            [variant]="piece.variant || 'Centered'"
+            [inletConnection]="piece.inletConnection"
+            [outletConnection]="piece.outletConnection"
+            [horizontalDirection]="piece.horizontalDirection || 'Right'"
+            [verticalDirection]="piece.verticalDirection || 'Up'">
+          </app-generated-preview>
+        </div>
+        <h3>{{ piece.fittingName }}</h3>
+        <p *ngIf="piece.variant"><b>Variant:</b> {{ piece.variant }}</p>
+        <div class="dimension-tags">
+          <span *ngFor="let d of piece.dimensions | keyvalue">{{ labelize(d.key) }}: <b>{{ d.value }}"</b></span>
+        </div>
+        <div class="piece-weight-box">
+          <b>Estimated Material</b>
+          <p>Per Piece: {{ singlePieceArea(piece) }} ft² / {{ singlePieceWeight(piece) }} lb</p>
+          <p>Total: {{ piece.estimatedAreaFt2 || 0 }} ft² / {{ piece.estimatedWeightLb || 0 }} lb</p>
+          <p *ngIf="piece.connectionWeightLb"><b>Breakdown:</b> Sheet {{ piece.sheetWeightLb || 0 }} lb + Connections {{ piece.connectionWeightLb || 0 }} lb</p>
+        </div>
+
+        <div class="connection-box">
+          <b>Connections</b>
+          <p>Inlet: {{ piece.inletConnection }} / Outlet: {{ piece.outletConnection }}</p>
+          <small *ngIf="piece.connectionSummary">{{ piece.connectionSummary }}</small><br *ngIf="piece.connectionSummary">
+          <small *ngIf="piece.connectionNote">{{ piece.connectionNote }}</small>
+        </div>
+      </aside>
+    </section>
+
+    <section class="shop-report no-print" *ngIf="order.pieces.length">
+      <div class="panel-header">
+        <h2>Internal Shop Report</h2>
+        <span>Not for customer approval PDF</span>
+      </div>
+
+      <div class="shop-report-grid">
+        <div class="shop-card">
+          <b>Sheet Metal</b>
+          <p>{{ shopReportTotals.sheetMetalFt2 }} ft²</p>
+          <small>Developed sheet metal required for this order.</small>
+        </div>
+        <div class="shop-card">
+          <b>TDF / TDC</b>
+          <p>TDF: {{ shopReportTotals.tdfLinearFt }} ft</p>
+          <p>TDF Material: {{ shopReportTotals.tdfMaterialFt2 }} ft²</p>
+          <p>TDC: {{ shopReportTotals.tdcLinearFt }} ft</p>
+        </div>
+        <div class="shop-card">
+          <b>S&amp;D / Accessories</b>
+          <p>Slip: {{ shopReportTotals.slipPieces }} pcs</p>
+          <p>Drive: {{ shopReportTotals.drivePieces }} pcs</p>
+          <p>Cleats: {{ shopReportTotals.cleats }} pcs</p>
+        </div>
+        <div class="shop-card">
+          <b>Hardware</b>
+          <p>Corners: {{ shopReportTotals.corners }} pcs</p>
+          <p>Screws: {{ shopReportTotals.screws }} pcs</p>
+          <p>Tie Rods: {{ shopReportTotals.tieRods }} pcs</p>
+        </div>
+        <div class="shop-card">
+          <b>Weight Breakdown</b>
+          <p>Sheet: {{ shopReportTotals.sheetMetalLb }} lb</p>
+          <p>Connections: {{ shopReportTotals.connectionLb }} lb</p>
+          <p>Total: {{ shopReportTotals.totalWeightLb }} lb</p>
+        </div>
+        <div class="shop-card">
+          <b>Labor Placeholder</b>
+          <p>{{ shopReportTotals.laborMinutes }} min</p>
+          <small>Configurable SMT production rule pending.</small>
+        </div>
+        <div class="shop-card price-card">
+          <b>Final Fabrication Price</b>
+          <p>{{ formatMoney(fabricationCostSummary.finalFabricationPrice) }}</p>
+          <small>Internal price only. Estimator may copy this value into BIDS manually.</small>
+        </div>
+      </div>
+
+      <div class="cost-summary-grid">
+        <div><b>Sheet Material</b><span>{{ formatMoney(fabricationCostSummary.sheetMaterialCost) }}</span></div>
+        <div><b>Connections</b><span>{{ formatMoney(fabricationCostSummary.connectionMaterialCost) }}</span></div>
+        <div><b>Accessories</b><span>{{ formatMoney(fabricationCostSummary.accessoryCost) }}</span></div>
+        <div><b>Labor</b><span>{{ formatMoney(fabricationCostSummary.laborCost) }}</span></div>
+        <div><b>Manufacturing Cost</b><span>{{ formatMoney(fabricationCostSummary.manufacturingCost) }}</span></div>
+        <div><b>Waste</b><span>{{ formatMoney(fabricationCostSummary.wasteCost) }}</span></div>
+        <div><b>Overhead</b><span>{{ formatMoney(fabricationCostSummary.overheadCost) }}</span></div>
+        <div><b>Profit</b><span>{{ formatMoney(fabricationCostSummary.profitCost) }}</span></div>
+      </div>
+
+      <table class="shop-breakdown-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Piece</th>
+            <th>Qty</th>
+            <th>Sheet ft²</th>
+            <th>TDF ft</th>
+            <th>Slip / Drive</th>
+            <th>Corners</th>
+            <th>Screws</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let piece of order.pieces; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td><b>{{ piece.fittingName }}</b><br><small>{{ formatDimensions(piece) }}</small></td>
+            <td>{{ piece.quantity }}</td>
+            <td>{{ piece.manufacturingBreakdown?.sheetMetalFt2 || 0 }}</td>
+            <td>{{ piece.manufacturingBreakdown?.connectionMaterial?.tdfLinearFt || 0 }}</td>
+            <td>{{ piece.manufacturingBreakdown?.connectionMaterial?.slipPieces || 0 }} / {{ piece.manufacturingBreakdown?.connectionMaterial?.drivePieces || 0 }}</td>
+            <td>{{ piece.manufacturingBreakdown?.accessories?.corners || 0 }}</td>
+            <td>{{ piece.manufacturingBreakdown?.accessories?.screws || 0 }}</td>
+            <td>
+              Sheet {{ piece.manufacturingBreakdown?.weight?.sheetMetalLb || 0 }} lb<br>
+              Conn {{ piece.manufacturingBreakdown?.weight?.connectionsLb || 0 }} lb<br>
+              <b>Total {{ piece.manufacturingBreakdown?.weight?.totalLb || 0 }} lb</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="approval-sheet">
+      <div class="approval-header">
+        <div><h1>SHOP</h1><p>HVAC Fabrication Approval Sheet</p></div>
+        <div><b>Order:</b> {{ order.id }}<br><b>Status:</b> {{ order.status }}</div>
+      </div>
+
+      <div class="approval-meta">
+        <div><b>Project:</b> {{ order.projectName || '—' }}</div>
+        <div><b>Customer:</b> {{ order.customerName || '—' }}</div>
+        <div><b>Requested By:</b> {{ order.requestedBy || '—' }}</div>
+        <div><b>Date Required:</b> {{ order.dateRequired || '—' }}</div>
+      </div>
+
+      <h2>Fabrication Pieces</h2>
+
+      <div class="approval-piece" *ngFor="let piece of order.pieces; let i = index">
+        <div class="approval-image" [class.approval-transition]="piece.builderKind === 'transition'">
+          <app-generated-preview
+            [kind]="piece.builderKind"
+            [image]="piece.image"
+            [dimensions]="piece.dimensions"
+            [variant]="piece.variant || 'Centered'"
+            [inletConnection]="piece.inletConnection"
+            [outletConnection]="piece.outletConnection"
+            [horizontalDirection]="piece.horizontalDirection || 'Right'"
+            [verticalDirection]="piece.verticalDirection || 'Up'">
+          </app-generated-preview>
+        </div>
+        <div class="approval-info">
+          <h3>{{ i + 1 }}. {{ piece.fittingName }}</h3>
+          <p><b>Variant:</b> {{ piece.variant || '—' }}</p><p *ngIf="piece.variant"><b>Offset Direction:</b> X {{ piece.horizontalDirection || '—' }} / Y {{ piece.verticalDirection || '—' }}</p>
+          <p><b>Spanish:</b> {{ piece.spanishAlias }}</p>
+          <p><b>Dimensions:</b> {{ formatDimensions(piece) }}</p>
+          <p><b>Connections:</b> Inlet {{ piece.inletConnection }} / Outlet {{ piece.outletConnection }}</p>
+          <p *ngIf="piece.connectionNote"><b>Connection Note:</b> {{ piece.connectionNote }}</p>
+          <p><b>Gauge:</b> {{ piece.gauge }} | <b>Material:</b> {{ piece.material }} | <b>Qty:</b> {{ piece.quantity }}</p>
+          <p *ngIf="piece.notes"><b>Notes:</b> {{ piece.notes }}</p>
+        </div>
+      </div>
+
+      <div class="signature">
+        <div>Approved By: ____________________________</div>
+        <div>Date: ____ / ____ / ______</div>
+      </div>
+    </section>
+  </main>
+</div>

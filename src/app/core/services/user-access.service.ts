@@ -3,7 +3,7 @@ import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { AuthService } from '../auth/auth.service';
 import { combineLatest, map, of, shareReplay, switchMap } from 'rxjs';
 
-export type ScreenKey = 'overview' | 'construction' | 'workers' | 'humanResources' | 'companies' | 'settings';
+export type ScreenKey = 'overview' | 'construction' | 'workers' | 'humanResources' | 'companies' | 'shop' | 'settings';
 
 export interface ScreenAccessMap {
   overview: boolean;
@@ -12,6 +12,7 @@ export interface ScreenAccessMap {
   humanResources: boolean;
   companies: boolean;
   settings: boolean;
+  shop: boolean;
 }
 
 export interface UserAccessState {
@@ -30,6 +31,7 @@ const EMPTY_ACCESS: ScreenAccessMap = {
   humanResources: false,
   companies: false,
   settings: false,
+  shop: false,
 };
 
 const FULL_ACCESS: ScreenAccessMap = {
@@ -39,6 +41,7 @@ const FULL_ACCESS: ScreenAccessMap = {
   humanResources: true,
   companies: true,
   settings: true,
+  shop: true,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -140,6 +143,7 @@ export class UserAccessService {
       humanResources: this.bool(raw.humanResources ?? raw.hr),
       companies: this.bool(raw.companies),
       settings: this.bool(raw.settings),
+      shop: this.bool(raw.shop),
     };
 
     const hasAny = Object.values(access).some(Boolean);

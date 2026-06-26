@@ -21,6 +21,7 @@ export class DashboardComponent {
     humanResources: true,
     companies: true,
     settings: true,
+    shop: true,
   };
 
   private sub?: Subscription;

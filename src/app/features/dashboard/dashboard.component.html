@@ -19,6 +19,13 @@
         </a>
       }
 
+      @if (access.shop) {
+        <a routerLink="/dashboard/shop" routerLinkActive="active">
+          <mat-icon class="nav-ic">precision_manufacturing</mat-icon>
+          <span>Shop</span>
+        </a>
+      }
+
       @if (access.workers) {
         <a routerLink="/dashboard/workers" routerLinkActive="active">
           <mat-icon class="nav-ic">engineering</mat-icon>

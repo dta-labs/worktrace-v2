@@ -29,6 +29,32 @@ export const DASHBOARD_ROUTES: Routes = [
     ],
   },
 
+
+  {
+    path: 'shop',
+    canActivate: [screenAccessGuard],
+    data: { screen: 'shop' },
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () => import('../../shop/pages/order-builder/order-builder.component')
+          .then(m => m.OrderBuilderComponent),
+      },
+      {
+        path: 'orders',
+        pathMatch: 'full',
+        loadComponent: () => import('../../shop/pages/orders-list/orders-list.component')
+          .then(m => m.OrdersListComponent),
+      },
+      {
+        path: 'orders/:id',
+        loadComponent: () => import('../../shop/pages/order-builder/order-builder.component')
+          .then(m => m.OrderBuilderComponent),
+      },
+    ],
+  },
+
   {
     path: 'workers',
     canActivate: [screenAccessGuard],
