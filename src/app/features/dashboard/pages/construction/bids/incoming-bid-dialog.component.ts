@@ -44,7 +44,7 @@ type ClientContact = {
   isPrimary?: boolean;
 };
 class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
-  constructor(private readonly isSubmitted: () => boolean) {}
+  constructor(private readonly isSubmitted: () => boolean) { }
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const submitted = this.isSubmitted() || !!form?.submitted;
     return !!(control && control.invalid && (control.touched || submitted));
@@ -53,7 +53,6 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   selector: 'app-incoming-bid-dialog',
-  standalone: true,
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     {
@@ -69,127 +68,129 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
       },
     },
   ],
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,MatInputModule,MatDatepickerModule,MatNativeDateModule,MatIconModule,MatButtonModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatButtonModule, MatSelectModule],
   template: `
     <div class="wt-modal" role="dialog" aria-modal="true">
       <div class="wt-modal-head">
         <div class="wt-modal-title">Add Incoming Bid</div>
         <button type="button" class="wt-icon-btn" (click)="close()">✕</button>
       </div>
-
+    
       <div class="wt-modal-body">
         <form [formGroup]="form" autocomplete="off">
-          <div class="wt-grid wt-grid">
+          <div class="wt-grid">
+            
             <div class="wt-field">
               <label>Client *</label>
               <mat-form-field appearance="outline" class="wt-full wt-select wt-mf">
                 <mat-select
                   formControlName="client"
+                  data-cy="select-client"
                   panelClass="wt-select-panel"
                   placeholder="Select existing (manage Companies in the Companies tab)"
                   [errorStateMatcher]="submitMatcher">
-                  <mat-option *ngFor="let c of clients" [value]="c.name">{{ c.name }}</mat-option>
+                  @for (c of clients; track c) {
+                    <mat-option [value]="c.name">{{ c.name }}</mat-option>
+                  }
                 </mat-select>
-
-                <!-- <mat-select formControlName="client"
-                  placeholder="Select existing (manage Companies in the Companies tab)" [errorStateMatcher]="submitMatcher">
-                  <mat-option *ngFor="let c of clients" [value]="c.name">{{ c.name }}</mat-option>
-                </mat-select> -->
               </mat-form-field>
               <div class="wt-help">To add a new Company/Client, go to <b>Companies</b> → <b>Create Company</b>.</div>
             </div>
-
+    
             <div class="wt-field">
               <label>Project *</label>
-              <mat-form-field appearance="outline" class="wt-full wt-select wt-mf">
+              <mat-form-field appearance="outline" class="wt-full wt-select">
                 <input
                   matInput
                   type="text"
                   formControlName="projectName"
+                  data-cy="input-project-name"
                   placeholder="Project name"
                   [errorStateMatcher]="submitMatcher" />
               </mat-form-field>
             </div>
-
+    
             <div class="wt-field">
               <label>Date Received</label>
               <mat-form-field appearance="outline" class="wt-full wt-date-mf">
                 <input matInput [value]="(form.get('dateReceived')?.value | date:'MM/dd/yyyy')" readonly />
-                <!-- visual-only calendar icon to match Bid Due Date -->
                 <mat-icon matSuffix class="wt-calendar-ghost" aria-hidden="true">calendar_today</mat-icon>
               </mat-form-field>
               <div class="wt-help">Auto-set to the day you archive this request.</div>
             </div>
+            
             <div class="wt-field">
               <label>Bid Due Date</label>
               <mat-form-field appearance="outline" class="wt-full wt-date-mf">
-                <input matInput [matDatepicker]="duePicker" formControlName="bidDueAt">
+                <input matInput [matDatepicker]="duePicker" formControlName="bidDueAt" data-cy="input-bid-due-date">
                 <button type="button" matSuffix class="white-calendar-btn" (click)="duePicker.open()" aria-label="Open calendar">
                   <mat-icon>calendar_today</mat-icon>
                 </button>
                 <mat-datepicker #duePicker></mat-datepicker>
               </mat-form-field>
             </div>
-
+    
             <div class="wt-field wt-full">
               <label>Responsible / Contact</label>
-              <mat-form-field appearance="outline" class="wt-full wt-select">
-                <mat-select formControlName="contactId" [disabled]="!contactOptions.length" panelClass="wt-select-panel" placeholder="Select a contact (from this Company)" [errorStateMatcher]="submitMatcher">
+              <mat-form-field appearance="outline" class="wt-full wt-select wt-mf">
+                <mat-select formControlName="contactId" data-cy="select-responsible-contact" [disabled]="!contactOptions.length" panelClass="wt-select-panel" placeholder="Select a contact (from this Company)" [errorStateMatcher]="submitMatcher">
                   <mat-option value="">Select a contact (from this Company)</mat-option>
-                  <mat-option *ngFor="let ct of contactOptions" [value]="ct.id">
-                    {{ ct.fullName }}{{ ct.role ? ' — ' + ct.role : '' }}{{ ct.isPrimary ? ' (Primary)' : '' }}
-                  </mat-option>
+                  @for (ct of contactOptions; track ct) {
+                    <mat-option [value]="ct.id">
+                      {{ ct.fullName }}{{ ct.role ? ' — ' + ct.role : '' }}{{ ct.isPrimary ? ' (Primary)' : '' }}
+                    </mat-option>
+                  }
                 </mat-select>
-
-                <!-- <mat-select formControlName="contactId" [disabled]="!contactOptions.length"
-                  placeholder="Select a contact (from this Company)" [errorStateMatcher]="submitMatcher">
-                  <mat-option value="">Select a contact (from this Company)</mat-option>
-                  <mat-option *ngFor="let ct of contactOptions" [value]="ct.id">
-                    {{ ct.fullName }}{{ ct.role ? ' — ' + ct.role : '' }}{{ ct.isPrimary ? ' (Primary)' : '' }}
-                  </mat-option>
-                </mat-select> -->
               </mat-form-field>
-              <div class="wt-help" *ngIf="!contactOptions.length">
-                No contacts found for this Company. Add one in <b>Companies</b> → <b>Edit</b> → <b>Contacts</b>.
-              </div>
+              @if (!contactOptions.length) {
+                <div class="wt-help">
+                  No contacts found for this Company. Add one in <b>Companies</b> → <b>Edit</b> → <b>Contacts</b>.
+                </div>
+              }
             </div>
-
+    
             <div class="wt-field">
               <label>Contact Email</label>
               <input type="email" formControlName="contactEmail" />
             </div>
-
+    
             <div class="wt-field">
               <label>Contact Phone</label>
               <input type="text" formControlName="contactPhone" />
             </div>
-
+    
             <div class="wt-field">
               <label>Jobsite Address</label>
               <div class="wt-input-wrap">
-                <input type="text" formControlName="jobsiteAddress" #jobsiteAddressInput placeholder="123 Main St, Orlando, FL 32801" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                <input type="text" formControlName="jobsiteAddress" data-cy="input-jobsite-address" #jobsiteAddressInput placeholder="123 Main St, Orlando, FL 32801" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 <span class="wt-input-suffix" aria-hidden="true" title="Jobsite location">📍</span>
               </div>
               <div class="wt-help">Physical jobsite address (optional). This will show as a “Location loaded” button in the list.</div>
             </div>
-
+    
             <div class="wt-field">
               <label>Priority</label>
-              <select formControlName="priority">
-                <option value="urgent">Urgent</option>
-                <option value="high">High</option>
-                <option value="normal">Normal</option>
-                <option value="low">Low</option>
-              </select>
+              <mat-form-field appearance="outline" class="wt-full wt-select wt-mf">
+                <mat-select
+                  formControlName="priority"
+                  data-cy="select-priority"
+                  panelClass="wt-select-panel">
+                  <mat-option value="urgent">Urgent</mat-option>
+                  <mat-option value="high">High</mat-option>
+                  <mat-option value="normal">Normal</mat-option>
+                  <mat-option value="low">Low</mat-option>
+                </mat-select>
+              </mat-form-field>
               <div class="wt-help">Used to color-code the Incoming Bids list.</div>
             </div>
+    
           </div>
         </form>
       </div>
-
+    
       <div class="wt-modal-actions">
-        <button type="button" class="btn" (click)="close()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="save()">Continue</button>
+        <button type="button" class="btn" data-cy="btn-cancel" (click)="close()">Cancel</button>
+        <button type="button" class="btn btn-primary" data-cy="btn-continue" (click)="save()">Continue</button>
       </div>
     </div>
   `,
@@ -879,10 +880,12 @@ class SubmitOnlyErrorStateMatcher implements ErrorStateMatcher {
 .wt-field {
   width: 100%;
 }
+
 `,
-  ],
+  ]
 })
 export class IncomingBidDialogComponent implements AfterViewInit {
+  clientsLoading = true;
   submitted = false;
   submitMatcher = new SubmitOnlyErrorStateMatcher(() => this.submitted);
 
@@ -914,43 +917,44 @@ export class IncomingBidDialogComponent implements AfterViewInit {
     priority: [(this.data as any)?.priority ?? 'normal'],
   });
 
-  
+  @ViewChild('jobsiteAddressInput', { static: false }) jobsiteAddressInput?: ElementRef<HTMLInputElement>;
 
-@ViewChild('jobsiteAddressInput', { static: false }) jobsiteAddressInput?: ElementRef<HTMLInputElement>;
+  ngAfterViewInit(): void {
+    // Google Places Autocomplete for Jobsite Address (optional enhancement)
+    try {
+      const inputEl = this.jobsiteAddressInput?.nativeElement;
+      if (!inputEl) return;
+      if (!google?.maps?.places?.Autocomplete) return;
 
-ngAfterViewInit(): void {
-  // Google Places Autocomplete for Jobsite Address (optional enhancement)
-  try {
-    const inputEl = this.jobsiteAddressInput?.nativeElement;
-    if (!inputEl) return;
-    if (!google?.maps?.places?.Autocomplete) return;
+      const ac = new google.maps.places.Autocomplete(inputEl, {
+        types: ['address'],
+        fields: ['formatted_address', 'geometry', 'place_id'],
+      });
 
-    const ac = new google.maps.places.Autocomplete(inputEl, {
-      types: ['address'],
-      fields: ['formatted_address', 'geometry', 'place_id'],
-    });
+      ac.addListener('place_changed', () => {
+        const place = ac.getPlace();
+        const formatted = place?.formatted_address || inputEl.value || '';
+        const lat = place?.geometry?.location?.lat?.() ?? null;
+        const lng = place?.geometry?.location?.lng?.() ?? null;
+        const placeId = place?.place_id ?? null;
 
-    ac.addListener('place_changed', () => {
-      const place = ac.getPlace();
-      const formatted = place?.formatted_address || inputEl.value || '';
-      const lat = place?.geometry?.location?.lat?.() ?? null;
-      const lng = place?.geometry?.location?.lng?.() ?? null;
-      const placeId = place?.place_id ?? null;
-
-      this.form.patchValue(
-        { jobsiteAddress: formatted, jobsiteLat: lat, jobsiteLng: lng, jobsitePlaceId: placeId },
-        { emitEvent: true }
-      );
-    });
-  } catch {
-    // no-op
+        this.form.patchValue(
+          { jobsiteAddress: formatted, jobsiteLat: lat, jobsiteLng: lng, jobsitePlaceId: placeId },
+          { emitEvent: true }
+        );
+      });
+    } catch {
+      // no-op
+    }
   }
-}
-constructor() {
+  constructor() {
+    this.form.get('client')?.disable({ emitEvent: false });
+
     // Load companies/clients for selection.
     firstValueFrom(this.clientsSvc.clients$())
-      .then((rows) => (this.clients = rows ?? []))
-      .catch(() => (this.clients = []));
+      .then((rows) => this.clients = rows ?? [])
+      .catch(() => this.clients = [])
+      .finally(() => this.form.get('client')?.enable({ emitEvent: false }));
 
     // When a company is selected, populate the Contact dropdown with that company's existing contacts.
     // The bidder MUST pick from existing contacts; if none exist, they must add one in the Companies module.
@@ -1002,23 +1006,22 @@ constructor() {
           { emitEvent: false }
         );
       });
-
   }
 
 
 
-private cleanContactName(raw: string): string {
-  const s = (raw ?? '').toString().trim();
-  if (!s) return '';
+  private cleanContactName(raw: string): string {
+    const s = (raw ?? '').toString().trim();
+    if (!s) return '';
 
-  // Defensive: some legacy/test data may have been stored as "Name • email" or "Name · email".
-  const beforeSep = s.split('•')[0].split('·')[0].trim();
+    // Defensive: some legacy/test data may have been stored as "Name • email" or "Name · email".
+    const beforeSep = s.split('•')[0].split('·')[0].trim();
 
-  // Remove any embedded email address remnants if present.
-  const withoutEmail = beforeSep.replace(/[\s<\(\[]*[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}[\s>\)\]]*/gi, ' ').replace(/\s{2,}/g, ' ').trim();
+    // Remove any embedded email address remnants if present.
+    const withoutEmail = beforeSep.replace(/[\s<\(\[]*[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}[\s>\)\]]*/gi, ' ').replace(/\s{2,}/g, ' ').trim();
 
-  return withoutEmail;
-}
+    return withoutEmail;
+  }
 
   private buildContactOptions(client: ClientItem | null): ClientContact[] {
     if (!client) return [];
@@ -1072,25 +1075,25 @@ private cleanContactName(raw: string): string {
     const clientName = (raw.client ?? '').toString().trim();
     const jobsiteAddress = (raw.jobsiteAddress ?? '').toString().trim();
 
-    
-const result: IncomingBidDialogResult = {
-  client: clientName,
-  projectName: (raw.projectName ?? '').toString().trim(),
-  // Always set to "today" (archive date). Prevents manual manipulation.
-  dateReceived: new Date(),
-  bidDueDate: (raw.bidDueAt ?? null),
-  contactId: (raw.contactId ?? '').toString(),
-  contactName: (raw.contactName ?? '').toString().trim(),
-  contactEmail: (raw.contactEmail ?? '').toString().trim(),
-  contactPhone: (raw.contactPhone ?? '').toString().trim(),
-  jobsiteAddress,
-  jobsiteLat: raw.jobsiteLat ?? null,
-  jobsiteLng: raw.jobsiteLng ?? null,
-  jobsitePlaceId: raw.jobsitePlaceId ?? null,
-  priority: (raw.priority ?? 'normal').toString(),
-};
+
+    const result: IncomingBidDialogResult = {
+      client: clientName,
+      projectName: (raw.projectName ?? '').toString().trim(),
+      // Always set to "today" (archive date). Prevents manual manipulation.
+      dateReceived: new Date(),
+      bidDueDate: (raw.bidDueAt ?? null),
+      contactId: (raw.contactId ?? '').toString(),
+      contactName: (raw.contactName ?? '').toString().trim(),
+      contactEmail: (raw.contactEmail ?? '').toString().trim(),
+      contactPhone: (raw.contactPhone ?? '').toString().trim(),
+      jobsiteAddress,
+      jobsiteLat: raw.jobsiteLat ?? null,
+      jobsiteLng: raw.jobsiteLng ?? null,
+      jobsitePlaceId: raw.jobsitePlaceId ?? null,
+      priority: (raw.priority ?? 'normal').toString(),
+    };
     this.ref.close(result);
   }
 
-  
+
 }

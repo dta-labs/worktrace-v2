@@ -13,45 +13,45 @@ const OPTIONS: Array<{ key: string; label: string; cls: string }> = [
 
 @Component({
   selector: 'app-edit-priority-dialog',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatDialogModule],
   template: `
     <div class="wt-modal" role="dialog" aria-modal="true">
-      <div class="wt-modal-head">
+      <div class="wt-modal-head" data-cy="modal-header">
         <div>
           <div class="wt-modal-title">Edit Priority</div>
           <div class="tiny">This controls the color in the Incoming Bids list.</div>
         </div>
         <button type="button" class="wt-icon-btn" (click)="close()">✕</button>
       </div>
-
+    
       <div class="wt-modal-body">
         <form [formGroup]="form" autocomplete="off">
           <div class="chips">
-            <button
-              type="button"
-              class="chip"
-              *ngFor="let o of options"
-              [class.active]="form.controls.priority.value === o.key"
-              [ngClass]="o.cls"
-              (click)="set(o.key)"
-            >
-              {{ o.label }}
-            </button>
+            @for (o of options; track o) {
+              <button
+                type="button"
+                class="chip"
+                [class.active]="form.controls.priority.value === o.key"
+                [ngClass]="o.cls"
+                (click)="set(o.key)"
+                >
+                {{ o.label }}
+              </button>
+            }
           </div>
-
+    
           <div class="tiny mt8">
             Tip: use <b>Urgent</b> only when the due date is very close or overdue.
           </div>
         </form>
       </div>
-
+    
       <div class="wt-modal-actions">
         <button type="button" class="btn" (click)="close()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="save()">Save</button>
       </div>
     </div>
-  `,
+    `,
   styles: [
     `
       :host {
@@ -156,7 +156,7 @@ const OPTIONS: Array<{ key: string; label: string; cls: string }> = [
       .p-normal{background:rgba(106,163,255,.16);border-color:rgba(106,163,255,.45);color:#1d4ed8}
       .p-low{background:rgba(76,209,55,.12);border-color:rgba(76,209,55,.35);color:#166534}
     `,
-  ],
+  ]
 })
 export class EditPriorityDialogComponent {
   private fb = inject(FormBuilder);

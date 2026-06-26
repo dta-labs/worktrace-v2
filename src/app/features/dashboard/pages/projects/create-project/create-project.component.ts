@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -36,10 +36,8 @@ const activeRequiresStart: ValidatorFn = (group: AbstractControl): ValidationErr
 };
 
 @Component({
-  selector: 'app-create-project',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-create-project',
+    imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -48,9 +46,9 @@ const activeRequiresStart: ValidatorFn = (group: AbstractControl): ValidationErr
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule
-  ],
-  templateUrl: './create-project.component.html',
-  styleUrls: ['./create-project.component.scss']
+],
+    templateUrl: './create-project.component.html',
+    styleUrls: ['./create-project.component.scss']
 })
 export class CreateProjectComponent {
   private fb = inject(FormBuilder);

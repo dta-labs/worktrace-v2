@@ -15,8 +15,8 @@ import {
 
 import { Storage, ref, uploadBytes, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { Auth } from '@angular/fire/auth';
-import { DriveFunctionsService } from 'src/app/core/services/drive-functions.service';
-import { BidsSettingsService } from 'src/app/core/services/bids-settings.service';
+import { DriveFunctionsService } from '@app/core/services/drive-functions.service';
+import { BidsSettingsService } from '@app/core/services/bids-settings.service';
 import { Observable, map, switchMap, firstValueFrom, take } from 'rxjs';
 
 export type PartidaCategory =
@@ -118,12 +118,12 @@ export class BidFlowService {
       const folderPath = inc.folderPath ?? inc.folder ?? '';
       const jobsiteFull = String(
         inc.jobsiteAddress?.full ??
-          inc.jobsiteAddressFull ??
-          inc.jobsiteAddress ??
-          inc.siteAddress ??
-          inc.jobAddress ??
-          inc.location ??
-          ''
+        inc.jobsiteAddressFull ??
+        inc.jobsiteAddress ??
+        inc.siteAddress ??
+        inc.jobAddress ??
+        inc.location ??
+        ''
       ).trim();
 
       const bidDoc: any = {
@@ -139,11 +139,11 @@ export class BidFlowService {
 
         jobsiteAddress: jobsiteFull
           ? {
-              full: jobsiteFull,
-              loadedAt: serverTimestamp(),
-              loadedByUid: bidderUid,
+            full: jobsiteFull,
+            loadedAt: serverTimestamp(),
+            loadedByUid: bidderUid,
 
-            }
+          }
           : null,
         jobsiteAddressFull: jobsiteFull,
 
@@ -282,12 +282,12 @@ export class BidFlowService {
       const folderPath = inc.folderPath ?? inc.folder ?? '';
       const jobsiteFull = String(
         inc.jobsiteAddress?.full ??
-          inc.jobsiteAddressFull ??
-          inc.jobsiteAddress ??
-          inc.siteAddress ??
-          inc.jobAddress ??
-          inc.location ??
-          ''
+        inc.jobsiteAddressFull ??
+        inc.jobsiteAddress ??
+        inc.siteAddress ??
+        inc.jobAddress ??
+        inc.location ??
+        ''
       ).trim();
 
       const bidDoc: any = {
@@ -463,13 +463,13 @@ export class BidFlowService {
       if (!bidSnap.exists()) throw new Error('Bid not found');
       const bid: any = bidSnap.data();
 
-      
+
 
       // Guardrails: do not allow v2+ before the bid is converted (v1 must be the first official version).
       if (bid?.isDraft || !bid?.convertedAt) {
         throw new Error('Cannot create a new version until the bid is converted (v1 must be created first).');
       }
-const currentDraftId = String(bid?.draftVersionId ?? '').trim();
+      const currentDraftId = String(bid?.draftVersionId ?? '').trim();
       const currentVersionId = String(bid?.currentVersionId ?? '').trim();
       const versionCount = Math.max(1, Number(bid?.versionCount ?? 1) || 1);
 
@@ -902,38 +902,38 @@ const currentDraftId = String(bid?.draftVersionId ?? '').trim();
 
     await this.withTimeout(
       runTransaction(this.fs, async (tx) => {
-      const bidSnap = await tx.get(bidRef);
-      if (!bidSnap.exists()) throw new Error('Bid not found');
-      const bid: any = bidSnap.data();
+        const bidSnap = await tx.get(bidRef);
+        if (!bidSnap.exists()) throw new Error('Bid not found');
+        const bid: any = bidSnap.data();
 
-      const draftVersionId = String(bid?.draftVersionId ?? '').trim();
-      if (!draftVersionId) {
-        throw new Error("No draft version exists. Click 'Create New Version' before uploading a PDF.");
-      }
+        const draftVersionId = String(bid?.draftVersionId ?? '').trim();
+        if (!draftVersionId) {
+          throw new Error("No draft version exists. Click 'Create New Version' before uploading a PDF.");
+        }
 
-      const vRef = doc(collection(bidRef, 'versions'), draftVersionId);
-      const vSnap = await tx.get(vRef);
-      if (!vSnap.exists()) throw new Error('Draft version not found');
-      const ver: any = vSnap.data();
-      if (String(ver?.status ?? '') !== 'draft') {
-        throw new Error('This version is read-only. Create a new version to upload a PDF.');
-      }
+        const vRef = doc(collection(bidRef, 'versions'), draftVersionId);
+        const vSnap = await tx.get(vRef);
+        if (!vSnap.exists()) throw new Error('Draft version not found');
+        const ver: any = vSnap.data();
+        if (String(ver?.status ?? '') !== 'draft') {
+          throw new Error('This version is read-only. Create a new version to upload a PDF.');
+        }
 
-      tx.update(vRef, {
-        pdf: {
-          url: String(downloadUrl),
-          fileName: fileName ? String(fileName) : null,
-          uploadedAt: nowTs(),
-          uploadedByUid: uid,
-          uploadedByEmail: (this.auth.currentUser?.email ?? undefined),
-        },
-        updatedAt: nowTs(),
-        updatedByUid: uid,
-      });
+        tx.update(vRef, {
+          pdf: {
+            url: String(downloadUrl),
+            fileName: fileName ? String(fileName) : null,
+            uploadedAt: nowTs(),
+            uploadedByUid: uid,
+            uploadedByEmail: (this.auth.currentUser?.email ?? undefined),
+          },
+          updatedAt: nowTs(),
+          updatedByUid: uid,
+        });
 
-      // NOTE: We intentionally do NOT write PDF pointers on the bid root.
-      // PDFs are version-scoped: bids/{bidId}/versions/{versionId}/pdf
-      // This prevents confusion and keeps history correct.
+        // NOTE: We intentionally do NOT write PDF pointers on the bid root.
+        // PDFs are version-scoped: bids/{bidId}/versions/{versionId}/pdf
+        // This prevents confusion and keeps history correct.
       }),
       20000,
       'Timed out saving PDF metadata to Firestore. Check your network/Firestore connection.',
@@ -952,5 +952,5 @@ const currentDraftId = String(bid?.draftVersionId ?? '').trim();
     );
   }
 
-// (removed duplicate partidas$ and addPartidaAndRecalc; use partidas$ + addPartida above)
+  // (removed duplicate partidas$ and addPartidaAndRecalc; use partidas$ + addPartida above)
 }

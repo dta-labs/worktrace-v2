@@ -1,12 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-workers-page',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './workers.component.html',
-  styleUrl: './workers.component.scss',
+    selector: 'app-workers-page',
+    imports: [],
+    templateUrl: './workers.component.html',
+    styleUrl: './workers.component.scss'
 })
 export class WorkersPageComponent {
   activeTab:

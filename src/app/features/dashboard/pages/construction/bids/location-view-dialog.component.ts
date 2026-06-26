@@ -1,12 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-location-view-dialog',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [MatDialogModule, MatButtonModule],
   template: `
     <h2 mat-dialog-title>Jobsite Address</h2>
     <div mat-dialog-content>
@@ -34,7 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
       <button mat-stroked-button (click)="copy()">Copy</button>
       <button mat-stroked-button (click)="openMaps()">Open Maps</button>
       <button mat-stroked-button (click)="openRoute()">Open Route</button>
-      <button mat-flat-button color="primary" (click)="close()">Close</button>
+      <button mat-flat-button color="primary" (click)="close()" data-cy="close-modal-btn">Close</button>
     </div>
   `,
   styles: [
@@ -46,7 +45,7 @@ import { MatButtonModule } from '@angular/material/button';
       .v{flex:1;font-size:12px;opacity:.92;line-height:1.4}
       .hint{opacity:.75;font-size:12px;margin-top:10px}
     `,
-  ],
+  ]
 })
 export class LocationViewDialogComponent {
   private ref = inject(MatDialogRef<LocationViewDialogComponent>);

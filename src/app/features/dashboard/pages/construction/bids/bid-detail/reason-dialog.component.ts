@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,16 +7,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-reason-dialog',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  template: `
+    selector: 'app-reason-dialog',
+    imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+    template: `
   <h2 mat-dialog-title>Reason for modification</h2>
   <div mat-dialog-content>
     <mat-form-field appearance="outline" class="full">
       <mat-label>Explain why you are editing this bid</mat-label>
       <textarea matInput rows="4" [formControl]="reason"></textarea>
-      <mat-error *ngIf="reason.invalid">Reason is required.</mat-error>
+      @if (reason.invalid) {
+        <mat-error>Reason is required.</mat-error>
+      }
     </mat-form-field>
   </div>
   <div mat-dialog-actions align="end">
@@ -24,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     <button mat-flat-button color="primary" (click)="submit()" [disabled]="reason.invalid">Save</button>
   </div>
   `,
-  styles: [`.full{ width: 100%; }`]
+    styles: [`.full{ width: 100%; }`]
 })
 export class ReasonDialogComponent {
   private ref = inject(MatDialogRef<ReasonDialogComponent>);

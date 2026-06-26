@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { UserAccessService, ScreenAccessMap } from '../../core/services/user-access.service';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [RouterModule, CommonModule, MatIconModule],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    imports: [RouterModule, MatIconModule],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   userEmail: string | null = null;
@@ -23,6 +22,7 @@ export class DashboardComponent {
     companies: true,
     shop: true,
     settings: true,
+    shop: true,
   };
 
   private sub?: Subscription;

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Firestore, addDoc, collection, doc, getCountFromServer, getDoc, getDocs, limit, orderBy, query, serverTimestamp, startAfter, updateDoc } from '@angular/fire/firestore';
@@ -6,7 +6,7 @@ import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage
 import type { DocumentData, QueryConstraint, QueryDocumentSnapshot } from 'firebase/firestore';
 import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CandidateSearchDocument, CandidateSearchResult, CandidateSearchService } from 'src/app/services/candidate-search.service';
+import { CandidateSearchDocument, CandidateSearchResult, CandidateSearchService } from '@app/services/candidate-search.service';
 import { DriveFunctionsService } from '../../../../core/services/drive-functions.service';
 import { DriveSettingsService } from '../../../../core/services/drive-settings.service';
 import { UserAccessService, ScreenAccessMap } from '../../../../core/services/user-access.service';
@@ -145,10 +145,9 @@ type PaginationItem = number | 'ellipsis';
 
 @Component({
   selector: 'app-hr-page',
-  standalone: true,
-    imports: [CommonModule, FormsModule, CreateCandidateComponent, CandidatesListComponent],
+  imports: [FormsModule, CreateCandidateComponent, CandidatesListComponent],
   templateUrl: './hr.component.html',
-  styleUrl: './hr.component.scss',
+  styleUrl: './hr.component.scss'
 })
 export class HrPageComponent implements OnInit, AfterViewInit {
   private readonly firestore = inject(Firestore);
@@ -164,7 +163,7 @@ export class HrPageComponent implements OnInit, AfterViewInit {
   private readonly searchBatchSize = 50;
   private activeSearchTerm = '';
 
-  activeTab: 'worker-records' | 'user-access' | 'overview' | 'reports' | 'candidate-records'= 'candidate-records';
+  activeTab: 'worker-records' | 'user-access' | 'overview' | 'reports' | 'candidate-records' = 'candidate-records';
   workerRecordsView: 'create' | 'manage' = 'create';
   candidateRecordsView: 'create' | 'manage' = 'create';
   activeSection: 'identity' | 'employment' | 'compensation' | 'documents' | 'notes' = 'identity';
@@ -237,7 +236,7 @@ export class HrPageComponent implements OnInit, AfterViewInit {
   readonly fieldSubRoleOptions = ['foreman', 'mechanic', 'junior_mechanic', 'helper'] as const;
   readonly officeSubRoleOptions = ['secretary', 'estimator', 'project_manager', 'accounting', 'human_resources', 'director'] as const;
 
-  constructor(public userAccess: UserAccessService) {}
+  constructor(public userAccess: UserAccessService) { }
 
   ngOnInit(): void {
     void this.loadWorkers(false);
@@ -949,7 +948,7 @@ export class HrPageComponent implements OnInit, AfterViewInit {
         await updateDoc(doc(this.firestore, 'workers', workerRef.id), photoPatch);
       }
 
-     // await this.uploadWorkerDocuments(workerRef.id, firstName, lastName, this.draftDocuments);
+      // await this.uploadWorkerDocuments(workerRef.id, firstName, lastName, this.draftDocuments);
 
       this.createMessage = driveStatusMessage ? `Worker created: ${displayName}. ${driveStatusMessage}` : `Worker created: ${displayName}`;
       this.resetDraft();
@@ -1158,7 +1157,12 @@ export class HrPageComponent implements OnInit, AfterViewInit {
         humanResources: false,
         companies: false,
         settings: false,
+<<<<<<< HEAD
       shop: false,},
+=======
+        shop: false,
+      },
+>>>>>>> feature/shop-integration
     };
   }
 
@@ -2270,7 +2274,7 @@ export class HrPageComponent implements OnInit, AfterViewInit {
       };
       if (rootFolderId) {
         payload.rootFolderId = rootFolderId;
-              }
+      }
 
       await writeDebug('calling_function', payload);
       const res = await this.driveFns.createWorkerFolder(payload);

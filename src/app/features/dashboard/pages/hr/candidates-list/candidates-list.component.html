@@ -1,155 +1,162 @@
 <article class="hr-card">
-    <div class="hr-card__head hr-card__head--stack">
-        <div>
-            <div class="eyebrow">Manage candidates</div>
-            <h3>Search and edit candidates</h3>
-            <p>Review intake records, screening details, and compensation expectations before converting a candidate into a worker.</p>
-        </div>
-        <div class="manage-actions">
-            <button type="button" class="btn btn--ghost btn--small" (click)="loadCandidates()" [disabled]="isLoadingCandidates">{{ isLoadingCandidates ? 'Refreshing...' : 'Refresh list' }}</button>
-        </div>
+  <div class="hr-card__head hr-card__head--stack">
+    <div>
+      <div class="eyebrow">Manage candidates</div>
+      <h3>Search and edit candidates</h3>
+      <p>Review intake records, screening details, and compensation expectations before converting a candidate into a worker.</p>
     </div>
-
-    <div class="toolbar">
-        <label class="field field--search">
-            <span>Search candidates</span>
-            <input type="text" [(ngModel)]="searchTerm" (input)="filterCandidates(true)" placeholder="Name, email, phone, status, stage, source, employment type..." />
-        </label>
-        <div class="toolbar__meta">
-            <label class="field field--page-size">
-                <span>Rows per page</span>
-                <select [ngModel]="pageSize" (ngModelChange)="updatePageSize($event)">
-                    <option *ngFor="let option of pageSizeOptions" [ngValue]="option">{{ option }}</option>
-                </select>
-            </label>
-            <div class="toolbar__count">{{ totalVisibleCandidates }} candidates</div>
-        </div>
+    <div class="manage-actions">
+      <button type="button" class="btn btn--ghost btn--small" (click)="loadCandidates()" [disabled]="isLoadingCandidates">{{ isLoadingCandidates ? 'Refreshing...' : 'Refresh list' }}</button>
     </div>
+  </div>
 
-    <div class="form-feedback form-feedback--error" *ngIf="candidatesError">{{ candidatesError }}</div>
+  <div class="toolbar">
+    <label class="field field--search">
+      <span>Search candidates</span>
+      <input type="text" [(ngModel)]="searchTerm" (input)="filterCandidates(true)" placeholder="Name, email, phone, status, stage, source, employment type..." />
+    </label>
+    <div class="toolbar__meta">
+      <label class="field field--page-size">
+        <span>Rows per page</span>
+        <select [ngModel]="pageSize" (ngModelChange)="updatePageSize($event)">
+          @for (option of pageSizeOptions; track option) {
+            <option [ngValue]="option">{{ option }}</option>
+          }
+        </select>
+      </label>
+      <div class="toolbar__count">{{ totalVisibleCandidates }} candidates</div>
+    </div>
+  </div>
 
-    <div class="users-table-wrap">
-        <table class="users-table">
-            <thead>
+  @if (candidatesError) {
+    <div class="form-feedback form-feedback--error">{{ candidatesError }}</div>
+  }
+
+  <div class="users-table-wrap">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th class="users-table__sticky-col">Candidate</th>
+          <th>Employment</th>
+          <th>Compliance</th>
+          <th>Pipeline</th>
+          <th class="ta-right">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        @if (isLoadingCandidates) {
+          <tr>
+            <td class="table-empty" colspan="5">Loading candidates...</td>
+          </tr>
+        } @else if (paginatedCandidates.length) {
+          @for (candidate of paginatedCandidates; track candidate) {
             <tr>
-                <th class="users-table__sticky-col">Candidate</th>
-                <th>Employment</th>
-                <th>Compliance</th>
-                <th>Pipeline</th>
-                <th class="ta-right">Action</th>
+              <td class="users-table__sticky-col">
+                <div class="user-cell">
+                  <div class="user-cell__name">{{ candidate.displayName }}</div>
+                  <div class="user-cell__meta">{{ candidate.email || 'No email' }}</div>
+                  <div class="user-cell__meta">{{ candidate.phone || 'No phone' }}</div>
+                </div>
+              </td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell__name">{{ candidate.employmentType }} · {{ candidate.areaType }}</div>
+                  <div class="user-cell__meta">{{ candidate.subRole }}</div>
+                  <div class="user-cell__meta">{{ candidate.supervisor || 'No supervisor assigned' }}</div>
+                </div>
+              </td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell__name">{{ getComplianceSummary(candidate) }}</div>
+                  <div class="user-cell__meta">Vacation preview: {{ candidate.vacation.balance.availableDays ?? 0 }} days</div>
+                </div>
+              </td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell__name">{{ candidate.stage || candidate.candidateStatus }}</div>
+                  <div class="user-cell__meta">Status: {{ candidate.candidateStatus }}</div>
+                  <div class="user-cell__meta">Source: {{ candidate.source }}</div>
+                </div>
+              </td>
+              <td class="ta-right">
+                <div class="candidate-actions">
+                  <button type="button" class="btn btn--primary btn--small" (click)="editCandidate(candidate)">Edit</button>
+                  <button type="button" class="btn btn--danger btn--small" (click)="deleteCandidate(candidate)">Delete</button>
+                </div>
+              </td>
             </tr>
-            </thead>
-            <tbody>
+          }
+        } @else {
+          <tr>
+            <td class="table-empty" colspan="5">No candidates match the current search.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 
-            @if (isLoadingCandidates) {
-                <tr>
-                    <td class="table-empty" colspan="5">Loading candidates...</td>
-                </tr>
-            } @else if (paginatedCandidates.length) {
-                @for (candidate of paginatedCandidates; track candidate) {
-                    <tr>
-                        <td class="users-table__sticky-col">
-                            <div class="user-cell">
-                                <div class="user-cell__name">{{ candidate.displayName }}</div>
-                                <div class="user-cell__meta">{{ candidate.email || 'No email' }}</div>
-                                <div class="user-cell__meta">{{ candidate.phone || 'No phone' }}</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="user-cell">
-                                <div class="user-cell__name">{{ candidate.employmentType }} · {{ candidate.areaType }}</div>
-                                <div class="user-cell__meta">{{ candidate.subRole }}</div>
-                                <div class="user-cell__meta">{{ candidate.supervisor || 'No supervisor assigned' }}</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="user-cell">
-                                <div class="user-cell__name">{{ getComplianceSummary(candidate) }}</div>
-                                <div class="user-cell__meta">Vacation preview: {{ candidate.vacation.balance.availableDays ?? 0 }} days</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="user-cell">
-                                <div class="user-cell__name">{{ candidate.stage || candidate.candidateStatus }}</div>
-                                <div class="user-cell__meta">Status: {{ candidate.candidateStatus }}</div>
-                                <div class="user-cell__meta">Source: {{ candidate.source }}</div>
-                            </div>
-                        </td>
-                        <td class="ta-right">
-                            <div class="candidate-actions">
-                                <button type="button" class="btn btn--primary btn--small" (click)="editCandidate(candidate)">Edit</button>
-                                <button type="button" class="btn btn--danger btn--small" (click)="deleteCandidate(candidate)">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            } @else {
-                <tr>
-                    <td class="table-empty" colspan="5">No candidates match the current search.</td>
-                </tr>
-            }
-            </tbody>
-        </table>
+  @if (totalVisibleCandidates) {
+    <div class="pagination">
+      <div class="pagination__summary">
+        Showing {{ pageStart }}-{{ pageEnd }} of {{ totalVisibleCandidates }} candidates
+      </div>
+      <div class="pagination__controls" aria-label="Candidates pagination">
+        <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(1)" [disabled]="currentPage === 1" aria-label="First page" title="First page">
+          <span class="pagination__icon" aria-hidden="true">&laquo;</span>
+        </button>
+        <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" aria-label="Previous page" title="Previous page">
+          <span class="pagination__icon" aria-hidden="true">&lsaquo;</span>
+        </button>
+        @for (item of paginationItems; track item) {
+          @if (item === 'ellipsis') {
+            <span class="pagination__ellipsis" aria-hidden="true">...</span>
+          } @else {
+            <button
+              type="button"
+              class="pagination__page"
+              [class.pagination__page--active]="item === currentPage"
+              (click)="goToPaginationItem(item)"
+              [attr.aria-current]="item === currentPage ? 'page' : null"
+              >
+              {{ item }}
+            </button>
+          }
+        }
+        <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" aria-label="Next page" title="Next page">
+          <span class="pagination__icon" aria-hidden="true">&rsaquo;</span>
+        </button>
+        <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages" aria-label="Last page" title="Last page">
+          <span class="pagination__icon" aria-hidden="true">&raquo;</span>
+        </button>
+      </div>
     </div>
-
-    <div class="pagination" *ngIf="totalVisibleCandidates">
-        <div class="pagination__summary">
-            Showing {{ pageStart }}-{{ pageEnd }} of {{ totalVisibleCandidates }} candidates
-        </div>
-        <div class="pagination__controls" aria-label="Candidates pagination">
-            <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(1)" [disabled]="currentPage === 1" aria-label="First page" title="First page">
-                <span class="pagination__icon" aria-hidden="true">&laquo;</span>
-            </button>
-            <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" aria-label="Previous page" title="Previous page">
-                <span class="pagination__icon" aria-hidden="true">&lsaquo;</span>
-            </button>
-            <ng-container *ngFor="let item of paginationItems">
-                <span *ngIf="item === 'ellipsis'; else pageButton" class="pagination__ellipsis" aria-hidden="true">...</span>
-                <ng-template #pageButton>
-                    <button
-                        type="button"
-                        class="pagination__page"
-                        [class.pagination__page--active]="item === currentPage"
-                        (click)="goToPaginationItem(item)"
-                        [attr.aria-current]="item === currentPage ? 'page' : null"
-                    >
-                        {{ item }}
-                    </button>
-                </ng-template>
-            </ng-container>
-            <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" aria-label="Next page" title="Next page">
-                <span class="pagination__icon" aria-hidden="true">&rsaquo;</span>
-            </button>
-            <button type="button" class="btn btn--ghost btn--small pagination__nav" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages" aria-label="Last page" title="Last page">
-                <span class="pagination__icon" aria-hidden="true">&raquo;</span>
-            </button>
-        </div>
-    </div>
+  }
 </article>
 
-<article class="hr-card editor-card" *ngIf="selectedCandidate; else noCandidateSelected">
+@if (selectedCandidate) {
+  <article class="hr-card editor-card">
     <div class="hr-card__head">
-        <div>
-            <div class="eyebrow">Candidate editor</div>
-            <h3>{{ selectedCandidate.displayName || 'Candidate' }}</h3>
-            <p>Edit the candidate profile, screening details, and onboarding documents without creating a separate candidate record.</p>
-        </div>
-        <span class="pill" [class.pill--success]="!!selectedCandidate.convertedToWorkerId" [class.pill--muted]="!selectedCandidate.convertedToWorkerId">
-            {{ selectedCandidate.convertedToWorkerId ? 'Converted to worker' : 'Candidate only' }}
-        </span>
+      <div>
+        <div class="eyebrow">Candidate editor</div>
+        <h3>{{ selectedCandidate.displayName || 'Candidate' }}</h3>
+        <p>Edit the candidate profile, screening details, and onboarding documents without creating a separate candidate record.</p>
+      </div>
+      <span class="pill" [class.pill--success]="!!selectedCandidate.convertedToWorkerId" [class.pill--muted]="!selectedCandidate.convertedToWorkerId">
+        {{ selectedCandidate.convertedToWorkerId ? 'Converted to worker' : 'Candidate only' }}
+      </span>
     </div>
-
     <app-create-candidate [selectedCandidate]="selectedCandidate" (candidateSaved)="handleCandidateSaved($event)" />
-</article>
+  </article>
+} @else {
+  <article class="hr-card editor-card editor-card--empty">
+    <div class="hr-card__head">
+      <div>
+        <div class="eyebrow">Candidate editor</div>
+        <h3>Select a candidate</h3>
+        <p>Choose a candidate from the list to review and edit the intake record.</p>
+      </div>
+    </div>
+  </article>
+}
 
-<ng-template #noCandidateSelected>
-    <article class="hr-card editor-card editor-card--empty">
-        <div class="hr-card__head">
-            <div>
-                <div class="eyebrow">Candidate editor</div>
-                <h3>Select a candidate</h3>
-                <p>Choose a candidate from the list to review and edit the intake record.</p>
-            </div>
-        </div>
-    </article>
-</ng-template>

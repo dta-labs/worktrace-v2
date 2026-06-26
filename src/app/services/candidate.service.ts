@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, getDocs, orderBy, query, startAfter } from '@angular/fire/firestore';
 import type { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { CandidateSearchField } from 'src/app/models/candidateSearchField';
+import { CandidateSearchField } from '@app/models/candidateSearchField';
 
 export interface CandidateFilterRecord {
   id: string;

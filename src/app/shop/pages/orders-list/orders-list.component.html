@@ -1,0 +1,63 @@
+<div class="shop-orders-page">
+  <header class="orders-header">
+    <div>
+      <h1>Fabrication Orders</h1>
+      <p>Independent SHOP orders. Project Name is text-only until the Projects module is connected.</p>
+    </div>
+    <a class="primary" routerLink="/dashboard/shop">+ New Fabrication Order</a>
+  </header>
+
+  <section class="orders-filters">
+    <label>
+      <span>Status</span>
+      <select [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()">
+        <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Search</span>
+      <input [(ngModel)]="query" (ngModelChange)="applyFilters()" placeholder="Order, customer, project, requested by...">
+    </label>
+  </section>
+
+  <div *ngIf="isLoading" class="state-box">Loading fabrication orders...</div>
+  <div *ngIf="error" class="error-box">{{ error }}</div>
+
+  <section class="orders-table-card" *ngIf="!isLoading && !error">
+    <table>
+      <thead>
+        <tr>
+          <th>Order #</th>
+          <th>Customer</th>
+          <th>Project</th>
+          <th>Requested By</th>
+          <th>Status</th>
+          <th>Pieces</th>
+          <th>Area</th>
+          <th>Weight</th>
+          <th>Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of filteredOrders">
+          <td><b>{{ order.orderNumber }}</b></td>
+          <td>{{ order.customerName || '—' }}</td>
+          <td>{{ order.projectName || '—' }}</td>
+          <td>{{ order.requestedBy || '—' }}</td>
+          <td><span class="status-pill" [class]="statusClass(order.status)">{{ order.status }}</span></td>
+          <td>{{ order.totalPieces || order.pieces.length }}</td>
+          <td>{{ order.totalAreaFt2 || 0 }} ft²</td>
+          <td>{{ order.totalWeightLb || 0 }} lb</td>
+          <td>{{ formatDate(order.updatedAt || order.createdAt) }}</td>
+          <td><a class="secondary" [routerLink]="['/dashboard/shop/orders', order.id]">Open</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!filteredOrders.length" class="state-box">
+      No fabrication orders found for this filter.
+    </div>
+  </section>
+</div>

@@ -6,12 +6,12 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 type LocationState = 'all' | 'loaded' | 'not_loaded';
 
 @Component({
-  selector: 'app-bids-created',
-  standalone: true,
-  imports: [
-    FollowupBadgeComponent,CommonModule, ReactiveFormsModule, DatePipe],
-  templateUrl: './bids-created.component.html',
-  styleUrls: ['./bids-created.component.css'],
+    selector: 'app-bids-created',
+    imports: [
+        FollowupBadgeComponent, CommonModule, ReactiveFormsModule, DatePipe
+    ],
+    templateUrl: './bids-created.component.html',
+    styleUrls: ['./bids-created.component.css']
 })
 export class BidsCreatedComponent implements OnChanges {
   @Input() rows: any[] = [];

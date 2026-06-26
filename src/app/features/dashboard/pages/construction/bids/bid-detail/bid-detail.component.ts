@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, computed, inject, signal, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,15 +16,15 @@ import { Bid, BidPriority, BidStatus } from '../../../../../../models/bid.model'
 import { ReasonDialogComponent } from './reason-dialog.component';
 
 @Component({
-  selector: 'app-bid-detail-page',
-  standalone: true,
-  imports: [
-    CommonModule, RouterModule, ReactiveFormsModule,
-    MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule,
-    MatDatepickerModule, MatNativeDateModule, MatDialogModule,
-  ],
-  templateUrl: './bid-detail.component.html',
-  styleUrls: ['./bid-detail.component.scss'],
+    selector: 'app-bid-detail-page',
+    imports: [
+        CommonModule, RouterModule, ReactiveFormsModule,
+        MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule,
+        MatDatepickerModule, MatNativeDateModule, MatDialogModule,
+    ],
+    templateUrl: './bid-detail.component.html',
+    styleUrls: ['./bid-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BidDetailPageComponent implements OnInit, OnChanges {
   private route = inject(ActivatedRoute);
@@ -87,10 +87,10 @@ export class BidDetailPageComponent implements OnInit, OnChanges {
     const nums = [
       v.laborAmount, v.equipmentAmount, v.materialsAmount, v.subsistenceAmount, v.rentalsAmount, v.subcontractorAmount,
     ].map(x => Number(x ?? 0));
-    return nums.reduce((a,b) => a + b, 0);
+    return nums.reduce((a, b) => a + b, 0);
   });
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.initLoad();
@@ -123,7 +123,7 @@ export class BidDetailPageComponent implements OnInit, OnChanges {
   }
 
   private patchForm
-(b: Bid) {
+    (b: Bid) {
     this.form.patchValue({
       bidNumber: b.bidNumber,
       client: b.client ?? '',

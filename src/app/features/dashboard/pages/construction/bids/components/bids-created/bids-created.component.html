@@ -9,110 +9,111 @@
         type="text"
         placeholder="Client, project, follow-up, created by..."
         formControlName="q"
-      />
+        />
+      </div>
+
+      <div class="wt-filter-block">
+        <div class="wt-filter-label">CREATED BY</div>
+        <select class="wt-select" formControlName="createdBy">
+          <option value="all">All</option>
+          @for (u of createdByOptions; track u) {
+            <option [value]="u">{{ u }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="wt-filter-block">
+        <div class="wt-filter-label">FOLLOW-UP</div>
+        <select class="wt-select" formControlName="locationState">
+          <option value="all">All</option>
+          <option value="loaded">Has Date</option>
+          <option value="not_loaded">No Date</option>
+        </select>
+      </div>
+
+      <div class="wt-filter-block">
+        <div class="wt-filter-label">CONVERTED FROM</div>
+        <input class="wt-input" type="date" formControlName="convertedFrom" />
+      </div>
+
+      <div class="wt-filter-block">
+        <div class="wt-filter-label">CONVERTED TO</div>
+        <input class="wt-input" type="date" formControlName="convertedTo" />
+      </div>
+
+      <div class="wt-filter-block wt-filter-clear">
+        <button class="wt-btn" type="button" (click)="clearFilters()">Clear</button>
+      </div>
+
+    </div>
+  </form>
+
+  <div class="wt-counterbar">
+    <div class="wt-counter-left">
+      <div class="wt-counter-label">RESULTS</div>
+      <div class="wt-counter-total">{{ stats.total }} / {{ rows.length }} Bids</div>
     </div>
 
-    <div class="wt-filter-block">
-      <div class="wt-filter-label">CREATED BY</div>
-      <select class="wt-select" formControlName="createdBy">
-        <option value="all">All</option>
-        <option *ngFor="let u of createdByOptions" [value]="u">{{ u }}</option>
-      </select>
-    </div>
+    <div class="wt-counter-right">
+      <div class="legend-block">
+        <div class="legend-title">AGE (Days Since Created)</div>
+        <span class="counter-pill good">0–7: {{ stats.good }}</span>
+        <span class="counter-pill warn">8–21: {{ stats.warn }}</span>
+        <span class="counter-pill bad">22+: {{ stats.bad }}</span>
+      </div>
 
-    <div class="wt-filter-block">
-      <div class="wt-filter-label">FOLLOW-UP</div>
-      <select class="wt-select" formControlName="locationState">
-        <option value="all">All</option>
-        <option value="loaded">Has Date</option>
-        <option value="not_loaded">No Date</option>
-      </select>
+      <div class="legend-block">
+        <div class="legend-title">FOLLOW-UP STATUS</div>
+        <span class="fu-legend red"><span class="fu-dot"></span>Overdue</span>
+        <span class="fu-legend orange"><span class="fu-dot"></span>Today</span>
+        <span class="fu-legend yellow"><span class="fu-dot"></span>No Follow-Up</span>
+        <span class="fu-legend purple"><span class="fu-dot"></span>No Next Date</span>
+        <span class="fu-legend green"><span class="fu-dot"></span>Scheduled</span>
+      </div>
     </div>
-
-    <div class="wt-filter-block">
-      <div class="wt-filter-label">CONVERTED FROM</div>
-      <input class="wt-input" type="date" formControlName="convertedFrom" />
-    </div>
-
-    <div class="wt-filter-block">
-      <div class="wt-filter-label">CONVERTED TO</div>
-      <input class="wt-input" type="date" formControlName="convertedTo" />
-    </div>
-
-    <div class="wt-filter-block wt-filter-clear">
-      <button class="wt-btn" type="button" (click)="clearFilters()">Clear</button>
-    </div>
-
   </div>
-</form>
 
-<div class="wt-counterbar">
-  <div class="wt-counter-left">
-    <div class="wt-counter-label">RESULTS</div>
-    <div class="wt-counter-total">{{ stats.total }} / {{ rows.length }} Bids</div>
-  </div>
+  <div class="table-card">
+    <div class="table-wrap">
+      <table class="wt-table">
+        <thead>
+          <tr>
+            <th>Bid Created</th>
+            <th>Days Since</th>
+            <th>Client</th>
+            <th>Project</th>
+            <th>Follow-Up</th>
+            <th>Created By</th>
+            <th></th>
+          </tr>
+        </thead>
 
-  <div class="wt-counter-right">
-    <div class="legend-block">
-      <div class="legend-title">AGE (Days Since Created)</div>
-      <span class="counter-pill good">0–7: {{ stats.good }}</span>
-      <span class="counter-pill warn">8–21: {{ stats.warn }}</span>
-      <span class="counter-pill bad">22+: {{ stats.bad }}</span>
+        <tbody>
+          @for (r of filteredRows; track r) {
+            <tr>
+              <td>{{ (toDisplayDate(r) | date:'MM/dd/yyyy') || '—' }}</td>
+              <td>
+                <span class="days-pill" [ngClass]="daysSinceClass(r)">{{ daysSinceCreated(r) }}</span>
+              </td>
+              <td>{{ r.client || r.clientName || '—' }}</td>
+              <td>{{ r.project || r.projectName || '—' }}</td>
+              <td>
+                <app-followup-badge [bid]="r"></app-followup-badge>
+              </td>
+              <td><span [title]="resolveCreatedByUid(r) || ''">{{ resolveCreatedByEmail(r) }}</span></td>
+              <td class="actions-cell">
+                <button
+                  class="wt-open-btn"
+                  type="button"
+                  [disabled]="!resolveBidId(r)"
+                  (click)="openBid(resolveBidId(r))"
+                  >
+                  Open Bid
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-
-    <div class="legend-block">
-      <div class="legend-title">FOLLOW-UP STATUS</div>
-      <span class="fu-legend red"><span class="fu-dot"></span>Overdue</span>
-      <span class="fu-legend orange"><span class="fu-dot"></span>Today</span>
-      <span class="fu-legend yellow"><span class="fu-dot"></span>No Follow-Up</span>
-      <span class="fu-legend purple"><span class="fu-dot"></span>No Next Date</span>
-      <span class="fu-legend green"><span class="fu-dot"></span>Scheduled</span>
-    </div>
   </div>
-</div>
-
-<div class="table-card">
-  <div class="table-wrap">
-    <table class="wt-table">
-      <thead>
-        <tr>
-          <th>Bid Created</th>
-          <th>Days Since</th>
-          <th>Client</th>
-          <th>Project</th>
-          <th>Follow-Up</th>
-          <th>Created By</th>
-          <th></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let r of filteredRows">
-          <td>{{ (toDisplayDate(r) | date:'MM/dd/yyyy') || '—' }}</td>
-          <td>
-            <span class="days-pill" [ngClass]="daysSinceClass(r)">{{ daysSinceCreated(r) }}</span>
-          </td>
-          <td>{{ r.client || r.clientName || '—' }}</td>
-          <td>{{ r.project || r.projectName || '—' }}</td>
-
-          <td>
-            <app-followup-badge [bid]="r"></app-followup-badge>
-          </td>
-
-          <td><span [title]="resolveCreatedByUid(r) || ''">{{ resolveCreatedByEmail(r) }}</span></td>
-
-          <td class="actions-cell">
-            <button
-              class="wt-open-btn"
-              type="button"
-              [disabled]="!resolveBidId(r)"
-              (click)="openBid(resolveBidId(r))"
-            >
-              Open Bid
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>

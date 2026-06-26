@@ -13,13 +13,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 
 import { ClientsService, ClientItem } from '../../construction/bids/clients.service';
+import { AsyncPipe } from '@angular/common';
 
 type CompanyTypeFilter = 'ALL' | 'GC' | 'SUB' | 'MECH' | 'OTHER';
 type StatusFilter = 'ALL' | 'ACTIVE' | 'INACTIVE';
 
 @Component({
   selector: 'app-companies-list',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -30,9 +30,10 @@ type StatusFilter = 'ALL' | 'ACTIVE' | 'INACTIVE';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    AsyncPipe
   ],
   templateUrl: './companies-list.component.html',
-  styleUrls: ['./companies-list.component.scss'],
+  styleUrls: ['./companies-list.component.scss']
 })
 export class CompaniesListComponent {
   private clientsSvc = inject(ClientsService);
@@ -60,7 +61,7 @@ export class CompaniesListComponent {
     map((rows: ClientItem[] | null) => rows || []),
     startWith([] as ClientItem[])
   );
-rows$: Observable<ClientItem[]> = combineLatest([
+  rows$: Observable<ClientItem[]> = combineLatest([
     this.raw$,
     this.filters.valueChanges.pipe(startWith(this.filters.getRawValue())),
   ]).pipe(

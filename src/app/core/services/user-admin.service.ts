@@ -380,6 +380,7 @@ export class UserAdminService {
       humanResources: isAdmin ? true : raw?.humanResources === true,
       companies: isAdmin ? true : raw?.companies === true,
       settings: isAdmin ? true : raw?.settings === true,
+      shop: isAdmin ? true : raw?.shop === true,
     };
   }
 

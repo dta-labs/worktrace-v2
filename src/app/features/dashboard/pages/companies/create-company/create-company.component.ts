@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -15,10 +15,8 @@ import { ClientsService, ClientItem } from '../../construction/bids/clients.serv
 type CompanyType = 'GC' | 'SUB' | 'MECH' | 'OTHER' | 'BOTH';
 
 @Component({
-  selector: 'app-create-company',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-create-company',
+    imports: [
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -26,10 +24,10 @@ type CompanyType = 'GC' | 'SUB' | 'MECH' | 'OTHER' | 'BOTH';
     MatButtonModule,
     MatSnackBarModule,
     MatSelectModule,
-    MatIconModule,
-  ],
-  templateUrl: './create-company.component.html',
-  styleUrls: ['./create-company.component.scss'],
+    MatIconModule
+],
+    templateUrl: './create-company.component.html',
+    styleUrls: ['./create-company.component.scss']
 })
 export class CreateCompanyComponent {
   private fb = inject(FormBuilder);

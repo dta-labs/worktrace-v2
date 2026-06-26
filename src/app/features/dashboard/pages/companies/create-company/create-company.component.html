@@ -10,18 +10,22 @@
 
     <!-- COMPANY -->
     <mat-card class="section">
-      <div class="section__title"><h2>Company</h2></div>
+      <div class="section__title">
+        <h2>Company</h2>
+      </div>
 
       <div class="grid">
         <mat-form-field appearance="outline" class="col-6">
           <mat-label>Company Name *</mat-label>
-          <input matInput formControlName="name" />
-          <mat-error *ngIf="c.name.hasError('required')">Required</mat-error>
+          <input matInput formControlName="name" data-cy="input-company-name" />
+          @if (c.name.hasError('required')) {
+          <mat-error>Required</mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-6">
           <mat-label>Company Type</mat-label>
-          <mat-select formControlName="companyType">
+          <mat-select formControlName="companyType" data-cy="select-company-type">
             <mat-option value="GC">General Contractor</mat-option>
             <mat-option value="SUB">Subcontractor</mat-option>
             <mat-option value="MECH">Mechanical Contractor</mat-option>
@@ -31,7 +35,7 @@
 
         <mat-form-field appearance="outline" class="col-12">
           <mat-label>Notes</mat-label>
-          <textarea matInput rows="4" formControlName="notes"></textarea>
+          <textarea matInput rows="4" formControlName="notes" data-cy="textarea-notes"></textarea>
         </mat-form-field>
       </div>
     </mat-card>
@@ -40,62 +44,56 @@
     <mat-card class="section">
       <div class="section__title section__title--row">
         <h2>Contacts</h2>
-        <button
-          mat-flat-button
-          color="primary"
-          class="add-contact-btn"
-          type="button"
-          (click)="addContact()"
-        >
+        <button mat-flat-button color="primary" class="add-contact-btn" type="button" (click)="addContact()"
+          data-cy="btn-add-contact">
           <mat-icon>person_add</mat-icon>
           Add Contact
         </button>
       </div>
 
       <div class="contacts" formArrayName="contacts">
-        <div class="contact-row" *ngFor="let g of contacts.controls; let i = index" [formGroupName]="i">
+        @for (g of contacts.controls; track g; let i = $index) {
+        <div class="contact-row" [formGroupName]="i">
           <div class="contact-grid">
             <mat-form-field appearance="outline" class="col-4">
               <mat-label>Full Name *</mat-label>
-              <input matInput formControlName="fullName" />
+              <input matInput formControlName="fullName" data-cy="input-full-name" />
             </mat-form-field>
-
             <mat-form-field appearance="outline" class="col-4">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="email" />
+              <input matInput formControlName="email" data-cy="input-email" />
             </mat-form-field>
-
             <mat-form-field appearance="outline" class="col-4">
               <mat-label>Phone</mat-label>
-              <input matInput formControlName="phone" />
+              <input matInput formControlName="phone" data-cy="input-phone" />
             </mat-form-field>
-
             <mat-form-field appearance="outline" class="col-4">
               <mat-label>Role</mat-label>
-              <input matInput formControlName="role" placeholder="Estimator / PM / AP, etc." />
+              <input matInput formControlName="role" placeholder="Estimator / PM / AP, etc." data-cy="input-role" />
             </mat-form-field>
-
             <mat-form-field appearance="outline" class="col-4">
               <mat-label>Primary</mat-label>
-              <mat-select formControlName="isPrimary">
+              <mat-select formControlName="isPrimary" data-cy="select-is-primary">
                 <mat-option [value]="true">Yes</mat-option>
                 <mat-option [value]="false">No</mat-option>
               </mat-select>
             </mat-form-field>
-
             <div class="col-4 contact-actions">
-              <button mat-icon-button type="button" (click)="setPrimary(i)" aria-label="Set primary">
+              <button mat-icon-button type="button" (click)="setPrimary(i)" aria-label="Set primary"
+                data-cy="btn-set-primary">
                 <mat-icon>star</mat-icon>
               </button>
-
-              <button mat-icon-button color="warn" type="button" (click)="removeContact(i)" aria-label="Delete contact">
+              <button mat-icon-button color="warn" type="button" (click)="removeContact(i)" aria-label="Delete contact"
+                data-cy="btn-delete-contact">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
           </div>
         </div>
+        }
 
-        <div class="contacts-empty" *ngIf="contacts.length === 0">
+        @if (contacts.length === 0) {
+        <div class="contacts-empty">
           <div class="contacts-empty__icon">
             <mat-icon>contacts</mat-icon>
           </div>
@@ -104,48 +102,53 @@
             <div class="contacts-empty__text">Click <b>Add Contact</b> to create the first company contact.</div>
           </div>
         </div>
+        }
       </div>
     </mat-card>
 
     <!-- ADDRESS -->
     <mat-card class="section">
-      <div class="section__title"><h2>Company Address</h2></div>
+      <div class="section__title">
+        <h2>Company Address</h2>
+      </div>
 
       <div class="grid">
         <mat-form-field appearance="outline" class="col-6">
           <mat-label>Address Line 1</mat-label>
-          <input matInput formControlName="addrLine1" />
+          <input matInput formControlName="addrLine1" data-cy="input-addr-line1" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-6">
           <mat-label>Address Line 2</mat-label>
-          <input matInput formControlName="addrLine2" />
+          <input matInput formControlName="addrLine2" data-cy="input-addr-line2" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-4">
           <mat-label>City</mat-label>
-          <input matInput formControlName="addrCity" />
+          <input matInput formControlName="addrCity" data-cy="input-city" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-4">
           <mat-label>State</mat-label>
-          <input matInput formControlName="addrState" />
+          <input matInput formControlName="addrState" data-cy="input-state" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-4">
           <mat-label>ZIP</mat-label>
-          <input matInput formControlName="addrZip" />
+          <input matInput formControlName="addrZip" data-cy="input-zip" />
         </mat-form-field>
       </div>
     </mat-card>
 
     <div class="form-actions">
       <button mat-button type="button" (click)="reset()">Reset</button>
-      <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving" data-cy="btn-save-company">
         {{ saving ? 'Saving…' : 'Save Company' }}
       </button>
     </div>
 
-    <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+    @if (errorMsg) {
+    <div class="error">{{ errorMsg }}</div>
+    }
   </form>
 </mat-card>

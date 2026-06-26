@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -46,19 +46,17 @@ type FollowUpOutcome =
   | 'other';
 
 @Component({
-  selector: 'app-followup-log-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-followup-log-dialog',
+    imports: [
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
-  ],
-  templateUrl: './followup-log-dialog.component.html',
-  styleUrls: ['./followup-log-dialog.component.scss'],
+    MatSelectModule
+],
+    templateUrl: './followup-log-dialog.component.html',
+    styleUrls: ['./followup-log-dialog.component.scss']
 })
 export class FollowUpLogDialogComponent {
   saving = false;

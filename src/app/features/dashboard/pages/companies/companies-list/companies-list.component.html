@@ -1,7 +1,7 @@
 <mat-card class="card companies-card">
   <div class="card__header">
     <div>
-      <h2>Lista de compañías</h2>
+      <h2>Company List</h2>
       <p class="muted">Search, filter, and edit companies.</p>
     </div>
   </div>
@@ -10,22 +10,17 @@
     <mat-form-field appearance="outline" class="filters__search wt-dark-field wt-search-field">
       <mat-label>Search</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput formControlName="q" placeholder="Company, contact, city..." />
-      <button
-        *ngIf="filters.controls.q.value"
-        mat-icon-button
-        matSuffix
-        type="button"
-        aria-label="Clear search"
-        (click)="clearSearch()"
-      >
+      <input matInput formControlName="q" placeholder="Company, contact, city..." data-cy="input-search-list" />
+      @if (filters.controls.q.value) {
+      <button mat-icon-button matSuffix type="button" aria-label="Clear search" (click)="clearSearch()">
         <mat-icon>close</mat-icon>
       </button>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="filters__type wt-dark-field">
       <mat-label>Type</mat-label>
-      <mat-select formControlName="type">
+      <mat-select formControlName="type" data-cy="select-type-filter">
         <mat-option value="ALL">All</mat-option>
         <mat-option value="GC">General Contractor</mat-option>
         <mat-option value="SUB">Subcontractor</mat-option>
@@ -36,7 +31,7 @@
 
     <mat-form-field appearance="outline" class="filters__status wt-dark-field">
       <mat-label>Status</mat-label>
-      <mat-select formControlName="status">
+      <mat-select formControlName="status" data-cy="select-status-filter">
         <mat-option value="ALL">All</mat-option>
         <mat-option value="ACTIVE">Active</mat-option>
         <mat-option value="INACTIVE">Inactive</mat-option>
@@ -82,7 +77,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef class="right">Actions</th>
         <td mat-cell *matCellDef="let r" class="right">
-          <button mat-stroked-button type="button" (click)="editRow(r)">
+          <button mat-stroked-button type="button" (click)="editRow(r)" data-cy="btn-edit-company">
             <mat-icon class="icon-left">edit</mat-icon>
             Edit
           </button>
@@ -93,8 +88,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <div class="empty muted" *ngIf="(rows$ | async)?.length === 0">
+    @if ((rows$ | async)?.length === 0) {
+    <div class="empty muted">
       No companies match your filters.
     </div>
+    }
   </div>
 </mat-card>

@@ -10,11 +10,10 @@ import { Project } from '../../../../models/project.model';
 import { ProjectService } from '../../../../services/project.service';
 
 @Component({
-  selector: 'app-overview-page',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './overview.component.html',
-  styleUrl: './overview.component.scss',
+    selector: 'app-overview-page',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './overview.component.html',
+    styleUrl: './overview.component.scss'
 })
 export class OverviewPageComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();

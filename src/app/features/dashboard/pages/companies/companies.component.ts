@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { CreateCompanyComponent } from './create-company/create-company.component';
 import { CompaniesListComponent } from './companies-list/companies-list.component';
 import { ClientItem } from '../construction/bids/clients.service';
 
 @Component({
-  selector: 'app-companies-page',
-  standalone: true,
-  imports: [CommonModule, CreateCompanyComponent, CompaniesListComponent],
-  templateUrl: './companies.component.html',
-  styleUrls: ['./companies.component.css'],
+    selector: 'app-companies-page',
+    imports: [CreateCompanyComponent, CompaniesListComponent],
+    templateUrl: './companies.component.html',
+    styleUrls: ['./companies.component.css']
 })
 export class CompaniesPageComponent {
   activeTab: 'create' | 'companies' = 'create';

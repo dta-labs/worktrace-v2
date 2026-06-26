@@ -1,0 +1,10 @@
+{
+  "unregistered": {
+    "email": "unregistered@test.com",
+    "password": "password"
+  },
+  "admin": {
+    "email": "ygonzalez@smetaltechnology.com",
+    "password": "123456"
+  }
+}

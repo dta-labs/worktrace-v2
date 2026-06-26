@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -8,35 +8,41 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-trash-incoming-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-trash-incoming-dialog',
+    imports: [
     MatDialogModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-  ],
-  template: `
+    MatButtonModule
+],
+    template: `
     <h2 mat-dialog-title>Move to Trash</h2>
-
+    
     <mat-dialog-content class="dialog-content">
       <div class="dialog-subtitle">
         This will hide the item from <b>Incoming Bids</b> and move it to <b>Incoming Bids Trash</b>.
         It will be logged with user and time.
       </div>
-
+    
       <div class="wt-danger-box">
         <div class="wt-danger-title">You are moving:</div>
         <div class="wt-danger-text">{{ data?.title || '(no title)' }}</div>
-        <div class="wt-danger-meta" *ngIf="data?.projectName || data?.clientName">
-          <span *ngIf="data?.clientName">{{ data.clientName }}</span>
-          <span *ngIf="data?.clientName && data?.projectName"> • </span>
-          <span *ngIf="data?.projectName">{{ data.projectName }}</span>
-        </div>
+        @if (data?.projectName || data?.clientName) {
+          <div class="wt-danger-meta">
+            @if (data?.clientName) {
+              <span>{{ data.clientName }}</span>
+            }
+            @if (data?.clientName && data?.projectName) {
+              <span> • </span>
+            }
+            @if (data?.projectName) {
+              <span>{{ data.projectName }}</span>
+            }
+          </div>
+        }
       </div>
-
+    
       <form [formGroup]="form" autocomplete="off">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Reason (required)</mat-label>
@@ -44,22 +50,24 @@ import { MatButtonModule } from '@angular/material/button';
             matInput
             rows="4"
             formControlName="reason"
-            placeholder="Why are you moving this to trash?"></textarea>
-          <mat-error *ngIf="form.controls.reason.invalid && form.controls.reason.touched">
-            Reason is required
-          </mat-error>
+          placeholder="Why are you moving this to trash?"></textarea>
+          @if (form.controls.reason.invalid && form.controls.reason.touched) {
+            <mat-error>
+              Reason is required
+            </mat-error>
+          }
         </mat-form-field>
       </form>
     </mat-dialog-content>
-
+    
     <mat-dialog-actions align="end" class="dialog-actions">
       <button mat-stroked-button type="button" class="wt-btn-cancel" (click)="cancel()">Cancel</button>
       <button mat-flat-button color="warn" type="button" [disabled]="form.invalid" (click)="confirm()">
         Move
       </button>
     </mat-dialog-actions>
-  `,
-  styles: [`
+    `,
+    styles: [`
     :host {
       --trash-surface-bg: linear-gradient(180deg, #111827 0%, #0b1222 100%);
       --trash-text: #f8fafc;
