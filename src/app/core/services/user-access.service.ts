@@ -11,7 +11,6 @@ export interface ScreenAccessMap {
   workers: boolean;
   humanResources: boolean;
   companies: boolean;
-  shop: boolean;
   settings: boolean;
   shop: boolean;
 }
@@ -41,7 +40,6 @@ const FULL_ACCESS: ScreenAccessMap = {
   workers: true,
   humanResources: true,
   companies: true,
-  shop: true,
   settings: true,
   shop: true,
 };
@@ -144,7 +142,6 @@ export class UserAccessService {
       workers: this.bool(raw.workers),
       humanResources: this.bool(raw.humanResources ?? raw.hr),
       companies: this.bool(raw.companies),
-      shop: this.bool(raw.shop),
       settings: this.bool(raw.settings),
       shop: this.bool(raw.shop),
     };

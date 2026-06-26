@@ -653,12 +653,8 @@ export class CandidatesListComponent implements OnInit {
                 humanResources: false,
                 companies: false,
                 settings: false,
-<<<<<<< HEAD
-      shop: false,},
-=======
                 shop: false,
             },
->>>>>>> feature/shop-integration
             w2Compliance: {
                 payrollSetup: w2['payrollSetup'] === true,
                 taxFormCompleted: w2['taxFormCompleted'] === true,

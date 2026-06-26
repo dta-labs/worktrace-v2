@@ -1008,12 +1008,8 @@ export class CreateCandidateComponent {
                 humanResources: false,
                 companies: false,
                 settings: false,
-<<<<<<< HEAD
-      shop: false,},
-=======
                 shop: false,
             },
->>>>>>> feature/shop-integration
         };
     }
 

@@ -1157,12 +1157,8 @@ export class HrPageComponent implements OnInit, AfterViewInit {
         humanResources: false,
         companies: false,
         settings: false,
-<<<<<<< HEAD
-      shop: false,},
-=======
         shop: false,
       },
->>>>>>> feature/shop-integration
     };
   }
 
