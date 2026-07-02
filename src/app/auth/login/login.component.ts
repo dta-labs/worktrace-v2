@@ -2,13 +2,28 @@ import { Component } from '@angular/core';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    imports: [ReactiveFormsModule, RouterLink]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule
+  ]
 })
 export class LoginComponent {
   form = this.fb.group({
@@ -20,7 +35,7 @@ export class LoginComponent {
   loading = false;
   errorMsg = '';
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) { }
 
   submit() {
     if (this.form.invalid) {

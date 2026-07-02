@@ -1,47 +1,63 @@
-<div class="container">
-  <div class="card">
-    <h1>WorkTrace</h1>
-    <p class="subtitle">Sign in to continue</p>
+<div class="login-container">
+  <mat-card appearance="outlined">
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <div class="form-control" [class.error]="email?.invalid && (email?.touched || email?.dirty)">
-        <label>Email</label>
-        <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="username"
-          data-cy="login-email" />
-        @if (email?.hasError('required')) {
-        <small data-cy="login-email-required-error">Email is required</small>
+    <mat-card-header>
+      <mat-card-title>WorkTrace</mat-card-title>
+      <mat-card-subtitle>Sign in to continue</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <!-- Campo Email -->
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="you@example.com" autocomplete="username"
+            data-cy="login-email" />
+
+          @if (email?.hasError('required')) {
+          <mat-error data-cy="login-email-required-error">Email is required</mat-error>
+          }
+          @if (email?.hasError('email')) {
+          <mat-error>Invalid email</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Campo Password -->
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="••••••••"
+            autocomplete="current-password" data-cy="login-password" />
+
+          @if (password?.hasError('required')) {
+          <mat-error data-cy="login-password-required-error">Password is required</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Fila de opciones -->
+        <div class="options-row">
+          <mat-checkbox formControlName="remember">Remember me</mat-checkbox>
+          <a class="forgot-password-link" routerLink="/reset-password">Forgot password?</a>
+        </div>
+
+        <!-- Botón de envío -->
+        <button mat-flat-button color="primary" [disabled]="loading" data-cy="login-submit" type="submit">
+          @if (loading) {
+          <mat-progress-spinner mode="indeterminate" diameter="20"></mat-progress-spinner>
+          <!-- <span>Signing in...</span> -->
+          } @else {
+          <span>Sign in</span>
+          }
+        </button>
+
+        <!-- Mensaje de error global -->
+        @if (errorMsg) {
+        <div class="error-box" data-cy="login-error">
+          {{ errorMsg }}
+        </div>
         }
-        @if (email?.hasError('email')) {
-        <small>Invalid email</small>
-        }
-      </div>
+      </form>
+    </mat-card-content>
 
-      <div class="form-control" [class.error]="password?.invalid && (password?.touched || password?.dirty)">
-        <label>Password</label>
-        <input type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password"
-          data-cy="login-password" />
-        @if (password?.hasError('required')) {
-        <small data-cy="login-password-required-error">Password is required</small>
-        }
-      </div>
-
-      <div class="row between">
-        <label class="remember">
-          <input type="checkbox" formControlName="remember" />
-          Remember me
-        </label>
-        <a class="link" routerLink="/reset-password">Forgot password?</a>
-      </div>
-
-      <button class="btn" [disabled]="loading" data-cy="login-submit" type="submit">
-        {{ loading ? 'Signing in...' : 'Sign in' }}
-      </button>
-
-      @if (errorMsg) {
-      <div class="error-box" data-cy="login-error">
-        {{ errorMsg }}
-      </div>
-      }
-    </form>
-  </div>
+  </mat-card>
 </div>
