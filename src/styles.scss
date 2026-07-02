@@ -1,423 +1,146 @@
-/* WorkTrace Visual System */
+// styles.scss
+@use '@angular/material' as mat;
 
-@use "styles/worktrace-system/tokens";
-@use "styles/worktrace-system/themes";
-@use "styles/worktrace-system/primitives";
-@use "styles/worktrace-system/components";
-@use "styles/worktrace-system/utilities";
+// 1. Definimos los temas base usando las funciones oficiales
+$base-light: mat.define-theme((color: (theme-type: light, primary: mat.$violet-palette)));
+$base-dark: mat.define-theme((color: (theme-type: dark, primary: mat.$violet-palette)));
 
-@use "styles/worktrace-ui/index";
+// Default theme (Por defecto aplicamos Dark)
+html {
+  // Inicializa las variables y genera los estilos estructurales de los componentes
+  @include mat.theme($base-dark);
+  @include mat.all-component-themes($base-dark);
 
-/* -------------------------------------------------- */
-/* Base styles existentes */
-/* -------------------------------------------------- */
-
-:root {
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 html,
 body {
   height: 100%;
-  margin: 0;
-  overflow: hidden;
-  font-family: Inter, Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: #0f1115;
-  color: #e5e7eb;
-}
-
-a {
-  color: #3b82f6;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-:root {
-  --bg-color: #0f1115;
-  --surface-1: #16191f;
-  --text-color: #e5e7eb;
-  --text-strong: #f3f4f6;
-  --text-muted: #9ca3af;
-  --border-color: rgba(255, 255, 255, 0.06);
-  --primary: #3b82f6;
-}
-
-html,
-body {
-  background: var(--bg-color);
-  color: var(--text-color);
 }
 
 body {
   margin: 0;
-  overflow: hidden;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-app-root {
-  display: block;
-  height: 100dvh;
-  overflow: hidden;
+// 2. Selectores de temas dinámicos
+// Usamos 'all-component-colors' para inyectar solo los cambios de color sin duplicar CSS estructural
+
+body[data-theme="light"] {
+  color-scheme: light;
+  @include mat.theme($base-light);
+  @include mat.all-component-colors($base-light);
 }
 
-/* -------------------------------------------------- */
-/* Dashboard legacy views - light/aurora/midnight theme bridge */
-/* Applies the same idea used in companies pages to all views */
-/* -------------------------------------------------- */
-
-body[data-theme='midnight'] {
-  .content {
-    color: #dbe5f1;
-  }
-
-  app-overview-page,
-  app-workers-page,
-  app-hr-page,
-  app-projects-page,
-  app-construction-page,
-  app-bids-page,
-  app-home-page,
-  app-settings-page,
-  app-bid-detail-page,
-  app-companies-page {
-
-    .title,
-    .name,
-    .card__header h2,
-    .hr-card__head h3,
-    .cell-main,
-    .v {
-      color: #f8fbff !important;
-    }
-
-    .subtitle,
-    .muted,
-    .address,
-    .cell-sub,
-    .k,
-    .empty,
-    .hr-card__head p,
-    .field span {
-      color: #93a4bc !important;
-      opacity: 1 !important;
-    }
-
-    .subnav,
-    .subnav--inner {
-      border-bottom-color: rgba(148, 163, 184, 0.18) !important;
-    }
-
-    .subnav-item {
-      color: #93a4bc !important;
-    }
-
-    .subnav-item.active {
-      color: #60a5fa !important;
-      border-bottom-color: #60a5fa !important;
-    }
-
-    .btn-clear,
-    .icon-btn,
-    .mat-mdc-outlined-button {
-      border-color: rgba(148, 163, 184, 0.24) !important;
-      background: rgba(19, 34, 56, 0.8) !important;
-      color: #dbe5f1 !important;
-    }
-
-    .filters,
-    .card,
-    .hr-card,
-    .tab-placeholder,
-    .panel,
-    .panel-inner,
-    .coming-soon {
-      border-color: rgba(148, 163, 184, 0.18) !important;
-      background: #132238 !important;
-      color: #dbe5f1 !important;
-      box-shadow: 0 6px 24px rgba(8, 17, 31, 0.3) !important;
-    }
-
-    .badge,
-    .field--check {
-      border-color: rgba(148, 163, 184, 0.24) !important;
-      background: rgba(23, 43, 69, 0.9) !important;
-      color: #c5d3e6 !important;
-    }
-
-    .code,
-    .eyebrow,
-    .subnav-item.active,
-    .badge.planned {
-      color: #60a5fa !important;
-    }
-
-    .f input,
-    .f select,
-    .field input,
-    .field select,
-    .field textarea,
-    .mat-mdc-input-element,
-    .mat-mdc-select-value-text,
-    .mat-mdc-select-min-line {
-      background: #0f172a !important;
-      border-color: rgba(148, 163, 184, 0.18) !important;
-      color: #f8fbff !important;
-      caret-color: #f8fbff !important;
-    }
-
-    .mat-mdc-table,
-    .mat-mdc-header-row,
-    .mat-mdc-row:hover {
-      background: transparent !important;
-    }
-
-    .mat-mdc-header-cell {
-      color: #93a4bc !important;
-      border-bottom-color: rgba(148, 163, 184, 0.12) !important;
-    }
-
-    .mat-mdc-cell {
-      color: #dbe5f1 !important;
-      border-bottom-color: rgba(148, 163, 184, 0.1) !important;
-    }
-  }
+body[data-theme="dark"] {
+  color-scheme: dark;
+  @include mat.theme($base-dark);
+  @include mat.all-component-colors($base-dark);
 }
 
-body[data-theme='light'],
-body[data-theme='aurora'] {
-  .content {
-    color: #1f2937;
-  }
+body[data-theme="aurora"] {
+  color-scheme: light;
+  @include mat.theme($base-light);
+  @include mat.all-component-colors($base-light);
 
-  app-overview-page,
-  app-workers-page,
-  app-hr-page,
-  app-projects-page,
-  app-construction-page,
-  app-bids-page,
-  app-home-page,
-  app-settings-page,
-  app-bid-detail-page,
-  app-companies-page {
+  // === SUPERFICIES Y FONDOS ===
+  --mat-sys-surface: #f3f7f5;
+  --mat-sys-surface-dim: #d7deda;
+  --mat-sys-surface-bright: #f3f7f5;
 
-    .title,
-    .name,
-    .card__header h2,
-    .hr-card__head h3,
-    .cell-main,
-    .v {
-      color: #0f172a !important;
-    }
+  // Niveles de contenedores (Cards, Dialogs, Menus)
+  --mat-sys-surface-container-lowest: #ffffff;
+  --mat-sys-surface-container-low: #edf3ef;
+  --mat-sys-surface-container: #e6eee9;
+  --mat-sys-surface-container-high: #dae5df;
+  --mat-sys-surface-container-highest: #cfdad4;
+  --mat-sys-surface-variant: #e0e4e1;
 
-    .subtitle,
-    .muted,
-    .address,
-    .cell-sub,
-    .k,
-    .empty,
-    .hr-card__head p,
-    .field span {
-      color: #64748b !important;
-      opacity: 1 !important;
-    }
+  // === TEXTOS Y CONTRASTES ===
+  --mat-sys-on-surface: #141f1a;
+  --mat-sys-on-surface-variant: #405249;
 
-    .subnav,
-    .subnav--inner {
-      border-bottom-color: rgba(15, 23, 42, 0.12) !important;
-    }
+  // === COLOR PRIMARIO (Verde Aurora) ===
+  --mat-sys-primary: #1b6a4b;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #c2eed5;
+  --mat-sys-on-primary-container: #002114;
+  --mat-sys-primary-fixed: #c2eed5;
+  --mat-sys-primary-fixed-dim: #a3d2ba;
+  --mat-sys-on-primary-fixed: #002114;
+  --mat-sys-on-primary-fixed-variant: #005237;
 
-    .subnav-item {
-      color: #64748b !important;
-    }
+  // === COLOR SECUNDARIO ===
+  --mat-sys-secondary: #4f6357;
+  --mat-sys-on-secondary: #ffffff;
+  --mat-sys-secondary-container: #d2e8d8;
+  --mat-sys-on-secondary-container: #0c1f16;
 
-    .subnav-item.active {
-      color: #2563eb !important;
-      border-bottom-color: #2563eb !important;
-    }
-
-    .btn-clear,
-    .icon-btn,
-    .mat-mdc-outlined-button {
-      border-color: rgba(15, 23, 42, 0.18) !important;
-      background: rgba(255, 255, 255, 0.9) !important;
-      color: #1e293b !important;
-    }
-
-    .filters,
-    .card,
-    .hr-card,
-    .tab-placeholder,
-    .panel,
-    .panel-inner,
-    .coming-soon {
-      border-color: rgba(15, 23, 42, 0.1) !important;
-      background: #ffffff !important;
-      color: #1f2937 !important;
-      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06) !important;
-    }
-
-    .badge,
-    .field--check {
-      border-color: rgba(15, 23, 42, 0.14) !important;
-      background: rgba(248, 250, 252, 0.9) !important;
-      color: #334155 !important;
-    }
-
-    .code,
-    .eyebrow,
-    .subnav-item.active,
-    .badge.planned {
-      color: #2563eb !important;
-    }
-
-    .f input,
-    .f select,
-    .field input,
-    .field select,
-    .field textarea,
-    .mat-mdc-input-element,
-    .mat-mdc-select-value-text,
-    .mat-mdc-select-min-line {
-      background: #ffffff !important;
-      border-color: rgba(15, 23, 42, 0.14) !important;
-      color: #0f172a !important;
-      caret-color: #0f172a !important;
-    }
-
-    .mat-mdc-table,
-    .mat-mdc-header-row,
-    .mat-mdc-row:hover {
-      background: transparent !important;
-    }
-
-    .mat-mdc-header-cell {
-      color: #64748b !important;
-      border-bottom-color: rgba(15, 23, 42, 0.1) !important;
-    }
-
-    .mat-mdc-cell {
-      color: #0f172a !important;
-      border-bottom-color: rgba(15, 23, 42, 0.08) !important;
-    }
-  }
+  // === BORDES, SEPARADORES Y ESTADOS INTERACTIVOS ===
+  --mat-sys-outline: #708578;
+  --mat-sys-outline-variant: #bfc9c2;
 }
 
-/* Light & Aurora theme readability boost: stronger text weight */
-body[data-theme='light'],
-body[data-theme='aurora'] {
+body[data-theme="midnight"] {
+  color-scheme: dark;
+  @include mat.theme($base-dark);
+  @include mat.all-component-colors($base-dark);
 
-  app-overview-page,
-  app-workers-page,
-  app-hr-page,
-  app-projects-page,
-  app-construction-page,
-  app-bids-page,
-  app-home-page,
-  app-settings-page,
-  app-bid-detail-page,
-  app-companies-page {
+  // === SUPERFICIES Y FONDOS ===
+  --mat-sys-surface: #070a13;
+  --mat-sys-surface-dim: #070a13;
+  --mat-sys-surface-bright: #1c2232;
 
-    .title,
-    .name,
-    .card__header h2,
-    .hr-card__head h3,
-    .cell-main,
-    .v,
-    .page__title,
-    h1,
-    h2,
-    h3 {
-      font-weight: 800 !important;
-    }
+  // Niveles de contenedores (Cards, Dialogs, Menus)
+  --mat-sys-surface-container-lowest: #03050a;
+  --mat-sys-surface-container-low: #0b0f1b;
+  --mat-sys-surface-container: #0f1526;
+  --mat-sys-surface-container-high: #18223c;
+  --mat-sys-surface-container-highest: #222e4f;
+  --mat-sys-surface-variant: #1e293b;
 
-    .subtitle,
-    .muted,
-    .address,
-    .cell-sub,
-    .k,
-    .empty,
-    .hr-card__head p,
-    .field span,
-    .mat-mdc-cell,
-    .mat-mdc-header-cell,
-    .subnav-item,
-    .badge,
-    .assign-chip,
-    .priority-chip,
-    p,
-    td,
-    th,
-    label {
-      font-weight: 600 !important;
-    }
-  }
+  // === TEXTOS Y CONTRASTES ===
+  --mat-sys-on-surface: #e2e8f0;
+  --mat-sys-on-surface-variant: #94a3b8;
+
+  // === COLOR PRIMARIO (Azul Midnight) ===
+  --mat-sys-primary: #38bdf8;
+  --mat-sys-on-primary: #032f46;
+  --mat-sys-primary-container: #004d71;
+  --mat-sys-on-primary-container: #bfe8ff;
+  --mat-sys-primary-fixed: #bfe8ff;
+  --mat-sys-primary-fixed-dim: #7dd3fc;
+  --mat-sys-on-primary-fixed: #001e30;
+  --mat-sys-on-primary-fixed-variant: #004d71;
+
+  // === COLOR SECUNDARIO ===
+  --mat-sys-secondary: #7dd3fc;
+  --mat-sys-on-secondary: #00354b;
+  --mat-sys-secondary-container: #004d6b;
+  --mat-sys-on-secondary-container: #bae6fd;
+
+  // === BORDES, SEPARADORES Y ESTADOS INTERACTIVOS ===
+  --mat-sys-outline: #334155;
+  --mat-sys-outline-variant: #475569;
 }
 
-/* SHOP approval/PDF print mode */
-@media print {
-  body.shop-print-mode {
-    background: #ffffff !important;
-  }
+body[data-density='compact'] {
+  --wt-density-table-row: 44px;
+  --wt-density-input-height: 40px;
+  --wt-density-toolbar-height: 46px;
+}
 
-  body.shop-print-mode * {
-    visibility: hidden !important;
-  }
+body[data-density='comfortable'] {
+  --wt-density-table-row: 52px;
+  --wt-density-input-height: 44px;
+  --wt-density-toolbar-height: 52px;
+}
 
-  body.shop-print-mode app-order-builder,
-  body.shop-print-mode app-order-builder *,
-  body.shop-print-mode .approval-sheet,
-  body.shop-print-mode .approval-sheet * {
-    visibility: visible !important;
-  }
-
-  body.shop-print-mode app-order-builder .no-print,
-  body.shop-print-mode app-order-builder .no-print * {
-    display: none !important;
-    visibility: hidden !important;
-  }
-
-  body.shop-print-mode app-order-builder .app-shell,
-  body.shop-print-mode app-order-builder .workspace {
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-    width: 100% !important;
-    max-width: none !important;
-    min-height: auto !important;
-    overflow: visible !important;
-  }
-
-  body.shop-print-mode app-order-builder .approval-sheet {
-    display: block !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0.25in !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-    box-shadow: none !important;
-    overflow: visible !important;
-  }
-
-  body.shop-print-mode app-order-builder .approval-piece {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-  }
-
-  body.shop-print-mode app-order-builder app-generated-preview,
-  body.shop-print-mode app-order-builder svg,
-  body.shop-print-mode app-order-builder img {
-    visibility: visible !important;
-    print-color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-  }
+body[data-density='spacious'] {
+  --wt-density-table-row: 58px;
+  --wt-density-input-height: 48px;
+  --wt-density-toolbar-height: 56px;
 }

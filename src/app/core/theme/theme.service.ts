@@ -1,6 +1,5 @@
 import { Injectable, inject, DOCUMENT } from '@angular/core';
 
-
 export type ThemeMode = 'dark' | 'midnight' | 'light' | 'aurora';
 
 @Injectable({ providedIn: 'root' })
@@ -8,16 +7,13 @@ export class ThemeService {
   private readonly doc = inject(DOCUMENT);
 
   initFromStorage(): void {
-    const saved = (localStorage.getItem('wt-theme') as ThemeMode | null);
-    const mode: ThemeMode = saved ?? 'dark';
-    this.apply(mode);
-  }
+    const saved = localStorage.getItem('wt-theme') as ThemeMode | null;
 
-  toggle(): ThemeMode {
-    const isLight = this.doc.body.classList.contains('light-theme');
-    const next: ThemeMode = isLight ? 'dark' : 'light';
-    this.apply(next);
-    return next;
+    if (saved) {
+      this.apply(saved);
+    } else {
+      this.doc.body.removeAttribute('data-theme');
+    }
   }
 
   apply(mode: ThemeMode): void {
@@ -26,7 +22,8 @@ export class ThemeService {
     localStorage.setItem('wt-theme', mode);
   }
 
-  current(): ThemeMode {
-    return this.doc.body.getAttribute('data-theme') as ThemeMode;
+  current(): ThemeMode | 'system' {
+    const attr = this.doc.body.getAttribute('data-theme');
+    return (attr as ThemeMode) ?? 'system';
   }
 }
